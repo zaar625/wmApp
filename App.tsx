@@ -1,7 +1,8 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Onboarding from './App/screens/onboarding';
+import OnboardingPage from './App/screens/onboarding';
+import CategorySelectPage from './App/screens/select-category';
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -9,7 +10,8 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="onBoardingPage" component={Onboarding} />
+        <Stack.Screen name="onBoardingPage" component={OnboardingPage} />
+        <Stack.Screen name="categorySelectPage" component={CategorySelectPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );

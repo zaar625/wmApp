@@ -10,12 +10,16 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import React, { useRef, useState } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../type';
 
 import { onBoadingDATA, OnBoadingSlideItem } from './onboardingData';
 
 const { width } = Dimensions.get('window');
 
-export default function Onboarding() {
+type Props = NativeStackScreenProps<RootStackParamList>;
+
+export default function OnboardingPage({ navigation }: Props) {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const ref = useRef(null);
 
@@ -52,7 +56,10 @@ export default function Onboarding() {
           />
         ))}
       </View>
-      <Pressable style={({ pressed }) => [styles.btn, { opacity: pressed ? 0.5 : 1 }]}>
+      <Pressable
+        style={({ pressed }) => [styles.btn, { opacity: pressed ? 0.5 : 1 }]}
+        onPress={() => navigation.navigate('categorySelectPage')}
+      >
         <Text
           style={{
             color: '#fff',
