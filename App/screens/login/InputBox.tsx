@@ -1,16 +1,32 @@
 import { StyleSheet, Text, View, TextInput } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 
-export default React.forwardRef(function InputBox({ fn }: any, ref: any) {
-  console.log(ref);
+interface Props {
+  onSubmitEditing?: () => void;
+  placeholder: string;
+  label: string;
+}
+
+export default React.forwardRef(function InputBox(
+  { onSubmitEditing, placeholder, label }: Props,
+  ref: any
+) {
+  const [focusActive, setFocusActive] = useState(false);
+
+  const inputFocused = () => {
+    setFocusActive(true);
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>이메일</Text>
+      <Text style={styles.label}>{label}</Text>
       <TextInput
         ref={ref}
-        placeholder="이메일을 입력해주세요"
-        style={styles.input}
-        onSubmitEditing={fn}
+        placeholder={placeholder}
+        style={[styles.input, focusActive && styles.focusedInput]}
+        onSubmitEditing={onSubmitEditing}
+        onFocus={inputFocused}
+        onBlur={() => setFocusActive(false)}
       />
     </View>
   );

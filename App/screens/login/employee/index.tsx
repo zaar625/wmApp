@@ -7,28 +7,36 @@ import {
   TextInput,
   Pressable
 } from 'react-native';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import InputBox from '../InputBox';
 
 export default function EmployeeLoginPage() {
-  const inputBoxRef1 = useRef(null);
-  const inputBoxRef2 = useRef<null | TextInput>(null);
+  const emailInputRef = useRef<null | TextInput>(null);
+  const passwordInputRef = useRef<null | TextInput>(null);
 
-  const handleInputBox01Submit = () => {
-    console.log('click');
-    inputBoxRef2.current?.focus();
+  const inputSubmit = () => {
+    passwordInputRef.current?.focus();
   };
+
+  useEffect(() => {
+    emailInputRef.current?.focus();
+  }, []);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={styles.bg}>
         <Text style={styles.titleText}>로그인하기</Text>
-        {/* 인풋박스 */}
-        <InputBox fn={handleInputBox01Submit} />
-        <InputBox ref={inputBoxRef2} />
-        {/* 버튼 */}
+
+        <InputBox
+          ref={emailInputRef}
+          onSubmitEditing={inputSubmit}
+          placeholder="이메일을 입력해주세요."
+          label="이메일"
+        />
+        <InputBox ref={passwordInputRef} placeholder="비밀번호를 입력해주세요." label="비밀번호" />
+
         <Pressable style={({ pressed }) => [styles.Btn, { opacity: pressed ? 0.6 : 1 }]}>
           <Text style={styles.btnText}>로그인</Text>
         </Pressable>
@@ -77,6 +85,7 @@ const styles = StyleSheet.create({
     marginTop: 20
   },
   subBtnText: {
-    color: '#fff'
+    color: '#fff',
+    fontSize: 12
   }
 });
