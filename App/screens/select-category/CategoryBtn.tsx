@@ -1,15 +1,20 @@
 import { Dimensions, Pressable, StyleSheet, Text } from 'react-native';
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
   Easing
 } from 'react-native-reanimated';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../type';
 
 const { width, height } = Dimensions.get('window');
 
 export default function CategoryBtn({ title }: { title: string }) {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
   const scaleAni = useSharedValue(1);
   const opacityAni = useSharedValue(1);
 
@@ -37,7 +42,10 @@ export default function CategoryBtn({ title }: { title: string }) {
   });
 
   return (
-    <Pressable onPress={() => ((scaleAni.value = 0.95), (opacityAni.value = 0.7))}>
+    <Pressable
+      onPress={() => ((scaleAni.value = 0.95), (opacityAni.value = 0.7))}
+      onPressOut={() => navigation.navigate('employeeLoginPage')}
+    >
       <Animated.View style={[styles.btn, animatedStyles]}>
         <Text style={styles.btnText}>{title}</Text>
       </Animated.View>

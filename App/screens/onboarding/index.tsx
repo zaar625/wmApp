@@ -11,15 +11,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import React, { useRef, useState } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../type';
+import { RootStackParamList, NavigationScreenProps } from '../../type';
 
 import { onBoadingDATA, OnBoadingSlideItem } from './onboardingData';
 
 const { width } = Dimensions.get('window');
 
-type Props = NativeStackScreenProps<RootStackParamList>;
-
-export default function OnboardingPage({ navigation }: Props) {
+export default function OnboardingPage({ navigation }: NavigationScreenProps) {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const ref = useRef(null);
 
