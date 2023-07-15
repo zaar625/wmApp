@@ -9,10 +9,11 @@ import {
 } from 'react-native';
 import React, { useEffect, useRef } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { NavigationScreenProps } from '../../../type';
 
 import InputBox from '../InputBox';
 
-export default function EmployeeLoginPage() {
+export default function EmployeeLoginPage({ navigation }: NavigationScreenProps) {
   const emailInputRef = useRef<null | TextInput>(null);
   const passwordInputRef = useRef<null | TextInput>(null);
 
@@ -42,7 +43,9 @@ export default function EmployeeLoginPage() {
         </Pressable>
         {/* 회원가입 및 비밀번호 */}
         <View style={styles.subBtn}>
-          <Text style={[styles.subBtnText]}>회원가입</Text>
+          <Pressable onPress={() => navigation.navigate('joinPage')}>
+            <Text style={[styles.subBtnText]}>회원가입</Text>
+          </Pressable>
           <View
             style={{ height: '60%', backgroundColor: '#C9C9C9', width: 1, marginHorizontal: 10 }}
           />

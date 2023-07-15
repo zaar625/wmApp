@@ -4,6 +4,7 @@ export type RootStackParamList = {
   onBoardingPage: undefined;
   categorySelectPage: undefined;
   employeeLoginPage: undefined;
+  joinPage: undefined;
 };
 
 export type NavigationScreenProps = NativeStackScreenProps<RootStackParamList>;
