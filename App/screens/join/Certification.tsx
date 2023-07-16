@@ -1,8 +1,12 @@
 import { Pressable, StyleSheet, Text, View, TextInput } from 'react-native';
 import React from 'react';
 import CautionIcon from '../../assets/icon/caution.svg';
+import Button from '../../components/Button';
 
 const Certification = () => {
+  const phoneAuthFn = () => {
+    console.log('인증하기');
+  };
   return (
     <View>
       <Text style={styles.label}>본인 인증</Text>
@@ -26,6 +30,7 @@ const Certification = () => {
           <Text style={styles.BtnText}>인증번호 재전송</Text>
         </Pressable>
       </View>
+      <Button name="인증하기" onPress={phoneAuthFn} />
     </View>
   );
 };
