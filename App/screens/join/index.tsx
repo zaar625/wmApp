@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PageTitle from '../../components/PageTitle';
@@ -8,12 +8,14 @@ import Certification from './Certification';
 
 const JoinPage = () => {
   return (
-    <SafeAreaView style={styles.bg}>
-      <PageTitle title="회원정보입력" />
-      <InputBox placeholder="이름을 입력해주세요." label="이름" />
-      <InputBox placeholder="이메일을 입력해주세요." label="이메일" />
-      <Certification />
-    </SafeAreaView>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <SafeAreaView style={styles.bg}>
+        <PageTitle title="회원정보입력" />
+        <InputBox placeholder="이름을 입력해주세요." label="이름" />
+        <InputBox placeholder="이메일을 입력해주세요." label="이메일" />
+        <Certification />
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 

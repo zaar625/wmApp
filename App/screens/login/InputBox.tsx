@@ -7,10 +7,7 @@ interface Props {
   label: string;
 }
 
-export default React.forwardRef(function InputBox(
-  { onSubmitEditing, placeholder, label }: Props,
-  ref: any
-) {
+export default React.forwardRef(function InputBox({ ...args }: Props, ref: any) {
   const [focusActive, setFocusActive] = useState(false);
 
   const inputFocused = () => {
@@ -19,12 +16,13 @@ export default React.forwardRef(function InputBox(
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>{label}</Text>
+      <Text style={styles.label}>{args.label}</Text>
       <TextInput
         ref={ref}
-        placeholder={placeholder}
+        // placeholder={placeholder}
+        {...args}
         style={[styles.input, focusActive && styles.focusedInput]}
-        onSubmitEditing={onSubmitEditing}
+        // onSubmitEditing={onSubmitEditing}
         onFocus={inputFocused}
         onBlur={() => setFocusActive(false)}
       />
