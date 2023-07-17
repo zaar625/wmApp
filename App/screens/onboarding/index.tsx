@@ -1,19 +1,17 @@
 import {
   View,
-  Text,
   StyleSheet,
   NativeSyntheticEvent,
   NativeScrollEvent,
-  Dimensions,
-  Pressable
+  Dimensions
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import React, { useRef, useState } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList, NavigationScreenProps } from '../../type';
-
+import { NavigationScreenProps } from '../../type';
+import Button from '../../components/Button';
 import { onBoadingDATA, OnBoadingSlideItem } from './onboardingData';
+import { colors } from '../../theme';
 
 const { width } = Dimensions.get('window');
 
@@ -47,39 +45,25 @@ export default function OnboardingPage({ navigation }: NavigationScreenProps) {
             style={[
               styles.indicator,
               currentSlideIndex === index && {
-                backgroundColor: '#326273',
+                backgroundColor: colors.main,
                 width: 30
               }
             ]}
           />
         ))}
       </View>
-      <Pressable
-        style={({ pressed }) => [styles.btn, { opacity: pressed ? 0.5 : 1 }]}
-        onPress={() => navigation.navigate('categorySelectPage')}
-      >
-        <Text
-          style={{
-            color: '#fff',
-            alignSelf: 'center',
-            fontSize: 16,
-            fontWeight: '700'
-          }}
-        >
-          시작하기
-        </Text>
-      </Pressable>
+      <Button name="시작하기" onPress={() => navigation.navigate('categorySelectPage')} />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   bg: {
-    backgroundColor: '#30394B',
+    backgroundColor: colors.dark.primary,
     flex: 1
   },
   text: {
-    color: '#fff',
+    color: colors.dark.tint,
     fontSize: 24,
     fontWeight: '700',
     lineHeight: 36
@@ -92,12 +76,12 @@ const styles = StyleSheet.create({
   indicator: {
     height: 6,
     width: 6,
-    backgroundColor: '#326273',
+    backgroundColor: colors.main,
     marginHorizontal: 3,
     borderRadius: 50
   },
   btn: {
-    backgroundColor: '#326273',
+    backgroundColor: colors.main,
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 21,

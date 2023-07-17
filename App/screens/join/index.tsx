@@ -11,7 +11,7 @@ import {
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
-import PageTitle from '../../components/PageTitle';
+import ScreenTitle from '../../components/ScreenTitle';
 import InputBox from '../login/InputBox';
 import Certification from './Certification';
 import Button from '../../components/Button';
@@ -22,12 +22,16 @@ const JoinPage = () => {
   const signIn = async () => {
     const { email, password } = form;
     const info = { email, password };
-
     try {
-      await signUp(info);
-      console.log('가입완료');
+      const { user } = await signUp(info);
+      await user.sendEmailVerification({
+        handleCodeInApp: true,
+        url: 'work-magement-app.web.app'
+      });
+      return true;
     } catch (e) {
       console.log(e);
+      return false;
     }
   };
 
@@ -49,7 +53,7 @@ const JoinPage = () => {
         style={{ flex: 1 }}
       >
         <ScrollView showsVerticalScrollIndicator={false}>
-          <PageTitle title="회원정보입력" />
+          <ScreenTitle title="회원정보입력" />
           <InputBox placeholder="이름을 입력해주세요." label="이름" />
           <InputBox
             placeholder="이메일을 입력해주세요."

@@ -1,16 +1,17 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
+import { colors, fontSizes, fontWeight } from '../theme';
 
-const PageTitle = ({ title }: { title: string }) => {
+const ScreenTitle = ({ title }: { title: string }) => {
   return <Text style={styles.title}>{title}</Text>;
 };
 
-export default PageTitle;
+export default ScreenTitle;
 
 const styles = StyleSheet.create({
   title: {
-    color: '#fff',
-    fontSize: 24,
+    color: colors.dark.tint,
+    fontSize: fontSizes.title,
     fontWeight: '700',
     lineHeight: 36,
     marginVertical: 30
