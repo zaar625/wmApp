@@ -11,9 +11,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { NavigationScreenProps } from '../../type';
 import Button from '../../components/Button';
 import { onBoadingDATA, OnBoadingSlideItem } from './onboardingData';
-import { colors } from '../../theme';
-
-const { width } = Dimensions.get('window');
+import { colors, deviceheight, deviceWidth } from '../../theme';
 
 export default function OnboardingPage({ navigation }: NavigationScreenProps) {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
@@ -21,7 +19,7 @@ export default function OnboardingPage({ navigation }: NavigationScreenProps) {
 
   const updateCurrentSlideIndex = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const contentOffsetX = e.nativeEvent.contentOffset.x;
-    const currentIndex = Math.round(contentOffsetX / width);
+    const currentIndex = Math.round(contentOffsetX / deviceWidth);
 
     setCurrentSlideIndex(currentIndex);
   };
@@ -71,7 +69,7 @@ const styles = StyleSheet.create({
   indicatorWrapper: {
     flexDirection: 'row',
     justifyContent: 'center',
-    paddingBottom: 82
+    marginBottom: deviceheight * 0.09
   },
   indicator: {
     height: 6,

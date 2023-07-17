@@ -49,8 +49,7 @@ export { onBoadingDATA, OnBoadingSlideItem };
 
 const styles = StyleSheet.create({
   slideItemWrapper: {
-    width: deviceWidth,
-    paddingHorizontal: 20
+    width: deviceWidth
   },
   imgWrap: {
     justifyContent: 'center',

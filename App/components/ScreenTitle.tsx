@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.title,
     fontWeight: '700',
     lineHeight: 36,
-    marginVertical: 30
+    marginVertical: 30,
+    paddingHorizontal: 20
   }
 });
