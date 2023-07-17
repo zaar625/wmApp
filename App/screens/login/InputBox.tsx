@@ -5,6 +5,8 @@ interface Props {
   onSubmitEditing?: () => void;
   placeholder: string;
   label: string;
+  onChangeText?: any;
+  value?: string;
 }
 
 export default React.forwardRef(function InputBox({ ...args }: Props, ref: any) {
@@ -25,6 +27,7 @@ export default React.forwardRef(function InputBox({ ...args }: Props, ref: any) 
         // onSubmitEditing={onSubmitEditing}
         onFocus={inputFocused}
         onBlur={() => setFocusActive(false)}
+        value={args.value}
       />
     </View>
   );

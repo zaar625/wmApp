@@ -8,19 +8,40 @@ import {
   Platform,
   StatusBar
 } from 'react-native';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
 import PageTitle from '../../components/PageTitle';
 import InputBox from '../login/InputBox';
 import Certification from './Certification';
 import Button from '../../components/Button';
+import auth from '@react-native-firebase/auth';
+import { signUp } from '../../api/auth';
 
 const JoinPage = () => {
-  const signIn = () => {
-    console.log('signIn');
+  const signIn = async () => {
+    const { email, password } = form;
+    const info = { email, password };
+
+    try {
+      await signUp(info);
+      console.log('가입완료');
+    } catch (e) {
+      console.log(e);
+    }
   };
 
+  const [form, setForm] = useState({
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
+
+  const inputTextHandler = (name: string) => (value: string) => {
+    setForm({ ...form, [name]: value });
+  };
+
+  console.log(form);
   return (
     <SafeAreaView style={styles.bg}>
       <KeyboardAvoidingView
@@ -30,9 +51,19 @@ const JoinPage = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <PageTitle title="회원정보입력" />
           <InputBox placeholder="이름을 입력해주세요." label="이름" />
-          <InputBox placeholder="이메일을 입력해주세요." label="이메일" />
-          <Certification />
-          <InputBox placeholder="비밀번호를 입력해주세요." label="비밀번호" />
+          <InputBox
+            placeholder="이메일을 입력해주세요."
+            label="이메일"
+            onChangeText={inputTextHandler('email')}
+            value={form.email}
+          />
+          {/* <Certification /> */}
+          <InputBox
+            placeholder="비밀번호를 입력해주세요."
+            label="비밀번호"
+            onChangeText={inputTextHandler('password')}
+            value={form.password}
+          />
           <InputBox placeholder="입력한 비밀번호를 재 입력해주세요." label="비밀번호 확인" />
         </ScrollView>
       </KeyboardAvoidingView>
