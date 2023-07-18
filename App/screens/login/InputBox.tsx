@@ -6,7 +6,8 @@ import {
   View,
   TextInput,
   Pressable,
-  KeyboardTypeOptions
+  KeyboardTypeOptions,
+  TextInputEndEditingEventData
 } from 'react-native';
 import React, { useState } from 'react';
 
@@ -14,12 +15,13 @@ import EyeIcon from '../../assets/icon/eye.svg';
 import CloseIcon from '../../assets/icon/close.svg';
 
 interface Props {
-  onSubmitEditing?: () => void;
+  onSubmitEditing?: (e: any) => void;
   placeholder: string;
   label: string;
   eyeIconVisible: boolean;
   closeIconVisible: boolean;
   keyboardType?: KeyboardTypeOptions;
+  onEndEditing?: (e: NativeSyntheticEvent<TextInputEndEditingEventData>) => void;
   onSelectionChange?: (e: NativeSyntheticEvent<TextInputSelectionChangeEventData>) => void;
 }
 

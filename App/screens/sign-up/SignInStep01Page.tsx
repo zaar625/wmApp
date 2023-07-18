@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Platform, ScrollView } from 'react-native';
 import React, { useRef, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from 'react-native';
+import { NavigationScreenProps } from '../../type';
 
 import ScreenTitle from '../../components/ScreenTitle';
 import InputBox from '../login/InputBox';
@@ -10,7 +11,7 @@ import NomalButton from '../../components/buttons/NomarButton';
 import { colors } from '../../theme';
 import { TextInput } from 'react-native-gesture-handler';
 
-const SingInStep01 = () => {
+const SingInStep01 = ({ navigation }: NavigationScreenProps) => {
   const nameInputRef = useRef<null | TextInput>(null);
   const emailInputRef = useRef<null | TextInput>(null);
   const phoneInputRef = useRef<null | TextInput>(null);
@@ -41,7 +42,10 @@ const SingInStep01 = () => {
             ref={emailInputRef}
             label="이메일"
             placeholder="이메일을 입력해주세요."
-            onSubmitEditing={() => inputSubmit({ next: 'password' })}
+            onEndEditing={({ nativeEvent: { text } }) => {
+              console.log(text);
+              inputSubmit({ next: 'password' });
+            }}
             eyeIconVisible={false}
             closeIconVisible={true}
           />
@@ -58,7 +62,12 @@ const SingInStep01 = () => {
             }}
           />
         </View>
-        <NomalButton name="다음" onPress={() => {}} />
+        <NomalButton
+          name="다음"
+          onPress={() => {
+            navigation.navigate('signInStep02Page');
+          }}
+        />
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
