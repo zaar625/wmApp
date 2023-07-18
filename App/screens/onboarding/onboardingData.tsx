@@ -1,9 +1,7 @@
-import { Text, View, ImageRequireSource, Image, StyleSheet, Dimensions } from 'react-native';
+import { View, ImageRequireSource, Image, StyleSheet, Dimensions } from 'react-native';
 import ScreenTitle from '../../components/ScreenTitle';
 
 import { deviceWidth, deviceheight } from '../../theme';
-
-const { width, height } = Dimensions.get('window');
 
 const onBoadingDATA = [
   {

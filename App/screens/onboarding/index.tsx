@@ -3,7 +3,8 @@ import {
   StyleSheet,
   NativeSyntheticEvent,
   NativeScrollEvent,
-  Dimensions
+  Dimensions,
+  Text
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import React, { useRef, useState } from 'react';
@@ -12,10 +13,15 @@ import { NavigationScreenProps } from '../../type';
 import Button from '../../components/Button';
 import { onBoadingDATA, OnBoadingSlideItem } from './onboardingData';
 import { colors, deviceheight, deviceWidth } from '../../theme';
+import { ThemeContext } from '../../theme/themeContext';
+import { useContext } from 'react';
 
 export default function OnboardingPage({ navigation }: NavigationScreenProps) {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const ref = useRef(null);
+
+  const { theme } = useContext(ThemeContext);
+  let activeColor = theme.mode && colors[theme.mode];
 
   const updateCurrentSlideIndex = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const contentOffsetX = e.nativeEvent.contentOffset.x;
@@ -50,6 +56,7 @@ export default function OnboardingPage({ navigation }: NavigationScreenProps) {
           />
         ))}
       </View>
+
       <Button name="시작하기" onPress={() => navigation.navigate('categorySelectPage')} />
     </SafeAreaView>
   );

@@ -2,9 +2,9 @@ import { Dimensions } from 'react-native';
 
 const { width: deviceWidth, height: deviceheight } = Dimensions.get('window');
 
-const colors = {
+const colors: any = {
   light: {
-    primary: '#',
+    primary: 'gray',
     secondary: '#',
     tertiary: '#',
     tint: '#fff'
