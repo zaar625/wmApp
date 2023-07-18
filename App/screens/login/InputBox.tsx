@@ -1,34 +1,63 @@
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native';
 import React, { useState } from 'react';
+
+import EyeIcon from '../../assets/icon/eye.svg';
+import CloseIcon from '../../assets/icon/close.svg';
 
 interface Props {
   onSubmitEditing?: () => void;
   placeholder: string;
   label: string;
-  onChangeText?: any;
-  value?: string;
+  eyeIconVisible: boolean;
+  closeIconVisible: boolean;
 }
 
-export default React.forwardRef(function InputBox({ ...args }: Props, ref: any) {
-  const [focusActive, setFocusActive] = useState(false);
+export default React.forwardRef(function InputBox(
+  { eyeIconVisible, closeIconVisible, ...args }: Props,
+  ref: any
+) {
+  const [inputFocusActive, setInputFocusActive] = useState(false);
+  const [inputText, setInputText] = useState('');
+  const [passwordView, setPasswordView] = useState(true);
 
   const inputFocused = () => {
-    setFocusActive(true);
+    setInputFocusActive(true);
+  };
+
+  const onChangeText = (inputText: string) => {
+    setInputText(inputText);
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{args.label}</Text>
-      <TextInput
-        ref={ref}
-        // placeholder={placeholder}
-        {...args}
-        style={[styles.input, focusActive && styles.focusedInput]}
-        // onSubmitEditing={onSubmitEditing}
-        onFocus={inputFocused}
-        onBlur={() => setFocusActive(false)}
-        value={args.value}
-      />
+      <View>
+        <TextInput
+          ref={ref}
+          {...args}
+          style={[styles.input, inputFocusActive && styles.focusedInput]}
+          onFocus={inputFocused}
+          onBlur={() => setInputFocusActive(false)}
+          onChangeText={onChangeText}
+          autoCapitalize="none"
+          value={inputText}
+          secureTextEntry={args.label === '비밀번호' ? passwordView : false}
+        />
+        {inputText.length > 0 && (
+          <View style={styles.iconWrapper}>
+            {eyeIconVisible && (
+              <Pressable onPress={() => setPasswordView(!passwordView)} hitSlop={15}>
+                <EyeIcon width={20} height={20} color={'#797979'} style={{ marginRight: 10 }} />
+              </Pressable>
+            )}
+            {closeIconVisible && (
+              <Pressable onPress={() => setInputText('')} hitSlop={15}>
+                <CloseIcon width={20} height={20} color={'#fff'} />
+              </Pressable>
+            )}
+          </View>
+        )}
+      </View>
     </View>
   );
 });
@@ -52,5 +81,10 @@ const styles = StyleSheet.create({
   focusedInput: {
     borderBottomWidth: 2,
     borderBottomColor: '#326273'
+  },
+  iconWrapper: {
+    flexDirection: 'row',
+    position: 'absolute',
+    right: 0
   }
 });

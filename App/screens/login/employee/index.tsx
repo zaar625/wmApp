@@ -11,6 +11,7 @@ import React, { useEffect, useRef } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationScreenProps } from '../../../type';
 
+import ScreenTitle from '../../../components/ScreenTitle';
 import InputBox from '../InputBox';
 
 export default function EmployeeLoginPage({ navigation }: NavigationScreenProps) {
@@ -28,15 +29,25 @@ export default function EmployeeLoginPage({ navigation }: NavigationScreenProps)
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={styles.bg}>
-        <Text style={styles.titleText}>로그인하기</Text>
+        <ScreenTitle title="로그인하기" />
 
-        <InputBox
-          ref={emailInputRef}
-          onSubmitEditing={inputSubmit}
-          placeholder="이메일을 입력해주세요."
-          label="이메일"
-        />
-        <InputBox ref={passwordInputRef} placeholder="비밀번호를 입력해주세요." label="비밀번호" />
+        <View style={styles.form}>
+          <InputBox
+            ref={emailInputRef}
+            onSubmitEditing={inputSubmit}
+            placeholder="이메일을 입력해주세요."
+            label="이메일"
+            eyeIconVisible={false}
+            closeIconVisible
+          />
+          <InputBox
+            ref={passwordInputRef}
+            placeholder="비밀번호를 입력해주세요."
+            label="비밀번호"
+            eyeIconVisible
+            closeIconVisible
+          />
+        </View>
 
         <Pressable style={({ pressed }) => [styles.Btn, { opacity: pressed ? 0.6 : 1 }]}>
           <Text style={styles.btnText}>로그인</Text>
@@ -59,8 +70,7 @@ export default function EmployeeLoginPage({ navigation }: NavigationScreenProps)
 const styles = StyleSheet.create({
   bg: {
     backgroundColor: '#30394B',
-    flex: 1,
-    paddingHorizontal: 20
+    flex: 1
   },
   titleText: {
     color: '#fff',
@@ -69,12 +79,16 @@ const styles = StyleSheet.create({
     lineHeight: 36,
     marginBottom: 40
   },
+  form: {
+    paddingHorizontal: 20
+  },
   Btn: {
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 15,
     backgroundColor: '#326273',
-    borderRadius: 10
+    borderRadius: 10,
+    marginHorizontal: 20
   },
   btnText: {
     fontSize: 14,
