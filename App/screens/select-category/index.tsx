@@ -1,14 +1,19 @@
 import { Dimensions, Image, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useContext } from 'react';
 import CategoryBtn from './CategoryBtn';
 import ScreenTitle from '../../components/ScreenTitle';
 
 import { colors, deviceWidth } from '../../theme';
+import { ThemeContext } from '../../theme/themeContext';
 
 export default function CategorySelectPage() {
+  const { theme } = useContext(ThemeContext);
+  let activeColor = theme.mode && colors[theme.mode];
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: activeColor.primary }]}>
       <ScreenTitle title={`유형을${'\n'}선택해주세요`} />
       <View style={styles.categoryBtnWrapper}>
         <CategoryBtn title={`매장에서 ${'\n'} 일해요`} />
@@ -26,7 +31,6 @@ export default function CategorySelectPage() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.dark.primary,
     justifyContent: 'space-between'
   },
   categoryBtnWrapper: {

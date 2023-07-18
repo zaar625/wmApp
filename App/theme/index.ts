@@ -4,14 +4,14 @@ const { width: deviceWidth, height: deviceheight } = Dimensions.get('window');
 
 const colors: any = {
   light: {
-    primary: 'gray',
-    secondary: '#',
+    primary: '#EFEFEF',
+    secondary: '#fff',
     tertiary: '#',
-    tint: '#fff'
+    tint: '#000'
   },
   dark: {
     primary: '#30394B',
-    secondary: '#',
+    secondary: '#202632',
     tertiary: '#',
     tint: '#fff'
   },

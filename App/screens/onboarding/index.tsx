@@ -31,7 +31,7 @@ export default function OnboardingPage({ navigation }: NavigationScreenProps) {
   };
 
   return (
-    <SafeAreaView style={styles.bg}>
+    <SafeAreaView style={[styles.bg, { backgroundColor: activeColor.primary }]}>
       <FlatList
         onMomentumScrollEnd={updateCurrentSlideIndex}
         ref={ref}
@@ -64,7 +64,7 @@ export default function OnboardingPage({ navigation }: NavigationScreenProps) {
 
 const styles = StyleSheet.create({
   bg: {
-    backgroundColor: colors.dark.primary,
+    // backgroundColor: colors.dark.primary,
     flex: 1
   },
   text: {

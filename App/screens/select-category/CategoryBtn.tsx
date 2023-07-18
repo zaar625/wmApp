@@ -9,10 +9,16 @@ import Animated, {
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../type';
+import { useContext } from 'react';
+import { ThemeContext } from '../../theme/themeContext';
+import { colors } from '../../theme';
 
 const { width, height } = Dimensions.get('window');
 
 export default function CategoryBtn({ title }: { title: string }) {
+  const { theme } = useContext(ThemeContext);
+  let activeColor = theme.mode && colors[theme.mode];
+
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const scaleAni = useSharedValue(1);
@@ -46,8 +52,10 @@ export default function CategoryBtn({ title }: { title: string }) {
       onPress={() => ((scaleAni.value = 0.95), (opacityAni.value = 0.7))}
       onPressOut={() => navigation.navigate('employeeLoginPage')}
     >
-      <Animated.View style={[styles.btn, animatedStyles]}>
-        <Text style={styles.btnText}>{title}</Text>
+      <Animated.View
+        style={[styles.btn, animatedStyles, { backgroundColor: activeColor.secondary }]}
+      >
+        <Text style={[styles.btnText, { color: activeColor.tint }]}>{title}</Text>
       </Animated.View>
     </Pressable>
   );
@@ -58,7 +66,6 @@ const styles = StyleSheet.create({
     width: width * 0.403,
     height: height * 0.153,
     opacity: 1,
-    backgroundColor: '#202632',
     borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center'
@@ -67,7 +74,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 30,
     fontWeight: '700',
-    fontSize: 20,
-    color: '#fff'
+    fontSize: 20
   }
 });

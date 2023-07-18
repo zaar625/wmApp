@@ -7,12 +7,13 @@ import CategorySelectPage from './App/screens/select-category';
 import EmployeeLoginPage from './App/screens/login/employee';
 import JoinPage from './App/screens/join';
 import { ThemeContext } from './App/theme/themeContext';
+import { TThemeMode } from './App/theme/themeContext';
 
 export default function App() {
   const Stack = createStackNavigator();
   const scheme = useColorScheme();
 
-  const [theme, setTheme] = useState<any>({ mode: scheme });
+  const [theme, setTheme] = useState<TThemeMode>({ mode: scheme });
 
   Appearance.addChangeListener(({ colorScheme }) => {
     setTheme({ mode: colorScheme }); // "light" or "dark"

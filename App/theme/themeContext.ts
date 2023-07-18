@@ -1,8 +1,12 @@
 import { createContext } from 'react';
 import { ColorSchemeName } from 'react-native';
 
+export type TThemeMode = {
+  mode: ColorSchemeName;
+};
+
 type TTheme = {
-  theme: { mode: ColorSchemeName };
+  theme: TThemeMode;
   updateTheme: (changeMode: string) => void;
 };
 
