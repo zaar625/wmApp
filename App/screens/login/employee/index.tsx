@@ -13,6 +13,7 @@ import { NavigationScreenProps } from '../../../type';
 
 import ScreenTitle from '../../../components/ScreenTitle';
 import InputBox from '../InputBox';
+import NomalButton from '../../../components/buttons/NomarButton';
 
 export default function EmployeeLoginPage({ navigation }: NavigationScreenProps) {
   const emailInputRef = useRef<null | TextInput>(null);
@@ -49,12 +50,10 @@ export default function EmployeeLoginPage({ navigation }: NavigationScreenProps)
           />
         </View>
 
-        <Pressable style={({ pressed }) => [styles.Btn, { opacity: pressed ? 0.6 : 1 }]}>
-          <Text style={styles.btnText}>로그인</Text>
-        </Pressable>
+        <NomalButton name="로그인" onPress={() => {}} />
         {/* 회원가입 및 비밀번호 */}
         <View style={styles.subBtn}>
-          <Pressable onPress={() => navigation.navigate('joinPage')}>
+          <Pressable onPress={() => navigation.navigate('singInStep01Page')}>
             <Text style={[styles.subBtnText]}>회원가입</Text>
           </Pressable>
           <View

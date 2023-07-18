@@ -5,7 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import OnboardingPage from './App/screens/onboarding';
 import CategorySelectPage from './App/screens/select-category';
 import EmployeeLoginPage from './App/screens/login/employee';
-import JoinPage from './App/screens/join';
+import SingInStep01Page from './App/screens/sign-up/SingInStep01Page';
 import { ThemeContext } from './App/theme/themeContext';
 import { TThemeMode } from './App/theme/themeContext';
 
@@ -36,7 +36,7 @@ export default function App() {
           <Stack.Screen name="onBoardingPage" component={OnboardingPage} />
           <Stack.Screen name="categorySelectPage" component={CategorySelectPage} />
           <Stack.Screen name="employeeLoginPage" component={EmployeeLoginPage} />
-          <Stack.Screen name="joinPage" component={JoinPage} />
+          <Stack.Screen name="singInStep01Page" component={SingInStep01Page} />
         </Stack.Navigator>
       </NavigationContainer>
     </ThemeContext.Provider>

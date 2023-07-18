@@ -1,4 +1,13 @@
-import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native';
+import {
+  NativeSyntheticEvent,
+  TextInputSelectionChangeEventData,
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Pressable,
+  KeyboardTypeOptions
+} from 'react-native';
 import React, { useState } from 'react';
 
 import EyeIcon from '../../assets/icon/eye.svg';
@@ -10,6 +19,8 @@ interface Props {
   label: string;
   eyeIconVisible: boolean;
   closeIconVisible: boolean;
+  keyboardType?: KeyboardTypeOptions;
+  onSelectionChange?: (e: NativeSyntheticEvent<TextInputSelectionChangeEventData>) => void;
 }
 
 export default React.forwardRef(function InputBox(
