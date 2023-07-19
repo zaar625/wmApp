@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Platform, ScrollView } from 'react-native';
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from 'react-native';
 import { NavigationScreenProps } from '../../type';
@@ -10,11 +10,23 @@ import NomalButton from '../../components/buttons/NomarButton';
 
 import { colors } from '../../theme';
 import { TextInput } from 'react-native-gesture-handler';
+import useInputError from '../../hooks/useInputError';
 
 const SingInStep01 = ({ navigation }: NavigationScreenProps) => {
   const nameInputRef = useRef<null | TextInput>(null);
   const emailInputRef = useRef<null | TextInput>(null);
   const phoneInputRef = useRef<null | TextInput>(null);
+
+  const { setInputError, inputError } = useInputError();
+
+  const emailRegexHandler = (email: string) => {
+    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,}$/;
+    setInputError({ ...inputError, error: !emailRegex.test(email) });
+
+    if (emailRegex.test(email)) {
+      inputSubmit({ next: 'password' });
+    } else return;
+  };
 
   const inputSubmit = ({ next }: { next: string }) => {
     if (next === 'email') emailInputRef.current?.focus();
@@ -38,17 +50,19 @@ const SingInStep01 = ({ navigation }: NavigationScreenProps) => {
             eyeIconVisible={false}
             closeIconVisible={true}
           />
+
           <InputBox
             ref={emailInputRef}
             label="이메일"
             placeholder="이메일을 입력해주세요."
             onEndEditing={({ nativeEvent: { text } }) => {
-              console.log(text);
-              inputSubmit({ next: 'password' });
+              emailRegexHandler(text);
             }}
             eyeIconVisible={false}
             closeIconVisible={true}
+            errorType={{ errType: inputError, handler: setInputError }}
           />
+
           <InputBox
             ref={phoneInputRef}
             label="휴대폰 번호"
@@ -82,5 +96,9 @@ const styles = StyleSheet.create({
   },
   form: {
     paddingHorizontal: 20
+  },
+  propsStyle: {
+    paddingVertical: 20,
+    marginBottom: 20
   }
 });
