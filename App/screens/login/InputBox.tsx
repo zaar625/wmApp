@@ -10,6 +10,7 @@ import {
   TextInputEndEditingEventData
 } from 'react-native';
 import React, { useState } from 'react';
+import ErrorGuide from '../../components/ErrorGuide';
 
 import EyeIcon from '../../assets/icon/eye.svg';
 import CloseIcon from '../../assets/icon/close.svg';
@@ -82,12 +83,7 @@ export default React.forwardRef(function InputBox(
           </View>
         )}
       </View>
-      {errorObj?.error && (
-        <View style={styles.errorWrapper}>
-          <CautionIcon width={14} height={14} style={{ marginRight: 5 }} color={'#FB6464'} />
-          <Text style={styles.errorMessage}>{errorObj.errorMessage}</Text>
-        </View>
-      )}
+      {errorObj?.error && <ErrorGuide message={errorObj.errorMessage} />}
     </View>
   );
 });

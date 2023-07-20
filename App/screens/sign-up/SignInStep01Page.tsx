@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
@@ -11,6 +11,7 @@ import { NavigationScreenProps } from '../../type';
 import ScreenTitle from '../../components/ScreenTitle';
 import InputBox from '../login/InputBox';
 import NomalButton from '../../components/buttons/NomarButton';
+import ErrorGuide from '../../components/ErrorGuide';
 
 import { colors } from '../../theme';
 import { TextInput } from 'react-native-gesture-handler';
@@ -19,7 +20,14 @@ import useInputError from '../../hooks/useInputError';
 const SingInStep01 = ({ navigation }: NavigationScreenProps) => {
   const user = useSelector((state: RootState) => state.signUp);
   const dispatch = useDispatch();
-  console.log('dispatch', user);
+  const [requiredAllchecked, setRequiredAllchecked] = useState<null | boolean>(null);
+
+  const [userInfo, setUserInfo] = useState<{ [key: string]: string }>({
+    name: '',
+    email: '',
+    phone: ''
+  });
+  console.log(userInfo);
 
   const { setInputError, inputError } = useInputError({
     error: false,
@@ -30,13 +38,17 @@ const SingInStep01 = ({ navigation }: NavigationScreenProps) => {
   const emailInputRef = useRef<null | TextInput>(null);
   const phoneInputRef = useRef<null | TextInput>(null);
 
-  const emailRegexHandler = (email: string) => {
+  const checkedEmail = (email: string) => {
     const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,}$/;
-    setInputError({ ...inputError, error: !emailRegex.test(email) });
 
-    if (emailRegex.test(email)) {
+    const checkedValue = emailRegex.test(email);
+
+    if (!checkedValue) {
+      setInputError({ ...inputError, error: true });
+    } else {
+      setUserInfo({ ...userInfo, email });
       inputSubmit({ next: 'password' });
-    } else return;
+    }
   };
 
   const inputSubmit = ({ next }: { next: string }) => {
@@ -44,9 +56,23 @@ const SingInStep01 = ({ navigation }: NavigationScreenProps) => {
     if (next === 'password') phoneInputRef.current?.focus();
   };
 
+  const onNextBtn = () => {
+    const userInfoValues = Object.values(userInfo);
+    const allChecked = userInfoValues.every(info => info.length !== 0);
+    if (allChecked) {
+      navigation.navigate('signInStep02Page');
+    } else {
+      setRequiredAllchecked(false);
+    }
+  };
+
   useEffect(() => {
     nameInputRef.current?.focus();
   }, []);
+
+  useEffect(() => {
+    setRequiredAllchecked(null);
+  }, [userInfo]);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -58,15 +84,18 @@ const SingInStep01 = ({ navigation }: NavigationScreenProps) => {
             label="이름"
             placeholder="이름을 입력해주세요."
             onSubmitEditing={() => {
-              dispatch(
-                userInfo({
-                  name: 'hi'
-                })
-              );
               inputSubmit({ next: 'email' });
+            }}
+            onEndEditing={({ nativeEvent: { text } }) => {
+              if (!text.length) {
+                setInputError({ error: true, errorMessage: '이름을 입력해주세요.' });
+              } else {
+                setUserInfo({ ...userInfo, name: text });
+              }
             }}
             eyeIconVisible={false}
             closeIconVisible={true}
+            errorType={{ errType: inputError, handler: setInputError }}
           />
 
           <InputBox
@@ -74,7 +103,7 @@ const SingInStep01 = ({ navigation }: NavigationScreenProps) => {
             label="이메일"
             placeholder="이메일을 입력해주세요."
             onEndEditing={({ nativeEvent: { text } }) => {
-              emailRegexHandler(text);
+              checkedEmail(text);
             }}
             eyeIconVisible={false}
             closeIconVisible={true}
@@ -88,18 +117,17 @@ const SingInStep01 = ({ navigation }: NavigationScreenProps) => {
             eyeIconVisible={false}
             closeIconVisible={false}
             keyboardType="number-pad"
+            onEndEditing={({ nativeEvent: { text } }) => setUserInfo({ ...userInfo, phone: text })}
             onSelectionChange={({ nativeEvent: { selection } }) => {
               const { end: phoneNumLengthValue } = selection;
               if (phoneNumLengthValue === 11) Keyboard.dismiss();
             }}
           />
         </View>
-        <NomalButton
-          name="다음"
-          onPress={() => {
-            navigation.navigate('signInStep02Page');
-          }}
-        />
+        {requiredAllchecked === false && (
+          <ErrorGuide message="앗! 작성하하신 것에 문제가 있어요!" style={styles.errorMessage} />
+        )}
+        <NomalButton name="다음" onPress={onNextBtn} />
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
@@ -118,5 +146,9 @@ const styles = StyleSheet.create({
   propsStyle: {
     paddingVertical: 20,
     marginBottom: 20
+  },
+  errorMessage: {
+    marginBottom: 10,
+    alignSelf: 'center'
   }
 });
