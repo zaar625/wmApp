@@ -13,11 +13,14 @@ import { TextInput } from 'react-native-gesture-handler';
 import useInputError from '../../hooks/useInputError';
 
 const SingInStep01 = ({ navigation }: NavigationScreenProps) => {
+  const { setInputError, inputError } = useInputError({
+    error: false,
+    errorMessage: '올바른 이메일 형식이 아닙니다.'
+  });
+
   const nameInputRef = useRef<null | TextInput>(null);
   const emailInputRef = useRef<null | TextInput>(null);
   const phoneInputRef = useRef<null | TextInput>(null);
-
-  const { setInputError, inputError } = useInputError();
 
   const emailRegexHandler = (email: string) => {
     const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,}$/;

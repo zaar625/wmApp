@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 
-export default function useInputError() {
-  const [inputError, setInputError] = useState({
-    error: false,
-    errorMessage: '올바른 이메일 형식이 아닙니다.'
-  });
+type TInitalValue = {
+  error: boolean;
+  errorMessage: string;
+};
+
+export default function useInputError(initialValue: TInitalValue) {
+  const [inputError, setInputError] = useState(initialValue);
 
   return { inputError, setInputError };
 }
