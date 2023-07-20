@@ -1,7 +1,11 @@
-import { StyleSheet, Text, View, Platform, ScrollView } from 'react-native';
-import React, { useRef, useEffect, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import React, { useRef, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from 'react-native';
+import { TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../state/store';
+import signUp, { userInfo } from '../../state/slice/signUp';
+
 import { NavigationScreenProps } from '../../type';
 
 import ScreenTitle from '../../components/ScreenTitle';
@@ -13,6 +17,10 @@ import { TextInput } from 'react-native-gesture-handler';
 import useInputError from '../../hooks/useInputError';
 
 const SingInStep01 = ({ navigation }: NavigationScreenProps) => {
+  const user = useSelector((state: RootState) => state.signUp);
+  const dispatch = useDispatch();
+  console.log('dispatch', user);
+
   const { setInputError, inputError } = useInputError({
     error: false,
     errorMessage: '올바른 이메일 형식이 아닙니다.'
@@ -49,7 +57,14 @@ const SingInStep01 = ({ navigation }: NavigationScreenProps) => {
             ref={nameInputRef}
             label="이름"
             placeholder="이름을 입력해주세요."
-            onSubmitEditing={() => inputSubmit({ next: 'email' })}
+            onSubmitEditing={() => {
+              dispatch(
+                userInfo({
+                  name: 'hi'
+                })
+              );
+              inputSubmit({ next: 'email' });
+            }}
             eyeIconVisible={false}
             closeIconVisible={true}
           />
