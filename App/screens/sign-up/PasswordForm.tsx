@@ -4,16 +4,16 @@ import EyeIcon from '../../assets/icon/eye.svg';
 import CloseIcon from '../../assets/icon/close.svg';
 import CheckIcon from '../../assets/icon/check_round.svg';
 import InputBox from '../login/InputBox';
-import useInputError from '../../hooks/useInputError';
+// import useInputError from '../../hooks/useInputError';
 
 const PasswordForm = () => {
   const [inputFocusActive, setInputFocusActive] = useState(false);
   const [inputText, setInputText] = useState('');
   const [passwordView, setPasswordView] = useState(true);
-  const { setInputError, inputError } = useInputError({
-    error: false,
-    errorMessage: '비밀번호가 다릅니다.'
-  });
+  // const { setInputError, inputError } = useInputError({
+  //   error: false,
+  //   errorMessage: '비밀번호가 다릅니다.'
+  // });
 
   const [passwordRegExp, setPasswordRegExp] = useState([
     { name: '영문', useable: false },
@@ -95,12 +95,12 @@ const PasswordForm = () => {
         placeholder="비밀번호를 재 입력해주세요"
         eyeIconVisible
         closeIconVisible
-        onEndEditing={({ nativeEvent: { text } }) => {
-          if (text !== inputText) {
-            setInputError({ ...inputError, error: true });
-          }
-        }}
-        errorType={{ errType: inputError, handler: setInputError }}
+        // onEndEditing={({ nativeEvent: { text } }) => {
+        //   if (text !== inputText) {
+        //     setInputError({ ...inputError, error: true });
+        //   }
+        // }}
+        // errorType={{ errType: inputError, handler: setInputError }}
       />
     </View>
   );

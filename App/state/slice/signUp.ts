@@ -18,7 +18,7 @@ const signUpSlice = createSlice({
   name: 'signUp',
   initialState,
   reducers: {
-    userInfo: (state, action: PayloadAction<any>) => {
+    userInfos: (state, action: PayloadAction<any>) => {
       console.log('payload:', action.payload);
       console.log('state:', state);
       state = { ...state, ...action.payload };
@@ -29,4 +29,4 @@ const signUpSlice = createSlice({
 });
 
 export default signUpSlice.reducer;
-export const { userInfo } = signUpSlice.actions;
+export const { userInfos } = signUpSlice.actions;
