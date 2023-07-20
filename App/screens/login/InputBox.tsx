@@ -65,7 +65,7 @@ export default React.forwardRef(function InputBox(
           onChangeText={onChangeText}
           autoCapitalize="none"
           value={inputText}
-          secureTextEntry={props.label === '비밀번호' || '비밀번호 확인' ? passwordView : false}
+          secureTextEntry={props.label === ('비밀번호' || '비밀번호 확인') ? passwordView : false}
         />
         {inputText.length > 0 && (
           <View style={styles.iconWrapper}>

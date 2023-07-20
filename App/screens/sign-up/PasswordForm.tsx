@@ -50,43 +50,45 @@ const PasswordForm = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>비밀번호</Text>
-      <View>
-        <TextInput
-          placeholder="비밀번호를 입력해주세요."
-          style={[styles.input, inputFocusActive && styles.focusedInput]}
-          onFocus={inputFocused}
-          onBlur={() => setInputFocusActive(false)}
-          onChangeText={onChangeText}
-          autoCapitalize="none"
-          value={inputText}
-          secureTextEntry={passwordView}
-        />
-        {inputText.length > 0 && (
-          <View style={styles.iconWrapper}>
-            <Pressable onPress={() => setPasswordView(!passwordView)} hitSlop={15}>
-              <EyeIcon width={20} height={20} color={'#797979'} style={{ marginRight: 10 }} />
-            </Pressable>
+      <View style={styles.firstPasswordInputWrapper}>
+        <View>
+          <TextInput
+            placeholder="비밀번호를 입력해주세요."
+            style={[styles.input, inputFocusActive && styles.focusedInput]}
+            onFocus={inputFocused}
+            onBlur={() => setInputFocusActive(false)}
+            onChangeText={onChangeText}
+            autoCapitalize="none"
+            value={inputText}
+            secureTextEntry={passwordView}
+          />
+          {inputText.length > 0 && (
+            <View style={styles.iconWrapper}>
+              <Pressable onPress={() => setPasswordView(!passwordView)} hitSlop={15}>
+                <EyeIcon width={20} height={20} color={'#797979'} style={{ marginRight: 10 }} />
+              </Pressable>
 
-            <Pressable onPress={() => setInputText('')} hitSlop={15}>
-              <CloseIcon width={20} height={20} color={'#fff'} />
-            </Pressable>
-          </View>
-        )}
-      </View>
-      <View style={styles.checkPasswordWrapper}>
-        {passwordRegExp.map((item, index) => (
-          <View style={styles.checkIconWrapper}>
-            <CheckIcon
-              width={15}
-              height={15}
-              color={passwordRegExp[index].useable ? '#00B712' : '#797979'}
-              style={{ marginRight: 3 }}
-            />
-            <Text style={{ color: passwordRegExp[index].useable ? '#00B712' : '#797979' }}>
-              {item.name}
-            </Text>
-          </View>
-        ))}
+              <Pressable onPress={() => setInputText('')} hitSlop={15}>
+                <CloseIcon width={20} height={20} color={'#fff'} />
+              </Pressable>
+            </View>
+          )}
+        </View>
+        <View style={styles.checkPasswordWrapper}>
+          {passwordRegExp.map((item, index) => (
+            <View style={styles.checkIconWrapper}>
+              <CheckIcon
+                width={15}
+                height={15}
+                color={passwordRegExp[index].useable ? '#00B712' : '#797979'}
+                style={{ marginRight: 3 }}
+              />
+              <Text style={{ color: passwordRegExp[index].useable ? '#00B712' : '#797979' }}>
+                {item.name}
+              </Text>
+            </View>
+          ))}
+        </View>
       </View>
       <InputBox
         label="비밀번호 확인"
@@ -136,15 +138,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 0
   },
-  errorWrapper: {
-    flexDirection: 'row',
-    marginTop: 10,
-    alignItems: 'center'
-  },
-  errorMessage: {
-    fontSize: 13,
-    color: '#FB6464'
-  },
+
   checkPasswordWrapper: {
     flexDirection: 'row',
     marginTop: 10
@@ -156,5 +150,8 @@ const styles = StyleSheet.create({
   },
   checkIconText: {
     color: '#797979'
+  },
+  firstPasswordInputWrapper: {
+    marginBottom: 40
   }
 });
