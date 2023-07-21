@@ -3,7 +3,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../state/store';
-import signUp, { userInfos } from '../../state/slice/signUp';
+import user, { userSaveInfo } from '../../state/slice/user';
 import { NavigationScreenProps } from '../../type';
 import ScreenTitle from '../../components/ScreenTitle';
 import InputBox from '../login/InputBox';
@@ -11,7 +11,7 @@ import NomalButton from '../../components/buttons/NomarButton';
 import { colors } from '../../theme';
 
 const SingInStep01 = ({ navigation }: NavigationScreenProps) => {
-  const user = useSelector((state: RootState) => state.signUp);
+  const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
 
   const [userInfo, setUserInfo] = useState<{ [key: string]: string }>({
@@ -60,7 +60,7 @@ const SingInStep01 = ({ navigation }: NavigationScreenProps) => {
     const userInfoValues = Object.values(userInfo);
     const allIsTruthy = userInfoValues.every(info => info.length !== 0);
     if (allIsTruthy) {
-      dispatch(userInfos(userInfo));
+      dispatch(userSaveInfo(userInfo));
       navigation.navigate('signInStep02Page');
     }
   };
