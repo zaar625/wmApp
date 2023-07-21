@@ -7,9 +7,10 @@ import {
   TextInput,
   Pressable
 } from 'react-native';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationScreenProps } from '../../../type';
+import { signIn } from '../../../api/auth';
 
 import ScreenTitle from '../../../components/ScreenTitle';
 import InputBox from '../InputBox';
@@ -19,6 +20,11 @@ export default function EmployeeLoginPage({ navigation }: NavigationScreenProps)
   const emailInputRef = useRef<null | TextInput>(null);
   const passwordInputRef = useRef<null | TextInput>(null);
 
+  const [loginform, setLoginform] = useState({
+    email: '',
+    password: ''
+  });
+
   const inputSubmit = () => {
     passwordInputRef.current?.focus();
   };
@@ -26,6 +32,20 @@ export default function EmployeeLoginPage({ navigation }: NavigationScreenProps)
   useEffect(() => {
     emailInputRef.current?.focus();
   }, []);
+
+  const login = async () => {
+    Keyboard.dismiss();
+    console.log('키보드 내려감');
+    try {
+      console.log('login 시도');
+      const { user } = await signIn(loginform);
+      console.log(user);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      console.log('finally');
+    }
+  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -40,6 +60,9 @@ export default function EmployeeLoginPage({ navigation }: NavigationScreenProps)
             label="이메일"
             eyeIconVisible={false}
             closeIconVisible
+            onEndEditing={({ nativeEvent: { text } }) => {
+              setLoginform({ ...loginform, email: text });
+            }}
           />
           <InputBox
             ref={passwordInputRef}
@@ -47,10 +70,14 @@ export default function EmployeeLoginPage({ navigation }: NavigationScreenProps)
             label="비밀번호"
             eyeIconVisible
             closeIconVisible
+            onEndEditing={({ nativeEvent: { text } }) => {
+              console.log('?');
+              setLoginform({ ...loginform, password: text });
+            }}
           />
         </View>
 
-        <NomalButton name="로그인" onPress={() => {}} />
+        <NomalButton name="로그인" onPress={login} />
         {/* 회원가입 및 비밀번호 */}
         <View style={styles.subBtn}>
           <Pressable onPress={() => navigation.navigate('singInStep01Page')}>
