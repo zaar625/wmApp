@@ -6,6 +6,9 @@ import CheckIcon from '../../assets/icon/check_round.svg';
 import InputBox from '../login/InputBox';
 import NomalButton from '../../components/buttons/NomarButton';
 import { userSaveInfo } from '../../state/slice/user';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../state/store';
+import { signUp } from '../../api/auth';
 
 import { useDispatch } from 'react-redux';
 import ErrorGuide from '../../components/ErrorGuide';
@@ -17,6 +20,7 @@ const PasswordForm = () => {
   const [btnActive, setBtnActive] = useState(false);
 
   const dispatch = useDispatch();
+  const { email, password } = useSelector((state: RootState) => state.user);
 
   const passwordInputRef = useRef<null | TextInput>(null);
   const checkedPasswordRef = useRef<null | TextInput>(null);
@@ -74,6 +78,17 @@ const PasswordForm = () => {
     passwordInputRef.current?.focus();
   }, []);
 
+  const userSignUp = async () => {
+    const signUpForm = { email, password };
+    try {
+      const { user } = await signUp(signUpForm);
+      console.log('signup User:', user);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      console.log('finally');
+    }
+  };
   return (
     <>
       <View style={styles.container}>
@@ -140,7 +155,7 @@ const PasswordForm = () => {
               setPasswordCheckError({ ...passwordCheckError, error: true });
             } else {
               setBtnActive(true);
-              dispatch(userSaveInfo(text));
+              dispatch(userSaveInfo({ password: text }));
             }
           }}
           errorType={{ errType: passwordCheckError, handler: setPasswordCheckError }}
@@ -150,7 +165,7 @@ const PasswordForm = () => {
         name="가입하기"
         onPress={() => {
           if (btnActive && checkedPassword()) {
-            console.log('회원가입이 완료되었습니다.');
+            userSignUp();
           }
         }}
       />
