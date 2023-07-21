@@ -11,6 +11,7 @@ import { ThemeContext } from './App/theme/themeContext';
 import { TThemeMode } from './App/theme/themeContext';
 import { store } from './App/state/store';
 import { Provider } from 'react-redux';
+import GlobalModal from './App/components/modal/GlobalModal';
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -36,6 +37,7 @@ export default function App() {
     <Provider store={store}>
       <ThemeContext.Provider value={{ theme, updateTheme }}>
         <NavigationContainer>
+          <GlobalModal />
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="onBoardingPage" component={OnboardingPage} />
             <Stack.Screen name="categorySelectPage" component={CategorySelectPage} />

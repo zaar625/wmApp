@@ -3,7 +3,7 @@ import {
   StyleSheet,
   NativeSyntheticEvent,
   NativeScrollEvent,
-  Dimensions,
+  Pressable,
   Text
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -15,6 +15,9 @@ import { onBoadingDATA, OnBoadingSlideItem } from './onboardingData';
 import { colors, deviceheight, deviceWidth } from '../../theme';
 import { ThemeContext } from '../../theme/themeContext';
 import { useContext } from 'react';
+
+import { useDispatch } from 'react-redux';
+import { openModal } from '../../state/slice/modal';
 
 export default function OnboardingPage({ navigation }: NavigationScreenProps) {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
@@ -28,6 +31,17 @@ export default function OnboardingPage({ navigation }: NavigationScreenProps) {
     const currentIndex = Math.round(contentOffsetX / deviceWidth);
 
     setCurrentSlideIndex(currentIndex);
+  };
+
+  const dispatch = useDispatch();
+
+  const handleOpenLoginModal = () => {
+    dispatch(
+      openModal({
+        modalType: 'OneBtnModal',
+        isOpen: true
+      })
+    );
   };
 
   return (
@@ -56,6 +70,9 @@ export default function OnboardingPage({ navigation }: NavigationScreenProps) {
           />
         ))}
       </View>
+      <Pressable onPress={handleOpenLoginModal}>
+        <Text>Test</Text>
+      </Pressable>
 
       <Button name="시작하기" onPress={() => navigation.navigate('categorySelectPage')} />
     </SafeAreaView>

@@ -14,7 +14,6 @@ import ErrorGuide from '../../components/ErrorGuide';
 
 import EyeIcon from '../../assets/icon/eye.svg';
 import CloseIcon from '../../assets/icon/close.svg';
-import CautionIcon from '../../assets/icon/caution.svg';
 
 interface Props {
   onSubmitEditing?: (e: any) => void;
