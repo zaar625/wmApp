@@ -39,7 +39,11 @@ export default function OnboardingPage({ navigation }: NavigationScreenProps) {
     dispatch(
       openModal({
         modalType: 'OneBtnModal',
-        isOpen: true
+        isOpen: true,
+        contents: {
+          title: '회원가입이 완료되었습니다.',
+          onPress: () => console.log('a')
+        }
       })
     );
   };

@@ -3,7 +3,8 @@ import OneBtnModal from '../../components/modal/OneBtnModal';
 
 const initialState = {
   modalType: '',
-  isOpen: false
+  isOpen: false,
+  contents: null
 };
 
 export const modalSlice = createSlice({
@@ -11,9 +12,10 @@ export const modalSlice = createSlice({
   initialState,
   reducers: {
     openModal: (state, actions) => {
-      const { modalType } = actions.payload;
+      const { modalType, contents } = actions.payload;
       state.modalType = modalType;
       state.isOpen = true;
+      state.contents = contents;
     },
     closeModal: state => {
       state.isOpen = false;

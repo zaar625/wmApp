@@ -6,7 +6,8 @@ import { deviceWidth, deviceheight } from '../../theme';
 import { useDispatch } from 'react-redux';
 import { closeModal } from '../../state/slice/modal';
 
-const OneBtnModal = () => {
+const OneBtnModal = ({ props }: any) => {
+  console.log(props);
   const dispatch = useDispatch();
   return (
     <View
@@ -37,7 +38,13 @@ const OneBtnModal = () => {
           </Text>
         </View>
         <View style={{ width: '100%' }}>
-          <NomalButton name="확인" onPress={() => dispatch(closeModal())} />
+          <NomalButton
+            name="확인"
+            onPress={() => {
+              props.onPress();
+              dispatch(closeModal());
+            }}
+          />
         </View>
       </View>
     </View>
