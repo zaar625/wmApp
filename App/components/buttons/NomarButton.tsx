@@ -6,35 +6,32 @@ type Props = {
   onPress: () => void;
 };
 
-const Button = ({ name, onPress }: Props) => {
+const NomalButton = ({ name, onPress }: Props) => {
   return (
     <Pressable
       onPress={onPress}
       style={({ pressed }) => [styles.btn, { opacity: pressed ? 0.5 : 1 }]}
     >
-      <Text
-        style={{
-          color: '#fff',
-          alignSelf: 'center',
-          fontSize: 16,
-          fontWeight: '700'
-        }}
-      >
-        {name}
-      </Text>
+      <Text style={styles.btnText}>{name}</Text>
     </Pressable>
   );
 };
 
-export default Button;
+export default NomalButton;
 
 const styles = StyleSheet.create({
   btn: {
     backgroundColor: '#326273',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 21,
-    // marginHorizontal: 20,
+    paddingVertical: 15,
+    marginHorizontal: 20,
     borderRadius: 10
+  },
+  btnText: {
+    color: '#fff',
+    alignSelf: 'center',
+    fontSize: 14,
+    fontWeight: '500'
   }
 });

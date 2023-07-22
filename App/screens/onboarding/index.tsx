@@ -1,35 +1,55 @@
 import {
   View,
-  Text,
   StyleSheet,
   NativeSyntheticEvent,
   NativeScrollEvent,
-  Dimensions,
-  Pressable
+  Pressable,
+  Text
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import React, { useRef, useState } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList, NavigationScreenProps } from '../../type';
-
+import { NavigationScreenProps } from '../../type';
+import Button from '../../components/buttons/Button';
 import { onBoadingDATA, OnBoadingSlideItem } from './onboardingData';
+import { colors, deviceheight, deviceWidth } from '../../theme';
+import { ThemeContext } from '../../theme/themeContext';
+import { useContext } from 'react';
 
-const { width } = Dimensions.get('window');
+import { useDispatch } from 'react-redux';
+import { openModal } from '../../state/slice/modal';
 
 export default function OnboardingPage({ navigation }: NavigationScreenProps) {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const ref = useRef(null);
 
+  const { theme } = useContext(ThemeContext);
+  let activeColor = theme.mode && colors[theme.mode];
+
   const updateCurrentSlideIndex = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const contentOffsetX = e.nativeEvent.contentOffset.x;
-    const currentIndex = Math.round(contentOffsetX / width);
+    const currentIndex = Math.round(contentOffsetX / deviceWidth);
 
     setCurrentSlideIndex(currentIndex);
   };
 
+  const dispatch = useDispatch();
+
+  const handleOpenLoginModal = () => {
+    dispatch(
+      openModal({
+        modalType: 'OneBtnModal',
+        isOpen: true,
+        contents: {
+          title: '회원가입이 완료되었습니다.',
+          onPress: () => console.log('a')
+        }
+      })
+    );
+  };
+
   return (
-    <SafeAreaView style={styles.bg}>
+    <SafeAreaView style={[styles.bg, { backgroundColor: activeColor.primary }]}>
       <FlatList
         onMomentumScrollEnd={updateCurrentSlideIndex}
         ref={ref}
@@ -47,39 +67,25 @@ export default function OnboardingPage({ navigation }: NavigationScreenProps) {
             style={[
               styles.indicator,
               currentSlideIndex === index && {
-                backgroundColor: '#326273',
+                backgroundColor: colors.main,
                 width: 30
               }
             ]}
           />
         ))}
       </View>
-      <Pressable
-        style={({ pressed }) => [styles.btn, { opacity: pressed ? 0.5 : 1 }]}
-        onPress={() => navigation.navigate('categorySelectPage')}
-      >
-        <Text
-          style={{
-            color: '#fff',
-            alignSelf: 'center',
-            fontSize: 16,
-            fontWeight: '700'
-          }}
-        >
-          시작하기
-        </Text>
-      </Pressable>
+      <Button name="시작하기" onPress={() => navigation.navigate('categorySelectPage')} />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   bg: {
-    backgroundColor: '#30394B',
+    // backgroundColor: colors.dark.primary,
     flex: 1
   },
   text: {
-    color: '#fff',
+    color: colors.dark.tint,
     fontSize: 24,
     fontWeight: '700',
     lineHeight: 36
@@ -87,17 +93,17 @@ const styles = StyleSheet.create({
   indicatorWrapper: {
     flexDirection: 'row',
     justifyContent: 'center',
-    paddingBottom: 82
+    marginBottom: deviceheight * 0.09
   },
   indicator: {
     height: 6,
     width: 6,
-    backgroundColor: '#326273',
+    backgroundColor: colors.main,
     marginHorizontal: 3,
     borderRadius: 50
   },
   btn: {
-    backgroundColor: '#326273',
+    backgroundColor: colors.main,
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 21,
