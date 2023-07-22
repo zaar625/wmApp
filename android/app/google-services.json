@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "825184343644",
+    "project_id": "work-magement-app",
+    "storage_bucket": "work-magement-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:825184343644:android:5735ffb70b057d192af899",
+        "android_client_info": {
+          "package_name": "com.wmapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "825184343644-33cb45293d19oodaff2h2ggo5mc505c8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wmapp",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "825184343644-8ms3ukh2mjb31234oioidchmp7d11jhe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMeircUzFP1aZAzO2kzc4bHjSa2kQa0Fs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "825184343644-8ms3ukh2mjb31234oioidchmp7d11jhe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
