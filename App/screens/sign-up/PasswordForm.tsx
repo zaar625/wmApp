@@ -1,17 +1,20 @@
 import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native';
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../type';
 import EyeIcon from '../../assets/icon/eye.svg';
 import CloseIcon from '../../assets/icon/close.svg';
 import CheckIcon from '../../assets/icon/check_round.svg';
 import InputBox from '../login/InputBox';
-import NomalButton from '../../components/buttons/NomarButton';
+import Button from '../../components/buttons/Button';
 import { userSaveInfo } from '../../state/slice/user';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../state/store';
 import { signUp } from '../../api/auth';
-
-import { useDispatch } from 'react-redux';
 import ErrorGuide from '../../components/ErrorGuide';
+import { openModal } from '../../state/slice/modal';
+import { ERROR_MESSEGE } from '../../constant';
 
 const PasswordForm = () => {
   const [inputFocusActive, setInputFocusActive] = useState(false);
@@ -20,6 +23,8 @@ const PasswordForm = () => {
   const [btnActive, setBtnActive] = useState(false);
 
   const dispatch = useDispatch();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
   const { email, password } = useSelector((state: RootState) => state.user);
 
   const passwordInputRef = useRef<null | TextInput>(null);
@@ -82,16 +87,27 @@ const PasswordForm = () => {
     const signUpForm = { email, password };
     try {
       const { user } = await signUp(signUpForm);
-      console.log('signup User:', user);
-    } catch (e) {
-      console.log(e);
+    } catch (e: any) {
+      dispatch(
+        openModal({
+          modalType: 'OneBtnModal',
+          isOpen: true,
+          contents: {
+            title: ERROR_MESSEGE[e.code],
+            content: `가입된 계정으로 로그인해주세요.${'\n'}비밀번호를 잊으셨다면 비밀번호 찾기를 해주세요.`,
+            onPress() {
+              console.log(navigation.navigate('employeeLoginPage'));
+            }
+          }
+        })
+      );
     } finally {
-      console.log('finally');
     }
   };
+
   return (
-    <>
-      <View style={styles.container}>
+    <View style={styles.container}>
+      <View style={styles.form}>
         <Text style={styles.label}>비밀번호</Text>
         <View style={styles.firstPasswordInputWrapper}>
           <View>
@@ -161,7 +177,7 @@ const PasswordForm = () => {
           errorType={{ errType: passwordCheckError, handler: setPasswordCheckError }}
         />
       </View>
-      <NomalButton
+      <Button
         name="가입하기"
         onPress={() => {
           if (btnActive && checkedPassword()) {
@@ -169,7 +185,7 @@ const PasswordForm = () => {
           }
         }}
       />
-    </>
+    </View>
   );
 };
 
@@ -177,6 +193,10 @@ export default PasswordForm;
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    justifyContent: 'space-between'
+  },
+  form: {
     paddingVertical: 20,
     marginBottom: 20,
     paddingHorizontal: 20

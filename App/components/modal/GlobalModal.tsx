@@ -6,7 +6,6 @@ import { RootState } from '../../state/store';
 
 const GlobalModal = () => {
   const { modalType, isOpen, contents } = useSelector((state: RootState) => state.modal);
-  console.log(modalType, isOpen);
 
   if (!isOpen) return;
 
