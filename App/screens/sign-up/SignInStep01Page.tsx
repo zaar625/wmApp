@@ -13,7 +13,7 @@ import { colors } from '../../theme';
 const SingInStep01 = ({ navigation }: NavigationScreenProps) => {
   const dispatch = useDispatch();
 
-  const [userInfo, setUserInfo] = useState<{ [key: string]: string }>({
+  const [userInfo, setUserInfo] = useState<{ [string]: string }>({
     name: '',
     email: '',
     phone: ''

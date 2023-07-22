@@ -12,10 +12,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationScreenProps } from '../../../type';
 import { signIn } from '../../../api/auth';
 import { ERROR_MESSEGE } from '../../../constant';
-
 import ScreenTitle from '../../../components/ScreenTitle';
 import InputBox from '../InputBox';
-import NomalButton from '../../../components/buttons/NomarButton';
 import Button from '../../../components/buttons/Button';
 import { useDispatch } from 'react-redux';
 
@@ -38,10 +36,14 @@ export default function EmployeeLoginPage({ navigation }: NavigationScreenProps)
     errorMessage: '비밀번호가 틀렸습니다. 다시 입력해주세요!'
   });
 
-  const errorHandler = (error: unknown) => {
-    const a = ERROR_MESSEGE[e.code];
-    console.log(a);
-    // 변수 a 에 이메일단어가 들어가면, 비밀번호가 들어가면, 할 액션을 취하시오
+  const errorHandler = (error: any) => {
+    const firebaseError = ERROR_MESSEGE[error.code];
+    const msgRegex = /이메일|계정/g;
+    if (msgRegex.test(firebaseError)) {
+      setemailSignInError({ error: true, errorMessage: firebaseError });
+    } else {
+      setPasswordSignInError({ error: true, errorMessage: firebaseError });
+    }
   };
 
   const inputSubmit = () => {
@@ -58,7 +60,6 @@ export default function EmployeeLoginPage({ navigation }: NavigationScreenProps)
     } catch (error) {
       errorHandler(error);
     } finally {
-      console.log('finally');
     }
   };
 
@@ -78,6 +79,7 @@ export default function EmployeeLoginPage({ navigation }: NavigationScreenProps)
               onEndEditing={({ nativeEvent: { text } }) => {
                 setLoginform({ ...loginform, email: text });
               }}
+              errorType={{ errType: emailSignInError, handler: setemailSignInError }}
             />
             <InputBox
               ref={passwordInputRef}
@@ -86,9 +88,9 @@ export default function EmployeeLoginPage({ navigation }: NavigationScreenProps)
               eyeIconVisible
               closeIconVisible
               onEndEditing={({ nativeEvent: { text } }) => {
-                console.log('?');
                 setLoginform({ ...loginform, password: text });
               }}
+              errorType={{ errType: passwordSignInError, handler: setPasswordSignInError }}
             />
           </View>
           {/* 회원가입 및 비밀번호 */}
