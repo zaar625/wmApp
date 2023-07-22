@@ -74,10 +74,6 @@ export default function OnboardingPage({ navigation }: NavigationScreenProps) {
           />
         ))}
       </View>
-      <Pressable onPress={handleOpenLoginModal}>
-        <Text>Test</Text>
-      </Pressable>
-
       <Button name="시작하기" onPress={() => navigation.navigate('categorySelectPage')} />
     </SafeAreaView>
   );
