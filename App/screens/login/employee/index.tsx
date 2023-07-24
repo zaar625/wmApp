@@ -57,6 +57,7 @@ export default function EmployeeLoginPage({ navigation }: NavigationScreenProps)
   const login = async () => {
     try {
       const { user } = await signIn(loginform);
+      if (user) navigation.navigate('bottomTab');
     } catch (error) {
       errorHandler(error);
     } finally {

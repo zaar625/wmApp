@@ -6,6 +6,8 @@ export type RootStackParamList = {
   employeeLoginPage: undefined;
   singInStep01Page: undefined;
   signInStep02Page: undefined;
+  bottomTab: undefined;
+  storeTabScreen: undefined;
 };
 
 export type NavigationScreenProps = NativeStackScreenProps<RootStackParamList>;
