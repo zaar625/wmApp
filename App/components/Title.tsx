@@ -22,14 +22,37 @@ const ScreenTitle = ({ title }: { title: string }) => {
   );
 };
 
-export default ScreenTitle;
+const SemiTitle = ({ title }: { title: string }) => {
+  const { theme } = useContext(ThemeContext);
+  let activeColor = theme.mode && colors[theme.mode];
+
+  return (
+    <Text
+      style={[
+        styles.semiTitle,
+        {
+          color: activeColor.tint
+        }
+      ]}
+    >
+      {title}
+    </Text>
+  );
+};
+
+export { ScreenTitle, SemiTitle };
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: fontSizes.title,
+    fontSize: 24,
     fontWeight: '700',
     lineHeight: 36,
     marginVertical: 30,
     paddingHorizontal: 20
+  },
+  semiTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    lineHeight: 36
   }
 });

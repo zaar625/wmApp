@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 import { userSaveInfo } from '../../state/slice/user';
 import { NavigationScreenProps } from '../../type';
-import ScreenTitle from '../../components/ScreenTitle';
+import { ScreenTitle } from '../../components/Title';
 import InputBox from '../login/InputBox';
 import Button from '../../components/buttons/Button';
 import { colors } from '../../theme';
