@@ -41,7 +41,8 @@ export default AddedStore;
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    backgroundColor: colors.dark.secondary
+    backgroundColor: colors.dark.secondary,
+    marginBottom: 20
   },
   titleDesc: {
     color: '#D9D9D9'

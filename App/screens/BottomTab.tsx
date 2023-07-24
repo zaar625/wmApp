@@ -27,9 +27,6 @@ const BottomTab = () => {
         headerShown: false,
         tabBarActiveTintColor: '#fff',
         tabBarInactiveTintColor: '#6B6F78',
-        tabBarIconStyle: {
-          backgroundColor: 'red'
-        },
         tabBarLabelStyle: { fontSize: 12, fontWeight: '700' },
         tabBarItemStyle: {
           paddingBottom: 10
