@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 
-const StoreTabScreen = () => {
+const ShareTabScreen = () => {
   return (
     <View>
-      <Text>StoreTabScreen</Text>
+      <Text>ShareTabScreen</Text>
     </View>
   );
 };
 
-export default StoreTabScreen;
+export default ShareTabScreen;
 
 const styles = StyleSheet.create({});

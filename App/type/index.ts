@@ -8,6 +8,10 @@ export type RootStackParamList = {
   signInStep02Page: undefined;
   bottomTab: undefined;
   storeTabScreen: undefined;
+  shareTabScreen: undefined;
+  barcodeTabScreen: undefined;
+  calendarTabScreen: undefined;
+  SettingTabScreen: undefined;
 };
 
 export type NavigationScreenProps = NativeStackScreenProps<RootStackParamList>;
