@@ -1,19 +1,19 @@
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
-import QRCodeScanner from 'react-native-qrcode-scanner';
+import { StyleSheet, Text, View } from 'react-native';
+import React, { useMemo } from 'react';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 
 const ShareTabScreen = () => {
-  const onSuccess = async (data: any) => {
-    console.log(data);
-  };
+  const gesture = useMemo(
+    () =>
+      Gesture.Tap().onStart(e => {
+        console.log(e);
+      }),
+    []
+  );
   return (
-    <View>
-      <QRCodeScanner
-        onRead={onSuccess}
-        showMarker
-        cameraStyle={{ height: Dimensions.get('window').height }}
-      />
-    </View>
+    <GestureDetector gesture={gesture}>
+      <Text>ShareTabScreen</Text>
+    </GestureDetector>
   );
 };
 

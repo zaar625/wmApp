@@ -13,6 +13,7 @@ import { store } from './App/state/store';
 import { Provider } from 'react-redux';
 import GlobalModal from './App/components/modal/GlobalModal';
 import BottomTab from './App/screens/BottomTab';
+import ScannerScreen from './App/screens/tab_store/ScannerScreen';
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -46,6 +47,11 @@ export default function App() {
             <Stack.Screen name="singInStep01Page" component={SignInStep01Page} />
             <Stack.Screen name="signInStep02Page" component={SignInStep02Page} /> */}
             <Stack.Screen name="bottomTab" component={BottomTab} />
+            <Stack.Screen
+              name="scannerScreen"
+              component={ScannerScreen}
+              options={{ presentation: 'modal' }}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </ThemeContext.Provider>

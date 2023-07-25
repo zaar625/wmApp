@@ -1,18 +1,21 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native';
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../type';
+
 import PlusIcon from '../../assets/icon/plus_round.svg';
 import DeleteIcon from '../../assets/icon/delete.svg';
-
 import { colors } from '../../theme';
-
 import { SemiTitle } from '../../components/Title';
 
 const AddedStore = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   return (
     <View style={styles.container}>
       <SemiTitle title="매장 등록하기" />
       <Text style={styles.titleDesc}>매장 내에 비치된 QR 코드 또는 바코드를 찍어주세요.</Text>
-      <Pressable style={styles.plusIcon}>
+      <Pressable style={styles.plusIcon} onPress={() => navigation.navigate('scannerScreen')}>
         <PlusIcon style={{ alignSelf: 'center' }} />
       </Pressable>
       <StoreCardContainer />
