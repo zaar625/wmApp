@@ -11,18 +11,21 @@ const Working = () => {
         <Text style={styles.storeName}>카페이루</Text>
         <Pressable style={styles.requireBtn}>
           <Text style={styles.btnText}>출퇴근 수정 요청</Text>
-          <ArrowIcon width={20} height={20} />
+          <ArrowIcon />
         </Pressable>
       </View>
+
       <View style={styles.workState}>
         <View style={styles.round} />
         <Text style={[styles.baseText]}>근무중</Text>
       </View>
+
       <View style={styles.time}>
         <Text style={[styles.baseText, styles.marginRight]}>출근:</Text>
         <Text style={[styles.baseText, styles.marginRight]}>23.07.23</Text>
         <Text style={[styles.baseText, styles.marginRight]}>10시 30분</Text>
       </View>
+
       <View style={styles.time}>
         <Text style={[styles.baseText, styles.marginRight]}>퇴근:</Text>
         <Text style={[styles.baseText, styles.marginRight]}>23.07.23</Text>
@@ -57,7 +60,7 @@ const styles = StyleSheet.create({
   },
   btnText: {
     color: '#BAC0CE',
-    fontSize: 12
+    fontSize: 14
   },
   baseText: {
     color: '#fff',

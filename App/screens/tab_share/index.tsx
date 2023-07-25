@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -6,6 +6,7 @@ import { colors, deviceWidth } from '../../theme';
 import { SemiTitle } from '../../components/Title';
 import TabHeader from '../../components/TabHeader';
 import Working from './Working';
+import ShareContents from './ShareContents';
 
 const ShareTabScreen = () => {
   const headerProps = {
@@ -14,10 +15,13 @@ const ShareTabScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <TabHeader contents={headerProps} />
-      <SemiTitle title="오늘" />
-      <Working />
+      <ScrollView>
+        <SemiTitle title="오늘" />
+        <Working />
+        <ShareContents />
+      </ScrollView>
     </SafeAreaView>
   );
 };
