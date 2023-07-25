@@ -1,22 +1,32 @@
-import { StyleSheet, Text, View } from 'react-native';
-import React, { useMemo } from 'react';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import { StyleSheet, Text, View, Image } from 'react-native';
+import React from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+import { colors, deviceWidth } from '../../theme';
+import { SemiTitle } from '../../components/Title';
+import TabHeader from '../../components/TabHeader';
+import Working from './Working';
 
 const ShareTabScreen = () => {
-  const gesture = useMemo(
-    () =>
-      Gesture.Tap().onStart(e => {
-        console.log(e);
-      }),
-    []
-  );
+  const headerProps = {
+    title: `공유된 내용${`\n`}확인하고,  나도${`\n`}공유하고`,
+    image: require('../../assets/img/share_banner.png')
+  };
+
   return (
-    <GestureDetector gesture={gesture}>
-      <Text>ShareTabScreen</Text>
-    </GestureDetector>
+    <SafeAreaView style={styles.container}>
+      <TabHeader contents={headerProps} />
+      <SemiTitle title="오늘" />
+      <Working />
+    </SafeAreaView>
   );
 };
 
 export default ShareTabScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.dark.primary
+  }
+});

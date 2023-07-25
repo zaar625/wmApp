@@ -14,15 +14,16 @@ const StoreTabScreen = () => {
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.titleWrapper}>
         <View style={{ flex: 2 }}>
-          <ScreenTitle title={`안녕하세요.${`\n`}돈모아님, 오늘하루도 화이팅입니다 :)`} />
+          <ScreenTitle title={`안녕하세요.${`\n`}돈모아님, 오늘하루 화이팅입니다 :)`} />
         </View>
         <Image
           source={require('../../assets/img/store_banner.png')}
           style={{
             maxWidth: deviceWidth * 0.35,
-            maxHeight: deviceWidth * 0.35
+            maxHeight: deviceWidth * 0.35,
+            marginRight: 20
           }}
-          resizeMode="contain"
+          resizeMode="cover"
         />
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
