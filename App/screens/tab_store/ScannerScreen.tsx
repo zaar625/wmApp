@@ -8,13 +8,21 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../type';
 
 import { deviceheight } from '../../theme';
-import { runOnJS } from 'react-native-reanimated';
 
 const ScannerScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
-  const onSuccess = async (data: any) => {
-    console.log(data);
+  const scanerHandler = async (event: any) => {
+    const { data } = await event;
+
+    try {
+      if (data) {
+        console.log(data);
+        navigation.goBack();
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const panGesture = useMemo(
@@ -32,7 +40,11 @@ const ScannerScreen = () => {
 
   return (
     <GestureDetector gesture={panGesture}>
-      <QRCodeScanner onRead={onSuccess} showMarker cameraStyle={{ height: deviceheight }} />
+      <QRCodeScanner
+        onRead={scanerHandler}
+        showMarker={true}
+        cameraStyle={{ height: deviceheight }}
+      />
     </GestureDetector>
   );
 };
