@@ -1,32 +1,30 @@
-import { Image, StyleSheet, View, ScrollView, Text } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 import React from 'react';
 import { colors } from '../../theme';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useContext } from 'react';
+import { ThemeContext } from '../../theme/themeContext';
 
-import { ScreenTitle } from '../../components/Title';
 import AddedStore from './AddedStore';
 import PayRoll from './PayRoll';
-
-import { deviceWidth } from '../../theme';
+import TabHeader from '../../components/TabHeader';
 
 const StoreTabScreen = () => {
+  const { theme } = useContext(ThemeContext);
+  let activeColor = theme.mode && colors[theme.mode];
+
+  const tabHeaderProps = {
+    title: `안녕하세요.${`\n`}돈모아님, 오늘하루 화이팅입니다 :)`,
+    image: require('../../assets/img/store_banner.png')
+  };
+
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
-      <View style={styles.titleWrapper}>
-        <View style={{ flex: 2 }}>
-          <ScreenTitle title={`안녕하세요.${`\n`}돈모아님, 오늘하루 화이팅입니다 :)`} />
-        </View>
-        <Image
-          source={require('../../assets/img/store_banner.png')}
-          style={{
-            maxWidth: deviceWidth * 0.35,
-            maxHeight: deviceWidth * 0.35,
-            marginRight: 20
-          }}
-          resizeMode="cover"
-        />
-      </View>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: activeColor.primary }]}
+      edges={['top']}
+    >
       <ScrollView showsVerticalScrollIndicator={false}>
+        <TabHeader contents={tabHeaderProps} />
         <AddedStore />
         <PayRoll />
       </ScrollView>
@@ -38,8 +36,7 @@ export default StoreTabScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: colors.dark.primary
+    flex: 1
   },
   titleWrapper: {
     flexDirection: 'row',

@@ -1,25 +1,30 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 
+import themeChange from '../../util/theme';
 import { SemiTitle } from '../../components/Title';
-import { colors, deviceheight, fontSizes } from '../../theme';
+import { deviceheight } from '../../theme';
 
 const PayRoll = () => {
+  const themeMode = themeChange();
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
       <SemiTitle title="매장별 예상 급여" />
-      <Text style={styles.titleDesc}>현재 이번달 총 근무시간과 예상급여 금액이예요.</Text>
+      <Text style={[styles.titleDesc, { color: themeMode.desc }]}>
+        현재 이번달 총 근무시간과 예상급여 금액이예요.
+      </Text>
       <StorePaymentCard />
     </View>
   );
 };
 
 const StorePaymentCard = () => {
+  const themeMode = themeChange();
   return (
-    <View style={styles.cardWrapper}>
+    <View style={[styles.cardWrapper, { backgroundColor: themeMode.primary }]}>
       <View style={styles.contentTitle}>
-        <Text style={styles.contentText}>카페이루</Text>
-        <Text style={styles.contentText}>총 15시간 45분 근무하였습니다.</Text>
+        <Text style={{ color: themeMode.tint }}>카페이루</Text>
+        <Text style={{ color: themeMode.tint }}>총 15시간 45분 근무하였습니다.</Text>
       </View>
       <Text style={styles.moneyText}>835,000원</Text>
     </View>
@@ -31,11 +36,9 @@ export default PayRoll;
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    backgroundColor: colors.dark.secondary,
     marginBottom: 20
   },
   titleDesc: {
-    color: '#D9D9D9',
     marginBottom: 15
   },
   cardWrapper: {
@@ -49,11 +52,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
-  contentText: {
-    color: '#fff'
-  },
+
   moneyText: {
-    color: '#fff',
     fontSize: 16,
     fontWeight: '700',
     textAlign: 'right'

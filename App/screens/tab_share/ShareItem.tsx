@@ -31,7 +31,12 @@ const ShareItem = () => {
       onPressIn={() => ((scaleAni.value = 0.95), (backgound.value = '#30394B'))}
       onPressOut={() => ((scaleAni.value = 1), (backgound.value = '#202632'))}
     >
-      <Animated.View style={[{ marginBottom: 10, padding: 20, borderRadius: 10 }, animatedStyles]}>
+      <Animated.View
+        style={[
+          { marginBottom: 10, paddingHorizontal: 20, borderRadius: 10, paddingVertical: 10 },
+          animatedStyles
+        ]}
+      >
         <View style={styles.authorWrapper}>
           <View style={styles.round} />
           <Text style={styles.name}>이상윤</Text>
@@ -42,9 +47,7 @@ const ShareItem = () => {
             numberOfLines={3}
             ellipsizeMode="tail"
           >
-            오늘 삼성카드 분실물이 들어왔습니다. 카드사에 연락은 해두었고 분실물 보관함에
-            보관중입니다.오늘 삼성카드 분실물이 들어왔습니다. 카드사에 연락은 해두었고 분실물
-            보관함에 보관중입니다.
+            오늘 삼성카드 분실물이 들어왔습니다.
           </Text>
         </View>
         <Text style={styles.date}>23.07.23</Text>

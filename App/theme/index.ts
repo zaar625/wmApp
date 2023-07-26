@@ -7,12 +7,14 @@ const colors: any = {
     primary: '#EFEFEF',
     secondary: '#fff',
     tertiary: '#',
+    desc: '#454545',
     tint: '#000'
   },
   dark: {
     primary: '#30394B',
     secondary: '#202632',
     tertiary: '#',
+    desc: '#D9D9D9',
     tint: '#fff'
   },
   main: '#326273'

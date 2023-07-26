@@ -16,8 +16,8 @@ const ShareTabScreen = () => {
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
-      <TabHeader contents={headerProps} />
       <ScrollView>
+        <TabHeader contents={headerProps} />
         <SemiTitle title="오늘" />
         <Working />
         <ShareContents />
