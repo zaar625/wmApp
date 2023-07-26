@@ -10,7 +10,7 @@ const PayRoll = () => {
   return (
     <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
       <SemiTitle title="매장별 예상 급여" />
-      <Text style={[styles.titleDesc, { color: themeMode.desc }]}>
+      <Text style={[styles.titleDesc, { color: themeMode.subTint }]}>
         현재 이번달 총 근무시간과 예상급여 금액이예요.
       </Text>
       <StorePaymentCard />
@@ -26,7 +26,7 @@ const StorePaymentCard = () => {
         <Text style={{ color: themeMode.tint }}>카페이루</Text>
         <Text style={{ color: themeMode.tint }}>총 15시간 45분 근무하였습니다.</Text>
       </View>
-      <Text style={styles.moneyText}>835,000원</Text>
+      <Text style={[styles.moneyText, { color: themeMode.tint }]}>835,000원</Text>
     </View>
   );
 };

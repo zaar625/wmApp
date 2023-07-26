@@ -1,11 +1,4 @@
-import {
-  View,
-  StyleSheet,
-  NativeSyntheticEvent,
-  NativeScrollEvent,
-  Pressable,
-  Text
-} from 'react-native';
+import { View, StyleSheet, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import React, { useRef, useState } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
@@ -15,9 +8,6 @@ import { onBoadingDATA, OnBoadingSlideItem } from './onboardingData';
 import { colors, deviceheight, deviceWidth } from '../../theme';
 import { ThemeContext } from '../../theme/themeContext';
 import { useContext } from 'react';
-
-import { useDispatch } from 'react-redux';
-import { openModal } from '../../state/slice/modal';
 
 export default function OnboardingPage({ navigation }: NavigationScreenProps) {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
@@ -31,21 +21,6 @@ export default function OnboardingPage({ navigation }: NavigationScreenProps) {
     const currentIndex = Math.round(contentOffsetX / deviceWidth);
 
     setCurrentSlideIndex(currentIndex);
-  };
-
-  const dispatch = useDispatch();
-
-  const handleOpenLoginModal = () => {
-    dispatch(
-      openModal({
-        modalType: 'OneBtnModal',
-        isOpen: true,
-        contents: {
-          title: '회원가입이 완료되었습니다.',
-          onPress: () => console.log('a')
-        }
-      })
-    );
   };
 
   return (

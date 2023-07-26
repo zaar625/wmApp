@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useColorScheme, Appearance } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -17,13 +17,21 @@ import ScannerScreen from './App/screens/tab_store/ScannerScreen';
 
 export default function App() {
   const Stack = createStackNavigator();
-  const scheme = useColorScheme();
+  // const scheme = useColorScheme();
 
-  const [theme, setTheme] = useState<TThemeMode>({ mode: scheme });
+  const [theme, setTheme] = useState<TThemeMode>({ mode: 'dark' });
 
-  Appearance.addChangeListener(({ colorScheme }) => {
-    setTheme({ mode: colorScheme }); // "light" or "dark"
-  });
+  useEffect(() => {
+    Appearance.addChangeListener(({ colorScheme }) => {
+      setTheme({ mode: colorScheme });
+    });
+
+    return () => {
+      Appearance.addChangeListener(({ colorScheme }) => {
+        setTheme({ mode: colorScheme });
+      });
+    };
+  }, []);
 
   /**
    * newTheme : 라이트, 다크, 시스템모드

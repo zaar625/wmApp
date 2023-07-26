@@ -17,7 +17,6 @@ const ScannerScreen = () => {
 
     try {
       if (data) {
-        console.log(data);
         navigation.goBack();
       }
     } catch (error) {

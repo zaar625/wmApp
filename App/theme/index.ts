@@ -5,16 +5,16 @@ const { width: deviceWidth, height: deviceheight } = Dimensions.get('window');
 const colors: any = {
   light: {
     primary: '#EFEFEF',
-    secondary: '#fff',
+    secondary: '#FFF',
     tertiary: '#',
-    desc: '#454545',
+    subTint: '#454545',
     tint: '#000'
   },
   dark: {
     primary: '#30394B',
     secondary: '#202632',
     tertiary: '#',
-    desc: '#D9D9D9',
+    subTint: '#BAC0CE',
     tint: '#fff'
   },
   main: '#326273'

@@ -6,7 +6,6 @@ import ShareTabScreen from './tab_share';
 import BarcodeTabScreen from './tab_barcode';
 import CalendarTabScreen from './tab_calendar';
 import SettingTabScreen from './tab_setting';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import StoreIcon from '../assets/icon/store.svg';
 import NoteIcon from '../assets/icon/note.svg';
@@ -19,8 +18,6 @@ import { colors, deviceheight } from '../theme';
 const Tab = createBottomTabNavigator();
 
 const BottomTab = () => {
-  const inset = useSafeAreaInsets();
-  console.log(inset.bottom);
   return (
     <Tab.Navigator
       screenOptions={{

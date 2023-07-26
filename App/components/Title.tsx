@@ -1,17 +1,24 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ViewStyle } from 'react-native';
 import React from 'react';
 import { colors, fontSizes, fontWeight } from '../theme';
 import { useContext } from 'react';
 import { ThemeContext } from '../theme/themeContext';
 
-const ScreenTitle = ({ title }: { title: string }) => {
+type TProps = {
+  title: string;
+  style?: ViewStyle;
+};
+
+const ScreenTitle = ({ title, style }: TProps) => {
   const { theme } = useContext(ThemeContext);
   let activeColor = theme.mode && colors[theme.mode];
 
   return (
     <Text
       style={[
+        { ...style },
         styles.title,
+
         {
           color: activeColor.tint
         }
@@ -22,13 +29,14 @@ const ScreenTitle = ({ title }: { title: string }) => {
   );
 };
 
-const SemiTitle = ({ title }: { title: string }) => {
+const SemiTitle = ({ title, style }: TProps) => {
   const { theme } = useContext(ThemeContext);
   let activeColor = theme.mode && colors[theme.mode];
 
   return (
     <Text
       style={[
+        { ...style },
         styles.semiTitle,
         {
           color: activeColor.tint

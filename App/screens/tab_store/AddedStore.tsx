@@ -15,7 +15,7 @@ const AddedStore = () => {
   return (
     <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
       <SemiTitle title="매장 등록하기" />
-      <Text style={{ color: themeMode.desc }}>
+      <Text style={{ color: themeMode.subTint }}>
         매장 내에 비치된 QR 코드 또는 바코드를 찍어주세요.
       </Text>
       <Pressable style={styles.plusIcon} onPress={() => navigation.navigate('scannerScreen')}>
