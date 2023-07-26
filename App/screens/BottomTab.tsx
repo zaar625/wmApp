@@ -1,11 +1,12 @@
-import { StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import StoreTabScreen from './tab_store';
 import ShareTabScreen from './tab_share';
 import BarcodeTabScreen from './tab_barcode';
 import CalendarTabScreen from './tab_calendar';
 import SettingTabScreen from './tab_setting';
+import Animated from 'react-native-reanimated';
 
 import StoreIcon from '../assets/icon/store.svg';
 import NoteIcon from '../assets/icon/note.svg';
@@ -13,11 +14,36 @@ import BarcodeIcon from '../assets/icon/code.svg';
 import CalendarIcon from '../assets/icon/calendar.svg';
 import SettingIcon from '../assets/icon/settings.svg';
 
+import { useSharedValue, useAnimatedStyle, withTiming, Easing } from 'react-native-reanimated';
+
 import { colors, deviceheight } from '../theme';
+import themeChange from '../util/theme';
 
 const Tab = createBottomTabNavigator();
 
 const BottomTab = () => {
+  const themeMode = themeChange();
+  const scaleAni = useSharedValue(1);
+  const backgound = useSharedValue(themeMode.secondary);
+
+  useEffect(() => {
+    //테마변경이 될 때마다 기본값 변경해줘야합니다.
+    backgound.value = themeMode.secondary;
+  }, [themeMode]);
+
+  const animatedStyles = useAnimatedStyle(() => {
+    return {
+      backgroundColor: backgound.value,
+      transform: [
+        {
+          scale: withTiming(scaleAni.value, {
+            duration: 200,
+            easing: Easing.bezier(0.25, 0.1, 0.25, 1)
+          })
+        }
+      ]
+    };
+  }, []);
   return (
     <Tab.Navigator
       screenOptions={{
@@ -40,8 +66,37 @@ const BottomTab = () => {
         name="storeTabScreen"
         component={StoreTabScreen}
         options={{
-          tabBarLabel: '근무지',
-          tabBarIcon: ({ color, size }) => <StoreIcon color={color} />
+          tabBarShowLabel: false,
+          tabBarButton: ({ onPress, accessibilityState }) => {
+            const focused = accessibilityState?.selected;
+            return (
+              <Pressable
+                onPress={onPress}
+                onPressIn={() => ((scaleAni.value = 0.95), (backgound.value = themeMode.primary))}
+                onPressOut={() => ((scaleAni.value = 1), (backgound.value = themeMode.secondary))}
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flex: 1
+                }}
+              >
+                <Animated.View
+                  style={[
+                    {
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flex: 1,
+                      borderRadius: 10
+                    },
+                    animatedStyles
+                  ]}
+                >
+                  <StoreIcon color={focused ? '#fff' : '#6B6F78'} />
+                  <Text>근무지</Text>
+                </Animated.View>
+              </Pressable>
+            );
+          }
         }}
       />
       <Tab.Screen
@@ -49,7 +104,24 @@ const BottomTab = () => {
         component={ShareTabScreen}
         options={{
           tabBarLabel: '공유',
-          tabBarIcon: ({ color, size }) => <NoteIcon color={color} />
+          tabBarButton: ({ onPress, accessibilityState }) => {
+            const focused = accessibilityState?.selected;
+            return (
+              <Pressable
+                onPress={onPress}
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flex: 1
+                }}
+              >
+                <View style={{ alignItems: 'center' }}>
+                  <NoteIcon color={focused ? '#fff' : '#6B6F78'} />
+                  <Text>공유</Text>
+                </View>
+              </Pressable>
+            );
+          }
         }}
       />
       <Tab.Screen
@@ -57,7 +129,14 @@ const BottomTab = () => {
         component={BarcodeTabScreen}
         options={{
           tabBarLabel: '출퇴근',
-          tabBarIcon: ({ color, size }) => <BarcodeIcon color={color} />
+          tabBarButton: () => (
+            <Pressable style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
+              <View>
+                <BarcodeIcon />
+                <Text>출퇴근</Text>
+              </View>
+            </Pressable>
+          )
         }}
       />
       <Tab.Screen
@@ -65,7 +144,14 @@ const BottomTab = () => {
         component={CalendarTabScreen}
         options={{
           tabBarLabel: '캘린더',
-          tabBarIcon: ({ color, size }) => <CalendarIcon color={color} />
+          tabBarButton: () => (
+            <Pressable style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
+              <View>
+                <CalendarIcon />
+                <Text>캘린더</Text>
+              </View>
+            </Pressable>
+          )
         }}
       />
       <Tab.Screen
@@ -73,7 +159,14 @@ const BottomTab = () => {
         component={SettingTabScreen}
         options={{
           tabBarLabel: '설정',
-          tabBarIcon: ({ color, size }) => <SettingIcon color={color} />
+          tabBarButton: () => (
+            <Pressable style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
+              <View>
+                <SettingIcon />
+                <Text>설정</Text>
+              </View>
+            </Pressable>
+          )
         }}
       />
     </Tab.Navigator>
