@@ -16,6 +16,12 @@ import SettingIcon from '../assets/icon/settings.svg';
 
 import { useSharedValue, useAnimatedStyle, withTiming, Easing } from 'react-native-reanimated';
 
+import { trigger } from 'react-native-haptic-feedback';
+const options = {
+  enableVibrateFallback: true,
+  ignoreAndroidSystemSettings: false
+};
+
 import { colors, deviceheight } from '../theme';
 import themeChange from '../util/theme';
 
@@ -67,12 +73,15 @@ const BottomTab = () => {
         component={StoreTabScreen}
         options={{
           tabBarShowLabel: false,
-          tabBarButton: ({ onPress, accessibilityState }) => {
+          tabBarButton: ({ accessibilityState, onPress }) => {
             const focused = accessibilityState?.selected;
             return (
               <Pressable
                 onPress={onPress}
-                onPressIn={() => ((scaleAni.value = 0.95), (backgound.value = themeMode.primary))}
+                onPressIn={() => {
+                  trigger('impactMedium', options);
+                  (scaleAni.value = 0.95), (backgound.value = themeMode.primary);
+                }}
                 onPressOut={() => ((scaleAni.value = 1), (backgound.value = themeMode.secondary))}
                 style={{
                   alignItems: 'center',
