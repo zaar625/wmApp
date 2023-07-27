@@ -1,13 +1,5 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Button,
-  TouchableWithoutFeedback,
-  Keyboard,
-  Pressable
-} from 'react-native';
+import { View, Text, StyleSheet, Keyboard, Pressable } from 'react-native';
 import BottomSheet, { BottomSheetTextInput, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { deviceheight } from '../../theme';
 import SvgIcon from '../SvgIcon';
