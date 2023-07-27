@@ -12,7 +12,7 @@ import { TThemeMode } from './App/theme/themeContext';
 import { store } from './App/state/store';
 import { Provider } from 'react-redux';
 import GlobalModal from './App/components/modal/GlobalModal';
-import BottomTab from './App/screens/BottomTab';
+import BottomTab from './App/screens/bottom_tab';
 import ScannerScreen from './App/screens/tab_store/ScannerScreen';
 
 export default function App() {
