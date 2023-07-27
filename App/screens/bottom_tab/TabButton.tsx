@@ -8,11 +8,12 @@ import haptic from '../../util/haptic';
 import themeChange from '../../util/theme';
 
 const TabButton = (props: any) => {
+  const themeMode = themeChange();
+
   const { item, onPress, accessibilityState } = props;
   const focused = accessibilityState?.selected;
-  const activeColor = focused ? '#FFF' : '#6B6F78';
+  const activeColor = focused ? themeMode.tint : '#6B6F78';
 
-  const themeMode = themeChange();
   const scaleAni = useSharedValue(1);
   const backgound = useSharedValue(themeMode.secondary);
 
@@ -37,11 +38,7 @@ const TabButton = (props: any) => {
 
   return (
     <Pressable
-      style={{
-        alignItems: 'center',
-        justifyContent: 'center',
-        flex: 1
-      }}
+      style={styles.btnContainer}
       onPress={onPress}
       onPressIn={() => {
         haptic('impactMedium');
@@ -49,22 +46,9 @@ const TabButton = (props: any) => {
       }}
       onPressOut={() => ((scaleAni.value = 1), (backgound.value = themeMode.secondary))}
     >
-      <Animated.View
-        style={[
-          {
-            alignItems: 'center',
-            justifyContent: 'center',
-            flex: 1,
-            borderRadius: 10,
-            paddingHorizontal: 15
-          },
-          animatedStyles
-        ]}
-      >
+      <Animated.View style={[styles.btnAniWrapper, animatedStyles]}>
         <SvgIcon name={item.icon} color={activeColor} />
-        <Text style={{ fontSize: 12, color: activeColor, fontWeight: '700', marginTop: 5 }}>
-          {item.label}
-        </Text>
+        <Text style={[styles.label, { color: activeColor }]}>{item.label}</Text>
       </Animated.View>
     </Pressable>
   );
@@ -72,4 +56,22 @@ const TabButton = (props: any) => {
 
 export default TabButton;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  btnContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1
+  },
+  btnAniWrapper: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+    borderRadius: 10,
+    paddingHorizontal: 15
+  },
+  label: {
+    fontSize: 12,
+    fontWeight: '700',
+    marginTop: 5
+  }
+});

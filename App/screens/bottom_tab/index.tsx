@@ -53,7 +53,7 @@ const BottomTab = () => {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: colors.dark.secondary,
+          backgroundColor: themeMode.secondary,
           borderTopColor: '#202632',
           borderTopWidth: 1.5,
           paddingTop: 10,
