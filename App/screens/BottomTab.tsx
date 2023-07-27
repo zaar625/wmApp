@@ -13,6 +13,7 @@ import NoteIcon from '../assets/icon/note.svg';
 import BarcodeIcon from '../assets/icon/code.svg';
 import CalendarIcon from '../assets/icon/calendar.svg';
 import SettingIcon from '../assets/icon/settings.svg';
+import SvgIcon from '../components/SvgIcon';
 
 import { useSharedValue, useAnimatedStyle, withTiming, Easing } from 'react-native-reanimated';
 
@@ -100,7 +101,7 @@ const BottomTab = () => {
                     animatedStyles
                   ]}
                 >
-                  <StoreIcon color={focused ? '#fff' : '#6B6F78'} />
+                  <SvgIcon name="calendar" color={focused ? '#fff' : '#6B6F78'} />
                   <Text>근무지</Text>
                 </Animated.View>
               </Pressable>
