@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useColorScheme, Appearance } from 'react-native';
+import { useColorScheme, Appearance, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import OnboardingPage from './App/screens/onboarding';
@@ -14,6 +14,8 @@ import { Provider } from 'react-redux';
 import GlobalModal from './App/components/modal/GlobalModal';
 import BottomTab from './App/screens/bottom_tab';
 import ScannerScreen from './App/screens/tab_store/ScannerScreen';
+import BottomSheet2 from './App/components/bottom_sheet/TimeModifySheet';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -45,24 +47,26 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <ThemeContext.Provider value={{ theme, updateTheme }}>
-        <NavigationContainer>
-          <GlobalModal />
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
-            {/* <Stack.Screen name="onBoardingPage" component={OnboardingPage} />
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <ThemeContext.Provider value={{ theme, updateTheme }}>
+          <NavigationContainer>
+            <GlobalModal />
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+              {/* <Stack.Screen name="onBoardingPage" component={OnboardingPage} />
             <Stack.Screen name="categorySelectPage" component={CategorySelectPage} />
             <Stack.Screen name="employeeLoginPage" component={EmployeeLoginPage} />
             <Stack.Screen name="singInStep01Page" component={SignInStep01Page} />
             <Stack.Screen name="signInStep02Page" component={SignInStep02Page} /> */}
-            <Stack.Screen name="bottomTab" component={BottomTab} />
-            <Stack.Screen
-              name="scannerScreen"
-              component={ScannerScreen}
-              options={{ presentation: 'modal' }}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </ThemeContext.Provider>
+              <Stack.Screen name="bottomTab" component={BottomTab} />
+              <Stack.Screen
+                name="scannerScreen"
+                component={ScannerScreen}
+                options={{ presentation: 'modal' }}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </ThemeContext.Provider>
+      </GestureHandlerRootView>
     </Provider>
   );
 }

@@ -1,11 +1,14 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import React from 'react';
+import TimeModifySheet from '../../components/bottom_sheet/TimeModifySheet';
 
 const CalendarTabScreen = () => {
   return (
-    <View>
-      <Text>CalendarScreen</Text>
-    </View>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={{ flex: 1 }}>
+        <TimeModifySheet />
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
