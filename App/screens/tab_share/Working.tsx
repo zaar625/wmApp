@@ -10,7 +10,6 @@ const Working = () => {
   const themeMode = themeChange();
   const route = useRoute();
   const dispatch = useDispatch();
-  console.log(dispatch(openBottomSheet(route)));
 
   const modifyRequestOnPress = () => {
     dispatch(openBottomSheet({ route: 'shareTabScreen' }));

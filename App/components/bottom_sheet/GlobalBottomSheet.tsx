@@ -26,7 +26,12 @@ const GlobalBottomSheet = () => {
   }, [isOpen]);
 
   return (
-    <Modalize ref={modalizeRef} onClosed={() => dispatch(closeBottomSheet())}>
+    <Modalize
+      ref={modalizeRef}
+      modalStyle={{ backgroundColor: '#30394B' }}
+      adjustToContentHeight
+      onClosed={() => dispatch(closeBottomSheet())}
+    >
       {renderBottomSheet(route)}
     </Modalize>
   );
