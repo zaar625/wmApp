@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useColorScheme, Appearance, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -14,9 +14,8 @@ import { Provider } from 'react-redux';
 import GlobalModal from './App/components/modal/GlobalModal';
 import BottomTab from './App/screens/bottom_tab';
 import ScannerScreen from './App/screens/tab_store/ScannerScreen';
-
+import GlobalBottomSheet from './App/components/bottom_sheet/GlobalBottomSheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import TimeModifySheet from './App/components/bottom_sheet/TimeModifySheet';
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -48,10 +47,11 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <ThemeContext.Provider value={{ theme, updateTheme }}>
-          <NavigationContainer>
+      <ThemeContext.Provider value={{ theme, updateTheme }}>
+        <NavigationContainer>
+          <GestureHandlerRootView style={{ flex: 1 }}>
             <GlobalModal />
+            <GlobalBottomSheet />
             <Stack.Navigator screenOptions={{ headerShown: false }}>
               {/* <Stack.Screen name="onBoardingPage" component={OnboardingPage} />
             <Stack.Screen name="categorySelectPage" component={CategorySelectPage} />
@@ -65,9 +65,9 @@ export default function App() {
                 options={{ presentation: 'modal' }}
               />
             </Stack.Navigator>
-          </NavigationContainer>
-        </ThemeContext.Provider>
-      </GestureHandlerRootView>
+          </GestureHandlerRootView>
+        </NavigationContainer>
+      </ThemeContext.Provider>
     </Provider>
   );
 }

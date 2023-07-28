@@ -2,11 +2,19 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import themeChange from '../../util/theme';
 import ArrowIcon from '../../assets/icon/arrow_right.svg';
+import { useDispatch } from 'react-redux';
+import { openBottomSheet } from '../../state/slice/bottomSheet';
+import { useRoute } from '@react-navigation/native';
 
 const Working = () => {
   const themeMode = themeChange();
+  const route = useRoute();
+  const dispatch = useDispatch();
+  console.log(dispatch(openBottomSheet(route)));
 
-  const modifyRequestOnPress = () => {};
+  const modifyRequestOnPress = () => {
+    dispatch(openBottomSheet({ route: 'shareTabScreen' }));
+  };
 
   return (
     <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
