@@ -3,16 +3,16 @@ import React from 'react';
 import themeChange from '../../util/theme';
 import ArrowIcon from '../../assets/icon/arrow_right.svg';
 
-import { colors } from '../../theme';
-
 const Working = () => {
   const themeMode = themeChange();
+
+  const modifyRequestOnPress = () => {};
 
   return (
     <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
       <View style={styles.working}>
         <Text style={[styles.storeName, { color: themeMode.tint }]}>카페이루</Text>
-        <Pressable style={styles.requireBtn}>
+        <Pressable style={styles.requireBtn} onPress={modifyRequestOnPress}>
           <Text style={[{ color: themeMode.subTint }, styles.btnText]}>출퇴근 수정 요청</Text>
           <ArrowIcon style={styles.icon} color={themeMode.subTint} />
         </Pressable>

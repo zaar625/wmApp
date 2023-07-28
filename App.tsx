@@ -14,8 +14,9 @@ import { Provider } from 'react-redux';
 import GlobalModal from './App/components/modal/GlobalModal';
 import BottomTab from './App/screens/bottom_tab';
 import ScannerScreen from './App/screens/tab_store/ScannerScreen';
-import BottomSheet2 from './App/components/bottom_sheet/TimeModifySheet';
+
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import TimeModifySheet from './App/components/bottom_sheet/TimeModifySheet';
 
 export default function App() {
   const Stack = createStackNavigator();
