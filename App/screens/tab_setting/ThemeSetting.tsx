@@ -26,7 +26,7 @@ const ThemeSetting = () => {
     {
       name: '시스템 설정과 같이',
       state: false,
-      mode: 'system'
+      mode: 'dark'
     }
   ];
 

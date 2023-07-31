@@ -8,7 +8,6 @@ import Animated, {
 } from 'react-native-reanimated';
 import React, { useEffect } from 'react';
 import SvgIcon from '../../components/SvgIcon';
-import { ColorSchemeName } from 'react-native';
 
 type TThemeType = {
   name: string;
@@ -48,16 +47,19 @@ const ThemeTypeBtn = ({ themeType, index, themeTypeOnPress }: TProps) => {
 
   return (
     <Pressable
-      onPress={() => {
-        themeTypeOnPress(index, themeType.mode);
-        scaleAni.value = 1;
-        backgound.value = themeMode.secondary;
-      }}
+      hitSlop={10}
       onPressIn={() => {
         console.log('onPressIn:', backgound.value);
         scaleAni.value = 0.95;
         backgound.value = themeMode.primary;
       }}
+      onPressOut={() => {
+        themeTypeOnPress(index, themeType.mode);
+        console.log('onPressOut');
+        scaleAni.value = 1;
+        backgound.value = themeMode.secondary;
+      }}
+      delayLongPress={100}
     >
       <Animated.View style={[styles.themeBtnWrapper, animatedStyles]}>
         <Text style={[styles.themeText, { color: themeMode.tint }]}>{themeType.name}</Text>

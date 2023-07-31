@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text } from 'react-native';
 import React from 'react';
 import themeChange from '../../util/theme';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -27,6 +27,10 @@ const SettingTabScreen = () => {
         <Notification />
         <ThemeSetting />
         <Terms />
+
+        <Pressable style={styles.openSourceBtn}>
+          <Text style={styles.openSourceText}>오픈소스 라이선스 보기</Text>
+        </Pressable>
       </ScrollView>
     </SafeAreaView>
   );
@@ -37,5 +41,13 @@ export default SettingTabScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  openSourceBtn: {
+    marginVertical: 20,
+    paddingHorizontal: 20
+  },
+  openSourceText: {
+    color: '#BAC0CE',
+    textDecorationLine: 'underline'
   }
 });
