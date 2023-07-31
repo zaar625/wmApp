@@ -12,7 +12,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationScreenProps } from '../../../type';
 import { signIn } from '../../../api/auth';
 import { ERROR_MESSEGE } from '../../../constant';
-import ScreenTitle from '../../../components/ScreenTitle';
+import { ScreenTitle } from '../../../components/Title';
 import InputBox from '../InputBox';
 import Button from '../../../components/buttons/Button';
 import { useDispatch } from 'react-redux';
@@ -57,6 +57,7 @@ export default function EmployeeLoginPage({ navigation }: NavigationScreenProps)
   const login = async () => {
     try {
       const { user } = await signIn(loginform);
+      if (user) navigation.navigate('bottomTab');
     } catch (error) {
       errorHandler(error);
     } finally {

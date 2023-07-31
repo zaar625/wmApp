@@ -1,0 +1,20 @@
+<svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_260_1494)">
+<path d="M3.75 12.75H13.75V2.75H3.75V12.75ZM6.25 5.25H11.25V10.25H6.25V5.25Z" fill="currentColor"/>
+<path d="M3.75 25.25H13.75V15.25H3.75V25.25ZM6.25 17.75H11.25V22.75H6.25V17.75Z" fill="currentColor"/>
+<path d="M16.25 2.75V12.75H26.25V2.75H16.25ZM23.75 10.25H18.75V5.25H23.75V10.25Z" fill="currentColor"/>
+<path d="M26.25 22.75H23.75V25.25H26.25V22.75Z" fill="currentColor"/>
+<path d="M18.75 15.25H16.25V17.75H18.75V15.25Z" fill="currentColor"/>
+<path d="M21.25 17.75H18.75V20.25H21.25V17.75Z" fill="currentColor"/>
+<path d="M18.75 20.25H16.25V22.75H18.75V20.25Z" fill="currentColor"/>
+<path d="M21.25 22.75H18.75V25.25H21.25V22.75Z" fill="currentColor"/>
+<path d="M23.75 20.25H21.25V22.75H23.75V20.25Z" fill="currentColor"/>
+<path d="M23.75 15.25H21.25V17.75H23.75V15.25Z" fill="currentColor"/>
+<path d="M26.25 17.75H23.75V20.25H26.25V17.75Z" fill="currentColor"/>
+</g>
+<defs>
+<clipPath id="clip0_260_1494">
+<rect width="30" height="30" fill="white"/>
+</clipPath>
+</defs>
+</svg>

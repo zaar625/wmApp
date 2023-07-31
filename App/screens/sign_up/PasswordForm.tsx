@@ -13,7 +13,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../state/store';
 import { signUp } from '../../api/auth';
 import ErrorGuide from '../../components/ErrorGuide';
-import { openModal } from '../../state/slice/modal';
+import { openModal, closeModal } from '../../state/slice/modal';
 import { ERROR_MESSEGE } from '../../constant';
 
 const PasswordForm = () => {
@@ -87,6 +87,21 @@ const PasswordForm = () => {
     const signUpForm = { email, password };
     try {
       const { user } = await signUp(signUpForm);
+      if (user) {
+        dispatch(
+          openModal({
+            modalType: 'OneBtnModal',
+            isOpen: true,
+            contents: {
+              title: '회원가입이 완료되었습니다.',
+              content: `안녕하세요. 돈모아님${'\n'}앱을 이용해주셔서 감사합니다.`,
+              onPress() {
+                dispatch(closeModal());
+              }
+            }
+          })
+        );
+      }
     } catch (e: any) {
       dispatch(
         openModal({
@@ -95,9 +110,7 @@ const PasswordForm = () => {
           contents: {
             title: ERROR_MESSEGE[e.code],
             content: `가입된 계정으로 로그인해주세요.${'\n'}비밀번호를 잊으셨다면 비밀번호 찾기를 해주세요.`,
-            onPress() {
-              console.log(navigation.navigate('employeeLoginPage'));
-            }
+            onPress() {}
           }
         })
       );
