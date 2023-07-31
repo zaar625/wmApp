@@ -3,7 +3,7 @@ import React from 'react';
 import themeChange from '../../util/theme';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import UserInfo from './UserInfo';
-import User from '../../state/slice/user';
+import Request from './Request';
 import TabHeader from '../../components/TabHeader';
 
 const SettingTabScreen = () => {
@@ -20,6 +20,7 @@ const SettingTabScreen = () => {
       <TabHeader contents={headerContents} />
       <ScrollView>
         <UserInfo />
+        <Request />
       </ScrollView>
     </SafeAreaView>
   );
