@@ -26,7 +26,8 @@ export default Notification;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20
+    padding: 20,
+    marginBottom: 10
   },
   headerWrapper: {
     marginBottom: 20

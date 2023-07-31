@@ -11,7 +11,6 @@ const TimeModifySheet = () => {
     출근: '',
     퇴근: ''
   });
-  console.log(workModifyInfo);
 
   const onChangeText = (inputText: string) => {
     setWorkModifyInfo({ ...workModifyInfo, reason: inputText });

@@ -12,7 +12,7 @@ const GlobalBottomSheet = () => {
   const modalizeRef = useRef<Modalize>();
   const dispatch = useDispatch();
   const { route, isOpen } = useSelector((state: RootState) => state.bottomSheet);
-  console.log(isOpen);
+  isOpen;
 
   const renderBottomSheet = (route: string) => {
     if (route === 'shareTabScreen') return <TimeModifySheet />;

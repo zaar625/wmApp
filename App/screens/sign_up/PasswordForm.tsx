@@ -110,9 +110,7 @@ const PasswordForm = () => {
           contents: {
             title: ERROR_MESSEGE[e.code],
             content: `가입된 계정으로 로그인해주세요.${'\n'}비밀번호를 잊으셨다면 비밀번호 찾기를 해주세요.`,
-            onPress() {
-              console.log(navigation.navigate('employeeLoginPage'));
-            }
+            onPress() {}
           }
         })
       );

@@ -6,6 +6,7 @@ import UserInfo from './UserInfo';
 import Request from './Request';
 import TabHeader from '../../components/TabHeader';
 import Notification from './Notification';
+import ThemeSetting from './ThemeSetting';
 
 const SettingTabScreen = () => {
   const themeMode = themeChange();
@@ -18,11 +19,12 @@ const SettingTabScreen = () => {
       style={[styles.container, { backgroundColor: themeMode.primary }]}
       edges={['top']}
     >
-      <TabHeader contents={headerContents} />
       <ScrollView>
+        <TabHeader contents={headerContents} />
         <UserInfo />
         <Request />
         <Notification />
+        <ThemeSetting />
       </ScrollView>
     </SafeAreaView>
   );
