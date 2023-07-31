@@ -1,10 +1,11 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import React from 'react';
 import themeChange from '../../util/theme';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import UserInfo from './UserInfo';
 import Request from './Request';
 import TabHeader from '../../components/TabHeader';
+import Notification from './Notification';
 
 const SettingTabScreen = () => {
   const themeMode = themeChange();
@@ -21,6 +22,7 @@ const SettingTabScreen = () => {
       <ScrollView>
         <UserInfo />
         <Request />
+        <Notification />
       </ScrollView>
     </SafeAreaView>
   );

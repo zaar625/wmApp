@@ -76,7 +76,7 @@ export default Request;
 
 const styles = StyleSheet.create({
   container: {
-    // padding: 20
+    marginBottom: 10
   },
   header: {
     flexDirection: 'row',
