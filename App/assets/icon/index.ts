@@ -7,3 +7,4 @@ export { default as check } from './check.svg';
 export { default as arrow_right } from './arrow_right.svg';
 export { default as arrow_left } from './arrow_left.svg';
 export { default as close } from './close.svg';
+export { default as user } from './user.svg';
