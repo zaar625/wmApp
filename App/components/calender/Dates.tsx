@@ -1,52 +1,55 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { ko } from 'date-fns/locale';
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
-  startOfWeek,
   endOfMonth,
   startOfMonth,
-  endOfWeek,
   addDays,
-  startOfDay,
   format,
   eachWeekOfInterval,
   isSameMonth
 } from 'date-fns';
+import themeChange from '../../util/theme';
 
 const Dates = ({ currentMonth }: { currentMonth: Date }) => {
+  const themeMode = themeChange();
+
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
-  const startDate = startOfWeek(monthStart);
-  const endDate = endOfWeek(monthEnd);
+  // const startDate = startOfWeek(monthStart);
+  // const endDate = endOfWeek(monthEnd);
 
-  const weeksInMonth = eachWeekOfInterval({ start: monthStart, end: monthEnd });
+  const weeksInMonth = eachWeekOfInterval({ start: monthStart, end: monthEnd }); //당월 시작하는 주의 첫번째값
 
-  let days = [];
+  let datesOfWeek = [];
 
   for (let i = 0; i < weeksInMonth.length; i++) {
     const week = [...Array(7)].map((_, index) => addDays(weeksInMonth[i], index));
-    days.push(week);
+    datesOfWeek.push(week);
   }
 
   return (
     <>
-      {days.map((dateOfweeks, index) => (
-        <View>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            {dateOfweeks.map(date => (
-              <View style={{ flex: 1, borderWidth: 1 }}>
+      {datesOfWeek.map((date, index) => (
+        <View key={index}>
+          <View style={styles.weekContainer}>
+            {date.map(date => (
+              <View style={styles.dateWrapper}>
                 {isSameMonth(monthStart, date) && (
                   <>
-                    <Text style={{ textAlign: 'right' }}>{format(date, 'd')}</Text>
-                    <View style={{ height: 50, backgroundColor: '#afafaf' }}>
-                      <Text style={{ alignSelf: 'center' }}>11,000</Text>
+                    <Text style={[styles.dateText, { color: themeMode.tint }]}>
+                      {format(date, 'd')}
+                    </Text>
+                    <View style={{ minHeight: 50 }}>
+                      <Text style={[styles.priceText, { color: themeMode.tint }]}>+ 11,000</Text>
                     </View>
                   </>
                 )}
               </View>
             ))}
           </View>
-          <View style={{ backgroundColor: '#626060', height: 20 }}></View>
+          <View style={[styles.total, { backgroundColor: themeMode.secondary }]}>
+            <Text style={[styles.totalPriceText, { color: themeMode.tint }]}>+ 35,000</Text>
+          </View>
         </View>
       ))}
     </>
@@ -55,4 +58,33 @@ const Dates = ({ currentMonth }: { currentMonth: Date }) => {
 
 export default Dates;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  weekContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  dateWrapper: {
+    flex: 1,
+    marginTop: 10
+  },
+  dateText: {
+    textAlign: 'center',
+    fontWeight: '400'
+  },
+  priceText: {
+    alignSelf: 'center',
+    marginVertical: 5,
+    fontSize: 10
+  },
+  total: {
+    paddingHorizontal: 8,
+    paddingVertical: 5
+  },
+  totalPriceText: {
+    textAlign: 'right',
+    fontSize: 11,
+    fontWeight: '500',
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+});

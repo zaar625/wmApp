@@ -1,6 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import React, { useState } from 'react';
-import format from 'date-fns/format';
+
 import addMonths from 'date-fns/addMonths';
 import subMonths from 'date-fns/subMonths';
 
@@ -20,7 +20,7 @@ const Calender = () => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <Month currentMonth={currentMonth} prevMonth={prevMonth} nextMonth={nextMonth} />
       <Days />
       <Dates currentMonth={currentMonth} />
@@ -30,4 +30,8 @@ const Calender = () => {
 
 export default Calender;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    marginBottom: 50
+  }
+});

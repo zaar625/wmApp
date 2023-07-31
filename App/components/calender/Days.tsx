@@ -3,6 +3,7 @@ import React from 'react';
 
 const Days = () => {
   const days = ['일', '월', '화', '수', '목', '금', '토'];
+
   return (
     <View style={styles.container}>
       {days.map(day => (
@@ -24,11 +25,11 @@ const styles = StyleSheet.create({
   dayWrapper: {
     flex: 1,
     marginVertical: 20,
-    paddingHorizontal: 10,
-    borderWidth: 1
+    paddingHorizontal: 10
   },
   day: {
     textAlign: 'center',
-    color: '#fff'
+    color: '#6B6F78',
+    fontWeight: '600'
   }
 });
