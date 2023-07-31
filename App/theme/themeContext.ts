@@ -7,7 +7,7 @@ export type TThemeMode = {
 
 type TTheme = {
   theme: TThemeMode;
-  updateTheme: (changeMode: string) => void;
+  updateTheme: (changeMode: any) => void;
 };
 
 export const ThemeContext = createContext<TTheme>({
