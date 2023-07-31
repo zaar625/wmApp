@@ -1,20 +1,16 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import { StyleSheet, View } from 'react-native';
+import React, { useState } from 'react';
 import { SemiTitle } from '../../components/Title';
 import { useContext } from 'react';
 import { ThemeContext } from '../../theme/themeContext';
 import ThemeTypeBtn from './ThemeTypeBtn';
+import { useColorScheme } from 'react-native';
 
 import themeChange from '../../util/theme';
 
-type TThemeType = {
-  name: string;
-  state: boolean;
-  mode: 'light' | 'dark' | 'system';
-};
-
 const ThemeSetting = () => {
   const themeMode = themeChange();
+  const scheme = useColorScheme();
 
   const themeTypes = [
     {
@@ -51,11 +47,16 @@ const ThemeSetting = () => {
   };
 
   return (
-    <View style={{ backgroundColor: themeMode.secondary }}>
+    <View style={{ backgroundColor: themeMode.secondary, marginBottom: 10 }}>
       <SemiTitle title="화면색상" style={styles.title} />
       <View>
         {themeType.map((themeType, index) => (
-          <ThemeTypeBtn themeType={themeType} index={index} themeTypeOnPress={themeTypeOnPress} />
+          <ThemeTypeBtn
+            key={index}
+            themeType={themeType}
+            index={index}
+            themeTypeOnPress={themeTypeOnPress}
+          />
         ))}
       </View>
     </View>
@@ -66,6 +67,7 @@ export default ThemeSetting;
 
 const styles = StyleSheet.create({
   title: {
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
+    marginVertical: 10
   }
 });

@@ -8,6 +8,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import React, { useEffect } from 'react';
 import SvgIcon from '../../components/SvgIcon';
+import { ColorSchemeName } from 'react-native';
 
 type TThemeType = {
   name: string;

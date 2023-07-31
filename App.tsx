@@ -19,7 +19,6 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function App() {
   const Stack = createStackNavigator();
-  // const scheme = useColorScheme();
 
   const [theme, setTheme] = useState<TThemeMode>({ mode: 'dark' });
 

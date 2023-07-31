@@ -7,6 +7,7 @@ import Request from './Request';
 import TabHeader from '../../components/TabHeader';
 import Notification from './Notification';
 import ThemeSetting from './ThemeSetting';
+import Terms from './Terms';
 
 const SettingTabScreen = () => {
   const themeMode = themeChange();
@@ -25,6 +26,7 @@ const SettingTabScreen = () => {
         <Request />
         <Notification />
         <ThemeSetting />
+        <Terms />
       </ScrollView>
     </SafeAreaView>
   );
