@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import {
   endOfMonth,
@@ -9,9 +9,12 @@ import {
   isSameMonth
 } from 'date-fns';
 import themeChange from '../../util/theme';
+import { useDispatch } from 'react-redux';
+import { openBottomSheet } from '../../state/slice/bottomSheet';
 
 const Dates = ({ currentMonth }: { currentMonth: Date }) => {
   const themeMode = themeChange();
+  const dispatch = useDispatch();
 
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
@@ -27,13 +30,17 @@ const Dates = ({ currentMonth }: { currentMonth: Date }) => {
     datesOfWeek.push(week);
   }
 
+  const dateOnPress = () => {
+    dispatch(openBottomSheet({ route: 'calendarTabScreen' }));
+  };
+
   return (
     <>
       {datesOfWeek.map((date, index) => (
         <View key={index}>
           <View style={styles.weekContainer}>
             {date.map(date => (
-              <View style={styles.dateWrapper}>
+              <Pressable onPress={dateOnPress} style={styles.dateWrapper}>
                 {isSameMonth(monthStart, date) && (
                   <>
                     <Text style={[styles.dateText, { color: themeMode.tint }]}>
@@ -44,7 +51,7 @@ const Dates = ({ currentMonth }: { currentMonth: Date }) => {
                     </View>
                   </>
                 )}
-              </View>
+              </Pressable>
             ))}
           </View>
           <View style={[styles.total, { backgroundColor: themeMode.secondary }]}>

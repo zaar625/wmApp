@@ -6,6 +6,7 @@ import { RootState } from '../../state/store';
 import { closeBottomSheet } from '../../state/slice/bottomSheet';
 import { useDispatch } from 'react-redux';
 import TimeModifySheet from './TimeModifySheet';
+import DateSheet from './DateSheet';
 
 const GlobalBottomSheet = () => {
   const modalizeRef = useRef<Modalize>();
@@ -15,11 +16,12 @@ const GlobalBottomSheet = () => {
 
   const renderBottomSheet = (route: string) => {
     if (route === 'shareTabScreen') return <TimeModifySheet />;
+    if (route === 'calendarTabScreen') return <DateSheet />;
   };
 
   useEffect(() => {
     if (!isOpen) {
-      return;
+      modalizeRef.current?.close();
     } else {
       modalizeRef.current?.open();
     }
