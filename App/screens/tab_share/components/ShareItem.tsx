@@ -1,4 +1,7 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../../type';
 import React, { useEffect } from 'react';
 import Animated, {
   useSharedValue,
@@ -11,6 +14,7 @@ import themeChange from '../../../util/theme';
 
 const ShareItem = () => {
   const themeMode = themeChange();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const scaleAni = useSharedValue(1);
   const backgound = useSharedValue(themeMode.secondary);
@@ -36,6 +40,7 @@ const ShareItem = () => {
 
   return (
     <Pressable
+      onPress={() => navigation.navigate('shareDetailScreen', { header: '공유 내용 상세' })}
       onPressIn={() => ((scaleAni.value = 0.95), (backgound.value = themeMode.primary))}
       onPressOut={() => ((scaleAni.value = 1), (backgound.value = themeMode.secondary))}
     >

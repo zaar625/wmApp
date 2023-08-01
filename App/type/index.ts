@@ -14,6 +14,7 @@ export type RootStackParamList = {
   settingTabScreen: undefined;
   scannerScreen: undefined;
   writeScreen: undefined;
+  shareDetailScreen: { header: string };
 };
 
 export type NavigationScreenProps = NativeStackScreenProps<RootStackParamList>;

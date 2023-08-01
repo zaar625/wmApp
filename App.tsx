@@ -17,9 +17,11 @@ import ScannerScreen from './App/screens/tab_store/ScannerScreen';
 import GlobalBottomSheet from './App/components/bottom_sheet/GlobalBottomSheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import WriteScreen from './App/screens/tab_share/WriteScreen';
+import ShareDetailScreen from './App/screens/tab_share/ShareDetailScreen';
+import { RootStackParamList } from './App/type';
 
 export default function App() {
-  const Stack = createStackNavigator();
+  const Stack = createStackNavigator<RootStackParamList>();
 
   const [theme, setTheme] = useState<TThemeMode>({ mode: 'dark' });
 
@@ -65,6 +67,7 @@ export default function App() {
                 options={{ presentation: 'modal' }}
               />
               <Stack.Screen name="writeScreen" component={WriteScreen} />
+              <Stack.Screen name="shareDetailScreen" component={ShareDetailScreen} />
             </Stack.Navigator>
           </GestureHandlerRootView>
         </NavigationContainer>
