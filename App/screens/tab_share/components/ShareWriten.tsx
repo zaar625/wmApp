@@ -13,7 +13,7 @@ const ShareWriten = () => {
 
   return (
     <Pressable
-      onPress={() => navigation.navigate('writeScreen')}
+      onPress={() => navigation.navigate('writeScreen', { header: '공유 내용 작성하기' })}
       style={[styles.container, { backgroundColor: themeMode.secondary }]}
     >
       <SemiTitle title="전달사항 작성하기" />
