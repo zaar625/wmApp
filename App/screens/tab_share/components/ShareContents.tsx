@@ -1,25 +1,23 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 
-import { SemiTitle } from '../../components/Title';
+import { SemiTitle } from '../../../components/Title';
 import ShareItem from './ShareItem';
-import ArrowIcon from '../../assets/icon/arrow_right.svg';
-import themeChange from '../../util/theme';
-
-import { colors } from '../../theme';
+import SvgIcon from '../../../components/SvgIcon';
+import themeChange from '../../../util/theme';
 
 const ShareContents = () => {
   const themeMode = themeChange();
   return (
-    <View style={{ backgroundColor: themeMode.secondary }}>
+    <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
       <View style={[styles.titleHeader, styles.titleWrapper]}>
         <View style={styles.titleWrapper}>
-          <Image source={require('../../assets/img/target.png')} style={styles.image} />
+          <Image source={require('../../../assets/img/target.png')} style={styles.image} />
           <SemiTitle title="금일 전달 사항" />
         </View>
         <Pressable style={styles.btn}>
           <Text style={[styles.btnText, { color: themeMode.subTint }]}>전체보기</Text>
-          <ArrowIcon style={styles.icon} color={themeMode.subTint} />
+          <SvgIcon name="arrow_right" style={styles.icon} color={themeMode.subTint} />
         </Pressable>
       </View>
       <ShareItem />
@@ -33,7 +31,7 @@ export default ShareContents;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.dark.secondary
+    marginBottom: 20
   },
   titleHeader: {
     justifyContent: 'space-between',

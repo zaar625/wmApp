@@ -5,8 +5,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import themeChange from '../../util/theme';
 import { SemiTitle } from '../../components/Title';
 import TabHeader from '../../components/TabHeader';
-import Working from './Working';
-import ShareContents from './ShareContents';
+import Working from './components/Working';
+import ShareContents from './components/ShareContents';
+import ShareWriten from './components/ShareWriten';
 
 const ShareTabScreen = () => {
   const themeMode = themeChange();
@@ -25,6 +26,7 @@ const ShareTabScreen = () => {
         <SemiTitle title="오늘" style={styles.title} />
         <Working />
         <ShareContents />
+        <ShareWriten />
       </ScrollView>
     </SafeAreaView>
   );

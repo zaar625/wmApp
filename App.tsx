@@ -16,6 +16,7 @@ import BottomTab from './App/screens/bottom_tab';
 import ScannerScreen from './App/screens/tab_store/ScannerScreen';
 import GlobalBottomSheet from './App/components/bottom_sheet/GlobalBottomSheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import WriteScreen from './App/screens/tab_share/WriteScreen';
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -63,6 +64,7 @@ export default function App() {
                 component={ScannerScreen}
                 options={{ presentation: 'modal' }}
               />
+              <Stack.Screen name="writeScreen" component={WriteScreen} />
             </Stack.Navigator>
           </GestureHandlerRootView>
         </NavigationContainer>

@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect } from 'react';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -7,7 +7,7 @@ import Animated, {
   Easing
 } from 'react-native-reanimated';
 
-import themeChange from '../../util/theme';
+import themeChange from '../../../util/theme';
 
 const ShareItem = () => {
   const themeMode = themeChange();
