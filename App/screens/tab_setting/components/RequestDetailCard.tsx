@@ -47,7 +47,7 @@ const RequestDetailCard = () => {
           <View style={styles.btnState}>
             <Text style={styles.btnStateText}>확인중</Text>
           </View>
-          <SvgIcon name="arrow_right" color={'#BAC0CE'} />
+          <SvgIcon name="arrow_right" color={themeMode.pressIcon} />
         </View>
       </Animated.View>
     </Pressable>

@@ -26,7 +26,9 @@ const SettingTabScreen = () => {
         <Terms />
 
         <Pressable style={styles.openSourceBtn}>
-          <Text style={styles.openSourceText}>오픈소스 라이선스 보기</Text>
+          <Text style={[styles.openSourceText, { color: themeMode.subTint }]}>
+            오픈소스 라이선스 보기
+          </Text>
         </Pressable>
       </ScrollView>
     </SafeAreaView>
@@ -41,11 +43,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20
   },
   openSourceBtn: {
-    marginVertical: 20,
-    paddingHorizontal: 20
+    marginVertical: 20
   },
   openSourceText: {
-    color: '#BAC0CE',
     textDecorationLine: 'underline'
   }
 });

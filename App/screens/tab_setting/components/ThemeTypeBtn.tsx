@@ -54,7 +54,6 @@ const ThemeTypeBtn = ({ themeType, index, themeTypeOnPress }: TProps) => {
       }}
       onPressOut={() => {
         themeTypeOnPress(index, themeType.mode);
-
         scaleAni.value = 1;
         backgound.value = themeMode.secondary;
       }}
@@ -62,7 +61,7 @@ const ThemeTypeBtn = ({ themeType, index, themeTypeOnPress }: TProps) => {
     >
       <Animated.View style={[styles.themeBtnWrapper, animatedStyles]}>
         <Text style={[styles.themeText, { color: themeMode.tint }]}>{themeType.name}</Text>
-        {themeType.state && <SvgIcon name="check" />}
+        {themeType.state && <SvgIcon name="check" color={themeMode.pressIcon} />}
       </Animated.View>
     </Pressable>
   );
@@ -80,7 +79,7 @@ const styles = StyleSheet.create({
     borderRadius: 10
   },
   themeText: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '500'
   }
 });
