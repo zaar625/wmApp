@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useColorScheme, Appearance, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { useColorScheme, Appearance } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import OnboardingPage from './App/screens/onboarding';

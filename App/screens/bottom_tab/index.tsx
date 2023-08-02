@@ -7,10 +7,13 @@ import BarcodeTabScreen from '../tab_barcode';
 import CalendarTabScreen from '../tab_calendar';
 import SettingTabScreen from '../tab_setting';
 import TabButton from './TabButton';
-import { colors } from '../../theme';
+import { Shadow } from 'react-native-shadow-2';
+
 import themeChange from '../../util/theme';
+import { deviceWidth } from '../../theme';
 
 const Tab = createBottomTabNavigator();
+const NAVIGATION_HEIGHT = 34 + 70;
 
 const BottomTab = () => {
   const themeMode = themeChange();
@@ -54,11 +57,13 @@ const BottomTab = () => {
         headerShown: false,
         tabBarStyle: {
           backgroundColor: themeMode.secondary,
-          borderTopColor: '#202632',
-          borderTopWidth: 1.5,
-          paddingTop: 10,
-          height: 34 + 70
-        }
+          height: NAVIGATION_HEIGHT,
+          borderWidth: 0.8,
+          borderTopColor: themeMode.secondary
+        },
+        tabBarBackground: () => (
+          <Shadow distance={10} startColor={themeMode.primary} style={styles.shadow} />
+        )
       }}
     >
       {screens.map((screenItem, index) => (
@@ -78,4 +83,9 @@ const BottomTab = () => {
 
 export default BottomTab;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  shadow: {
+    width: deviceWidth,
+    height: NAVIGATION_HEIGHT
+  }
+});
