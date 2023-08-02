@@ -37,24 +37,24 @@ const Dates = ({ currentMonth }: { currentMonth: Date }) => {
   return (
     <>
       {datesOfWeek.map((date, index) => (
-        <View key={index}>
+        <View key={index} style={{ backgroundColor: themeMode.secondary }}>
           <View style={styles.weekContainer}>
             {date.map(date => (
               <Pressable onPress={dateOnPress} style={styles.dateWrapper}>
                 {isSameMonth(monthStart, date) && (
                   <>
-                    <Text style={[styles.dateText, { color: themeMode.tint }]}>
+                    <Text style={[styles.dateText, { color: themeMode.subTint }]}>
                       {format(date, 'd')}
                     </Text>
                     <View style={{ minHeight: 50 }}>
-                      <Text style={[styles.priceText, { color: themeMode.tint }]}>+ 11,000</Text>
+                      <Text style={[styles.priceText, { color: themeMode.subTint }]}>+ 11,000</Text>
                     </View>
                   </>
                 )}
               </Pressable>
             ))}
           </View>
-          <View style={[styles.total, { backgroundColor: themeMode.secondary }]}>
+          <View style={[styles.total, { backgroundColor: themeMode.card }]}>
             <Text style={[styles.totalPriceText, { color: themeMode.tint }]}>+ 35,000</Text>
           </View>
         </View>
@@ -76,7 +76,8 @@ const styles = StyleSheet.create({
   },
   dateText: {
     textAlign: 'center',
-    fontWeight: '400'
+    fontWeight: '400',
+    marginBottom: 10
   },
   priceText: {
     alignSelf: 'center',

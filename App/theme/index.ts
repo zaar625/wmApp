@@ -10,7 +10,8 @@ const colors: any = {
     subTint: '#454545',
     tint: '#000',
     card: '#F2F3F5',
-    pressIcon: '#5C6269'
+    pressIcon: '#5C6269',
+    main: '#326273'
   },
   dark: {
     primary: '#101012',
@@ -19,9 +20,9 @@ const colors: any = {
     subTint: '#868787',
     tint: '#fff',
     card: '#25252B',
-    pressIcon: '#BAC0CE'
-  },
-  main: '#326273'
+    pressIcon: '#BAC0CE',
+    main: '#326273'
+  }
 };
 
 const fontSizes = {
