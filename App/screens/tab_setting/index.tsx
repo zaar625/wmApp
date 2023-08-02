@@ -2,12 +2,12 @@ import { Pressable, ScrollView, StyleSheet, Text } from 'react-native';
 import React from 'react';
 import themeChange from '../../util/theme';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import UserInfo from './UserInfo';
-import Request from './Request';
+import UserInfo from './components/UserInfo';
+import Request from './components/Request';
 import TabHeader from '../../components/TabHeader';
-import Notification from './Notification';
-import ThemeSetting from './ThemeSetting';
-import Terms from './Terms';
+import Notification from './components/Notification';
+import ThemeSetting from './components/ThemeSetting';
+import Terms from './components/Terms';
 
 const SettingTabScreen = () => {
   const themeMode = themeChange();

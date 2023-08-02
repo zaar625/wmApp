@@ -19,6 +19,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import WriteScreen from './App/screens/tab_share/WriteScreen';
 import ShareDetailScreen from './App/screens/tab_share/ShareDetailScreen';
 import { RootStackParamList } from './App/type';
+import MyInfoModifyScreen from './App/screens/tab_setting/MyInfoModifyScreen';
 
 export default function App() {
   const Stack = createStackNavigator<RootStackParamList>();
@@ -68,6 +69,7 @@ export default function App() {
               />
               <Stack.Screen name="writeScreen" component={WriteScreen} />
               <Stack.Screen name="shareDetailScreen" component={ShareDetailScreen} />
+              <Stack.Screen name="myInfoModifyScreen" component={MyInfoModifyScreen} />
             </Stack.Navigator>
           </GestureHandlerRootView>
         </NavigationContainer>

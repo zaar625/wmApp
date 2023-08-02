@@ -9,3 +9,5 @@ export { default as arrow_left } from './arrow_left.svg';
 export { default as close } from './close.svg';
 export { default as user } from './user.svg';
 export { default as camera } from './camera.svg';
+export { default as plus_round } from './plus_round.svg';
+export { default as delete } from './delete.svg';

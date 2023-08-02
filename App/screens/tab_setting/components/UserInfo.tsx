@@ -1,16 +1,24 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-import SvgIcon from '../../components/SvgIcon';
-import themeChange from '../../util/theme';
+import SvgIcon from '../../../components/SvgIcon';
+import themeChange from '../../../util/theme';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../../../type';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const UserInfo = () => {
   const themeMode = themeChange();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
   return (
     <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
       <View style={styles.imageWrapper}>
         <SvgIcon name="user" />
       </View>
-      <Pressable style={styles.userInfoWrapper}>
+      <Pressable
+        onPress={() => navigation.navigate('myInfoModifyScreen', { header: '내 정보 수정' })}
+        style={styles.userInfoWrapper}
+      >
         <View>
           <Text style={[styles.name, { color: themeMode.tint }]}>이상윤</Text>
           <Text style={styles.subtext}>내정보 수정하기</Text>

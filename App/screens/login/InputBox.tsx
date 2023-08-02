@@ -16,6 +16,7 @@ import EyeIcon from '../../assets/icon/eye.svg';
 import CloseIcon from '../../assets/icon/close.svg';
 
 interface Props {
+  defaultValue?: any;
   onSubmitEditing?: (e: any) => void;
   placeholder: string;
   label: string;

@@ -1,8 +1,8 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import React, { useEffect } from 'react';
-import { SemiTitle } from '../../components/Title';
-import themeChange from '../../util/theme';
-import SvgIcon from '../../components/SvgIcon';
+import { SemiTitle } from '../../../components/Title';
+import themeChange from '../../../util/theme';
+import SvgIcon from '../../../components/SvgIcon';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,

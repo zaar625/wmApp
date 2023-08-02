@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native';
-import themeChange from '../../util/theme';
+import themeChange from '../../../util/theme';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -7,7 +7,7 @@ import Animated, {
   Easing
 } from 'react-native-reanimated';
 import React, { useEffect } from 'react';
-import SvgIcon from '../../components/SvgIcon';
+import SvgIcon from '../../../components/SvgIcon';
 
 type TThemeType = {
   name: string;

@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-import { SemiTitle } from '../../components/Title';
-import Switch from '../../components/Switch';
-import themeChange from '../../util/theme';
+import { SemiTitle } from '../../../components/Title';
+import Switch from '../../../components/Switch';
+import themeChange from '../../../util/theme';
 
 const Notification = () => {
   const themeMode = themeChange();

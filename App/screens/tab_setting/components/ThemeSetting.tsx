@@ -1,12 +1,12 @@
 import { StyleSheet, View } from 'react-native';
 import React, { useState } from 'react';
-import { SemiTitle } from '../../components/Title';
+import { SemiTitle } from '../../../components/Title';
 import { useContext } from 'react';
-import { ThemeContext } from '../../theme/themeContext';
+import { ThemeContext } from '../../../theme/themeContext';
 import ThemeTypeBtn from './ThemeTypeBtn';
 import { useColorScheme } from 'react-native';
 
-import themeChange from '../../util/theme';
+import themeChange from '../../../util/theme';
 
 const ThemeSetting = () => {
   const themeMode = themeChange();

@@ -55,12 +55,10 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '700',
     lineHeight: 36,
-    marginVertical: 30,
-    paddingHorizontal: 20
+    marginVertical: 30
   },
   semiTitle: {
     fontSize: 20,
-    fontWeight: '700',
-    lineHeight: 36
+    fontWeight: '700'
   }
 });
