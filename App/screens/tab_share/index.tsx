@@ -3,7 +3,7 @@ import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import themeChange from '../../util/theme';
-import { SemiTitle } from '../../components/Title';
+import { ScreenTitle, SemiTitle } from '../../components/Title';
 import TabHeader from '../../components/TabHeader';
 import Working from './components/Working';
 import ShareContents from './components/ShareContents';
@@ -22,7 +22,7 @@ const ShareTabScreen = () => {
       edges={['top']}
     >
       <ScrollView>
-        <TabHeader contents={headerProps} />
+        <ScreenTitle title={`공유된 내용 확인하고${`\n`}나도 공유하고`} />
         <SemiTitle title="오늘" style={styles.title} />
         <Working />
         <ShareContents />
@@ -36,9 +36,10 @@ export default ShareTabScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    paddingHorizontal: 20
   },
   title: {
-    paddingHorizontal: 20
+    marginBottom: 20
   }
 });

@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import themeChange from '../../../util/theme';
 import SvgIcon from '../../../components/SvgIcon';
@@ -17,11 +17,18 @@ const Working = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
-      <View style={styles.working}>
-        <Text style={[styles.storeName, { color: themeMode.tint }]}>카페이루</Text>
+      <View style={styles.header}>
+        <View style={styles.storeWrapper}>
+          <Image
+            source={require('../../../assets/img/store.png')}
+            style={styles.image}
+            resizeMode="contain"
+          />
+          <Text style={[styles.storeName, { color: themeMode.tint }]}>카페이루</Text>
+        </View>
         <Pressable style={styles.requireBtn} onPress={modifyRequestOnPress}>
-          <Text style={[{ color: themeMode.subTint }, styles.btnText]}>출퇴근 수정 요청</Text>
-          <SvgIcon name="arrow_right" style={styles.icon} color={themeMode.subTint} />
+          <Text style={[{ color: themeMode.pressIcon }, styles.btnText]}>출퇴근 수정 요청</Text>
+          <SvgIcon name="arrow_right" style={styles.icon} color={themeMode.pressIcon} />
         </Pressable>
       </View>
 
@@ -49,21 +56,32 @@ export default Working;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
-    marginBottom: 20
+    paddingHorizontal: 20,
+    paddingTop: 15,
+    marginBottom: 20,
+    borderRadius: 15
+  },
+  storeWrapper: {
+    flexDirection: 'row'
   },
   storeName: {
     fontSize: 18,
     fontWeight: 'bold'
   },
-  working: {
+  image: {
+    width: 30,
+    height: 30,
+    marginRight: 10
+  },
+  header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     marginBottom: 20
   },
   requireBtn: {
     flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center'
   },
 
@@ -91,6 +109,7 @@ const styles = StyleSheet.create({
     marginLeft: 5
   },
   btnText: {
-    fontWeight: '600'
+    fontWeight: '400',
+    fontSize: 12
   }
 });
