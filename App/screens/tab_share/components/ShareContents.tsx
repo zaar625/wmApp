@@ -1,7 +1,7 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 
-import { SemiTitle } from '../../../components/Title';
+import { SmallTitle } from '../../../components/Title';
 import ShareItem from './ShareItem';
 import SvgIcon from '../../../components/SvgIcon';
 import themeChange from '../../../util/theme';
@@ -13,7 +13,7 @@ const ShareContents = () => {
       <View style={[styles.titleHeader, styles.titleWrapper]}>
         <View style={styles.titleWrapper}>
           <Image source={require('../../../assets/img/note.png')} style={styles.image} />
-          <Text style={[styles.title, { color: themeMode.tint }]}>금일 전달 사항</Text>
+          <SmallTitle title="금일 전달 사항" />
         </View>
         <Pressable style={styles.btn}>
           <Text style={[styles.btnText, { color: themeMode.pressIcon }]}>전체보기</Text>
@@ -32,22 +32,17 @@ export default ShareContents;
 const styles = StyleSheet.create({
   container: {
     marginBottom: 20,
-    // paddingHorizontal: 20,
     paddingTop: 15,
     borderRadius: 15
   },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold'
-  },
+
   titleHeader: {
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    paddingVertical: 10
+    marginBottom: 10
   },
   titleWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center'
+    flexDirection: 'row'
   },
   image: {
     width: 30,

@@ -21,9 +21,9 @@ const UserInfo = () => {
       >
         <View>
           <Text style={[styles.name, { color: themeMode.tint }]}>이상윤</Text>
-          <Text style={styles.subtext}>내정보 수정하기</Text>
+          <Text style={{ color: themeMode.subTint }}>내정보 수정하기</Text>
         </View>
-        <SvgIcon name="arrow_right" color={'#BAC0CE'} />
+        <SvgIcon name="arrow_right" color={themeMode.pressIcon} />
       </Pressable>
     </View>
   );
@@ -34,6 +34,7 @@ export default UserInfo;
 const styles = StyleSheet.create({
   container: {
     padding: 20,
+    borderRadius: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -58,8 +59,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     marginBottom: 10
-  },
-  subtext: {
-    color: '#BAC0CE'
   }
 });

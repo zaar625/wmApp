@@ -47,8 +47,26 @@ const SemiTitle = ({ title, style }: TProps) => {
     </Text>
   );
 };
+const SmallTitle = ({ title, style }: TProps) => {
+  const { theme } = useContext(ThemeContext);
+  let activeColor = theme.mode && colors[theme.mode];
 
-export { ScreenTitle, SemiTitle };
+  return (
+    <Text
+      style={[
+        { ...style },
+        styles.smallTitle,
+        {
+          color: activeColor.tint
+        }
+      ]}
+    >
+      {title}
+    </Text>
+  );
+};
+
+export { ScreenTitle, SemiTitle, SmallTitle };
 
 const styles = StyleSheet.create({
   title: {
@@ -59,6 +77,10 @@ const styles = StyleSheet.create({
   },
   semiTitle: {
     fontSize: 20,
+    fontWeight: '700'
+  },
+  smallTitle: {
+    fontSize: 18,
     fontWeight: '700'
   }
 });

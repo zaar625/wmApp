@@ -39,13 +39,11 @@ const Working = () => {
 
       <View style={styles.time}>
         <Text style={[{ color: themeMode.tint }, styles.marginRight]}>출근:</Text>
-        <Text style={[{ color: themeMode.tint }, styles.marginRight]}>23.07.23</Text>
         <Text style={[{ color: themeMode.tint }, styles.marginRight]}>10시 30분</Text>
       </View>
 
       <View style={styles.time}>
         <Text style={[{ color: themeMode.tint }, styles.marginRight]}>퇴근:</Text>
-        <Text style={[{ color: themeMode.tint }, styles.marginRight]}>23.07.23</Text>
         <Text style={[{ color: themeMode.tint }, styles.marginRight]}>17시 30분</Text>
       </View>
     </View>

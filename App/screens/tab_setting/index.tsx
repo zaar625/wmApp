@@ -4,24 +4,21 @@ import themeChange from '../../util/theme';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import UserInfo from './components/UserInfo';
 import Request from './components/Request';
-import TabHeader from '../../components/TabHeader';
+import { ScreenTitle } from '../../components/Title';
 import Notification from './components/Notification';
 import ThemeSetting from './components/ThemeSetting';
 import Terms from './components/Terms';
 
 const SettingTabScreen = () => {
   const themeMode = themeChange();
-  const headerContents = {
-    title: `앱과 내정보를${`\n`}나에게 맞춰보세요.`,
-    image: require('../../assets/img/setting_banner.png')
-  };
+
   return (
     <SafeAreaView
       style={[styles.container, { backgroundColor: themeMode.primary }]}
       edges={['top']}
     >
       <ScrollView>
-        <TabHeader contents={headerContents} />
+        <ScreenTitle title={`앱과 내 정보를${`\n`}나에게 맞춰보세요.`} />
         <UserInfo />
         <Request />
         <Notification />
@@ -40,7 +37,8 @@ export default SettingTabScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    paddingHorizontal: 20
   },
   openSourceBtn: {
     marginVertical: 20,
