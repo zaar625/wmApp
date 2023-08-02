@@ -43,7 +43,7 @@ export default Request;
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 10,
+    marginBottom: 20,
     borderRadius: 15
   },
   header: {

@@ -49,13 +49,12 @@ const ThemeTypeBtn = ({ themeType, index, themeTypeOnPress }: TProps) => {
     <Pressable
       hitSlop={10}
       onPressIn={() => {
-        console.log('onPressIn:', backgound.value);
         scaleAni.value = 0.95;
-        backgound.value = themeMode.primary;
+        backgound.value = themeMode.card;
       }}
       onPressOut={() => {
         themeTypeOnPress(index, themeType.mode);
-        console.log('onPressOut');
+
         scaleAni.value = 1;
         backgound.value = themeMode.secondary;
       }}

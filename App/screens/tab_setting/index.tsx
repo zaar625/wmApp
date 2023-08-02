@@ -17,7 +17,7 @@ const SettingTabScreen = () => {
       style={[styles.container, { backgroundColor: themeMode.primary }]}
       edges={['top']}
     >
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <ScreenTitle title={`앱과 내 정보를${`\n`}나에게 맞춰보세요.`} />
         <UserInfo />
         <Request />

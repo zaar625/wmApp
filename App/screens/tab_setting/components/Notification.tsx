@@ -1,6 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-import { SemiTitle } from '../../../components/Title';
+import { SmallTitle } from '../../../components/Title';
 import Switch from '../../../components/Switch';
 import themeChange from '../../../util/theme';
 
@@ -8,11 +8,18 @@ const Notification = () => {
   const themeMode = themeChange();
   return (
     <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
-      <View style={styles.headerWrapper}>
-        <SemiTitle title="앱 알림" />
-        <Text style={styles.subText}>
-          알림을 끄면 수정요청 완료 여부 및 전달사항 알림을 보내지 않아요.
-        </Text>
+      <View style={styles.header}>
+        <Image
+          source={require('../../../assets/img/bell.png')}
+          style={styles.image}
+          resizeMode="contain"
+        />
+        <View style={styles.headerTitle}>
+          <SmallTitle title="앱 알림" style={{ marginBottom: 5 }} />
+          <Text style={[styles.subText, { color: themeMode.subTint }]}>
+            수정요청 완료 및 전달사항 알림을 보내지 않아요.
+          </Text>
+        </View>
       </View>
       <View style={styles.btnWrapper}>
         <Text style={[styles.btnText, { color: themeMode.tint }]}>푸쉬 알림 받기</Text>
@@ -27,14 +34,22 @@ export default Notification;
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    marginBottom: 10
+    marginBottom: 20,
+    borderRadius: 15
   },
-  headerWrapper: {
+  header: {
+    flexDirection: 'row'
+  },
+  headerTitle: {
     marginBottom: 20
   },
+  image: {
+    width: 30,
+    height: 30,
+    marginRight: 10
+  },
   subText: {
-    fontSize: 12,
-    color: '#D9D9D9'
+    fontSize: 12
   },
   btnWrapper: {
     flexDirection: 'row',
