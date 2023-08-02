@@ -4,8 +4,10 @@ import SvgIcon from '../SvgIcon';
 import DatePicker from 'react-native-date-picker';
 import NomalButton from '../buttons/NomarButton';
 import format from 'date-fns/format';
+import themeChange from '../../util/theme';
 
 const TimeModifySheet = () => {
+  const themeMode = themeChange();
   const [workModifyInfo, setWorkModifyInfo] = useState({
     reason: '',
     출근: '',
@@ -19,10 +21,10 @@ const TimeModifySheet = () => {
   return (
     <View style={{ paddingBottom: 20 }}>
       <View style={{ padding: 20 }}>
-        <Text style={styles.title}>출퇴근 등록 수정</Text>
+        <Text style={[styles.title, { color: themeMode.tint }]}>출퇴근 등록 수정</Text>
         <View style={styles.checkWrapper}>
-          <SvgIcon name="check" style={styles.icon} />
-          <Text style={styles.text}>사유를 간단하게 작성해주세요.</Text>
+          <SvgIcon name="check" style={styles.icon} color={themeMode.pressIcon} />
+          <Text style={{ color: themeMode.tint }}>사유를 간단하게 작성해주세요.</Text>
         </View>
         <TextInput
           onChangeText={onChangeText}
@@ -30,12 +32,12 @@ const TimeModifySheet = () => {
           placeholderTextColor={'#797979'}
           multiline
           maxLength={100}
-          style={styles.textInput}
+          style={[styles.textInput, { backgroundColor: themeMode.card }]}
         />
         <Text style={styles.lengthText}>{workModifyInfo.reason.length} / 100</Text>
         <View style={styles.checkWrapper}>
-          <SvgIcon name="check" style={styles.icon} />
-          <Text style={styles.text}>수정 시간을 작성해주세요.</Text>
+          <SvgIcon name="check" style={styles.icon} color={themeMode.pressIcon} />
+          <Text style={{ color: themeMode.tint }}>수정 시간을 작성해주세요.</Text>
         </View>
         {['출근', '퇴근'].map((item, index) => (
           <WorkTime
@@ -52,6 +54,7 @@ const TimeModifySheet = () => {
 };
 
 const WorkTime = ({ title, timeHandler, workModifyInfo }: any) => {
+  const themeMode = themeChange();
   const [datePickerOpen, setDatePickerOpen] = useState(false);
   const today = new Date();
 
@@ -61,8 +64,11 @@ const WorkTime = ({ title, timeHandler, workModifyInfo }: any) => {
 
   return (
     <>
-      <Pressable style={styles.workHour} onPress={workHourOnpress}>
-        <Text style={styles.text}>{title} :</Text>
+      <Pressable
+        style={[styles.workHour, { backgroundColor: themeMode.card }]}
+        onPress={workHourOnpress}
+      >
+        <Text style={{ color: themeMode.tint }}>{title} :</Text>
       </Pressable>
       <DatePicker
         modal
@@ -89,7 +95,6 @@ export default forwardRef(TimeModifySheet);
 const styles = StyleSheet.create({
   title: {
     textAlign: 'center',
-    color: '#fff',
     fontSize: 16,
     fontWeight: '700',
     marginBottom: 20
@@ -99,14 +104,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10
   },
-  text: {
-    color: '#FFF'
-  },
+
   icon: {
     marginRight: 10
   },
   textInput: {
-    backgroundColor: '#202632',
     padding: 10,
     borderRadius: 10,
     minHeight: 100,
@@ -117,7 +119,6 @@ const styles = StyleSheet.create({
     color: '#fff'
   },
   workHour: {
-    backgroundColor: '#202632',
     padding: 10,
     borderRadius: 10,
     marginBottom: 10

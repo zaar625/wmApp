@@ -7,8 +7,10 @@ import { closeBottomSheet } from '../../state/slice/bottomSheet';
 import { useDispatch } from 'react-redux';
 import TimeModifySheet from './TimeModifySheet';
 import DateSheet from './DateSheet';
+import themeChange from '../../util/theme';
 
 const GlobalBottomSheet = () => {
+  const themeMode = themeChange();
   const modalizeRef = useRef<Modalize>();
   const dispatch = useDispatch();
   const { route, isOpen } = useSelector((state: RootState) => state.bottomSheet);
@@ -30,7 +32,7 @@ const GlobalBottomSheet = () => {
   return (
     <Modalize
       ref={modalizeRef}
-      modalStyle={{ backgroundColor: '#30394B' }}
+      modalStyle={{ backgroundColor: themeMode.secondary }}
       adjustToContentHeight
       onClosed={() => dispatch(closeBottomSheet())}
     >
