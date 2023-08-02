@@ -21,9 +21,7 @@ const WorkingStore = () => {
       </View>
       <StoreCardContainer />
       <StoreCardContainer />
-      <StoreCardContainer />
-      <StoreCardContainer />
-      <StoreCardContainer />
+
       {/* <Text style={styles.noneText}>현재 등록된 근무지가 없습니다.</Text> */}
     </View>
   );

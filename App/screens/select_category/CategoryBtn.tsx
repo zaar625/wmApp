@@ -49,7 +49,7 @@ export default function CategoryBtn({ title }: { title: string }) {
 
   return (
     <Pressable
-      onPress={() => ((scaleAni.value = 0.95), (opacityAni.value = 0.7))}
+      onPress={() => ((scaleAni.value = 0.9), (opacityAni.value = 0.7))}
       onPressOut={() => navigation.navigate('employeeLoginPage')}
     >
       <Animated.View

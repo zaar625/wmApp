@@ -35,7 +35,7 @@ type TOnBoardingList = {
 function OnBoadingSlideItem({ data }: { data: TOnBoardingList }): JSX.Element {
   return (
     <View style={styles.slideItemWrapper}>
-      <ScreenTitle title={data.title} />
+      <ScreenTitle title={data.title} style={{ paddingHorizontal: 20 }} />
       <View style={styles.imgWrap}>
         <Image source={data.img} resizeMode="contain" style={styles.img} />
       </View>

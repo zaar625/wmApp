@@ -3,9 +3,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../type';
-import EyeIcon from '../../assets/icon/eye.svg';
-import CloseIcon from '../../assets/icon/close.svg';
-import CheckIcon from '../../assets/icon/check_round.svg';
 import InputBox from '../login/InputBox';
 import Button from '../../components/buttons/Button';
 import { userSaveInfo } from '../../state/slice/user';
@@ -15,8 +12,12 @@ import { signUp } from '../../api/auth';
 import ErrorGuide from '../../components/ErrorGuide';
 import { openModal, closeModal } from '../../state/slice/modal';
 import { ERROR_MESSEGE } from '../../constant';
+import SvgIcon from '../../components/SvgIcon';
+import themeChange from '../../util/theme';
 
 const PasswordForm = () => {
+  const themeMode = themeChange();
+
   const [inputFocusActive, setInputFocusActive] = useState(false);
   const [inputText, setInputText] = useState('');
   const [passwordView, setPasswordView] = useState(true);
@@ -94,9 +95,10 @@ const PasswordForm = () => {
             isOpen: true,
             contents: {
               title: '회원가입이 완료되었습니다.',
-              content: `안녕하세요. 돈모아님${'\n'}앱을 이용해주셔서 감사합니다.`,
+              content: `안녕하세요. 이상윤님${'\n'}앱을 이용해주셔서 감사합니다.`,
               onPress() {
                 dispatch(closeModal());
+                navigation.navigate('bottomTab');
               }
             }
           })
@@ -110,7 +112,10 @@ const PasswordForm = () => {
           contents: {
             title: ERROR_MESSEGE[e.code],
             content: `가입된 계정으로 로그인해주세요.${'\n'}비밀번호를 잊으셨다면 비밀번호 찾기를 해주세요.`,
-            onPress() {}
+            onPress() {
+              dispatch(closeModal());
+              navigation.navigate('employeeLoginPage');
+            }
           }
         })
       );
@@ -121,13 +126,17 @@ const PasswordForm = () => {
   return (
     <View style={styles.container}>
       <View style={styles.form}>
-        <Text style={styles.label}>비밀번호</Text>
+        <Text style={[styles.label, { color: themeMode.tint }]}>비밀번호</Text>
         <View style={styles.firstPasswordInputWrapper}>
           <View>
             <TextInput
               ref={passwordInputRef}
               placeholder="비밀번호를 입력해주세요."
-              style={[styles.input, inputFocusActive && styles.focusedInput]}
+              style={[
+                styles.input,
+                inputFocusActive && styles.focusedInput,
+                { color: themeMode.tint }
+              ]}
               onFocus={inputFocused}
               onBlur={() => setInputFocusActive(false)}
               onChangeText={onChangeText}
@@ -145,11 +154,17 @@ const PasswordForm = () => {
             {inputText.length > 0 && (
               <View style={styles.iconWrapper}>
                 <Pressable onPress={() => setPasswordView(!passwordView)} hitSlop={15}>
-                  <EyeIcon width={20} height={20} color={'#797979'} style={{ marginRight: 10 }} />
+                  <SvgIcon
+                    name="eye"
+                    width={20}
+                    height={20}
+                    color={themeMode.pressIcon}
+                    style={{ marginRight: 10 }}
+                  />
                 </Pressable>
 
                 <Pressable onPress={() => setInputText('')} hitSlop={15}>
-                  <CloseIcon width={20} height={20} color={'#fff'} />
+                  <SvgIcon name="close_round" width={20} height={20} color={'#FFF'} />
                 </Pressable>
               </View>
             )}
@@ -158,13 +173,16 @@ const PasswordForm = () => {
           <View style={styles.checkPasswordWrapper}>
             {passwordType.map((item, index) => (
               <View key={item.name} style={styles.checkIconWrapper}>
-                <CheckIcon
+                <SvgIcon
+                  name="check_round"
                   width={15}
                   height={15}
-                  color={passwordType[index].useable ? '#00B712' : '#797979'}
+                  color={passwordType[index].useable ? '#00B712' : themeMode.pressIcon}
                   style={{ marginRight: 3 }}
                 />
-                <Text style={{ color: passwordType[index].useable ? '#00B712' : '#797979' }}>
+                <Text
+                  style={{ color: passwordType[index].useable ? '#00B712' : themeMode.pressIcon }}
+                >
                   {item.name}
                 </Text>
               </View>
@@ -215,14 +233,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20
   },
   label: {
-    marginBottom: 20,
-    color: '#fff'
+    marginBottom: 20
   },
   input: {
     borderBottomWidth: 1,
     borderBottomColor: '#202632',
     paddingBottom: 10,
-    color: '#fff',
     fontSize: 16
   },
   focusedInput: {

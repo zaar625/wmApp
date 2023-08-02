@@ -4,13 +4,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ScreenTitle } from '../../components/Title';
 import PasswordForm from './PasswordForm';
-import { colors } from '../../theme';
+import themeChange from '../../util/theme';
 
 const SignInStep02Page = () => {
+  const themeMode = themeChange();
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <SafeAreaView style={styles.container}>
-        <ScreenTitle title="비밀번호 입력" />
+      <SafeAreaView style={[styles.container, { backgroundColor: themeMode.primary }]}>
+        <ScreenTitle title="비밀번호 입력" style={{ paddingHorizontal: 20 }} />
         <PasswordForm />
       </SafeAreaView>
     </TouchableWithoutFeedback>
@@ -21,7 +22,6 @@ export default SignInStep02Page;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: colors.dark.primary
+    flex: 1
   }
 });

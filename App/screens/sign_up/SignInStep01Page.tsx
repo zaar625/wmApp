@@ -7,10 +7,11 @@ import { NavigationScreenProps } from '../../type';
 import { ScreenTitle } from '../../components/Title';
 import InputBox from '../login/InputBox';
 import Button from '../../components/buttons/Button';
-import { colors } from '../../theme';
+import themeChange from '../../util/theme';
 
 const SingInStep01 = ({ navigation }: NavigationScreenProps) => {
   const dispatch = useDispatch();
+  const themeMode = themeChange();
 
   const [userInfo, setUserInfo] = useState<{ [key: string]: string }>({
     name: '',
@@ -69,8 +70,8 @@ const SingInStep01 = ({ navigation }: NavigationScreenProps) => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <SafeAreaView style={styles.container}>
-        <ScreenTitle title="회원정보 입력" />
+      <SafeAreaView style={[styles.container, { backgroundColor: themeMode.primary }]}>
+        <ScreenTitle title="회원정보 입력" style={{ paddingHorizontal: 20 }} />
         <View style={styles.content}>
           <View style={styles.form}>
             <InputBox
@@ -135,8 +136,7 @@ export default SingInStep01;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: colors.dark.primary
+    flex: 1
   },
   content: {
     flex: 1,
