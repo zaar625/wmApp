@@ -11,6 +11,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import themeChange from '../../../util/theme';
+import SvgIcon from '../../../components/SvgIcon';
 
 const ShareItem = () => {
   const themeMode = themeChange();
@@ -41,24 +42,20 @@ const ShareItem = () => {
   return (
     <Pressable
       onPress={() => navigation.navigate('shareDetailScreen', { header: '공유 내용 상세' })}
-      onPressIn={() => ((scaleAni.value = 0.95), (backgound.value = themeMode.primary))}
+      onPressIn={() => ((scaleAni.value = 0.95), (backgound.value = themeMode.card))}
       onPressOut={() => ((scaleAni.value = 1), (backgound.value = themeMode.secondary))}
     >
       <Animated.View style={[styles.cardContainer, animatedStyles]}>
-        <View style={styles.authorWrapper}>
-          <View style={styles.round} />
-          <Text style={{ color: themeMode.subTint }}>이상윤</Text>
-        </View>
-        <View style={styles.content}>
+        <View>
           <Text
-            style={[{ color: themeMode.tint }, { lineHeight: 20 }]}
-            numberOfLines={3}
+            style={[{ color: themeMode.tint }, styles.content]}
+            numberOfLines={1}
             ellipsizeMode="tail"
           >
-            오늘 삼성카드 분실물이 들어왔습니다.
+            오늘 삼성카드 분실물이 들어왔습니다.오늘 삼성카드 분실물이 들어왔습니다.
           </Text>
+          <Text style={[styles.author, { color: themeMode.subTint }]}>이상윤</Text>
         </View>
-        <Text style={[styles.date, { color: themeMode.subTint }]}>23.07.23</Text>
       </Animated.View>
     </Pressable>
   );
@@ -73,25 +70,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingVertical: 10
   },
-
-  round: {
-    borderRadius: 100,
-    backgroundColor: '#BAC0CE',
-    width: 8,
-    height: 8,
-    marginRight: 10
-  },
-  authorWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
   name: { color: '#BAC0CE' },
   content: {
-    flexDirection: 'row',
-    marginVertical: 15
+    marginBottom: 5
   },
-  date: {
-    color: '#BAC0CE',
-    textAlign: 'right'
+  author: {
+    fontSize: 12
   }
 });

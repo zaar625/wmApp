@@ -16,7 +16,7 @@ const colors: any = {
     primary: '#101012',
     secondary: '#191A1E',
     tertiary: '#',
-    subTint: '#D9D9D9',
+    subTint: '#868787',
     tint: '#fff',
     card: '#25252B',
     pressIcon: '#BAC0CE'

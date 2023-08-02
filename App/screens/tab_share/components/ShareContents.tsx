@@ -12,12 +12,12 @@ const ShareContents = () => {
     <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
       <View style={[styles.titleHeader, styles.titleWrapper]}>
         <View style={styles.titleWrapper}>
-          <Image source={require('../../../assets/img/target.png')} style={styles.image} />
-          <SemiTitle title="금일 전달 사항" />
+          <Image source={require('../../../assets/img/note.png')} style={styles.image} />
+          <Text style={[styles.title, { color: themeMode.tint }]}>금일 전달 사항</Text>
         </View>
         <Pressable style={styles.btn}>
-          <Text style={[styles.btnText, { color: themeMode.subTint }]}>전체보기</Text>
-          <SvgIcon name="arrow_right" style={styles.icon} color={themeMode.subTint} />
+          <Text style={[styles.btnText, { color: themeMode.pressIcon }]}>전체보기</Text>
+          <SvgIcon name="arrow_right" style={styles.icon} color={themeMode.pressIcon} />
         </Pressable>
       </View>
       <ShareItem />
@@ -31,7 +31,14 @@ export default ShareContents;
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 20
+    marginBottom: 20,
+    // paddingHorizontal: 20,
+    paddingTop: 15,
+    borderRadius: 15
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold'
   },
   titleHeader: {
     justifyContent: 'space-between',
@@ -55,6 +62,7 @@ const styles = StyleSheet.create({
     marginLeft: 5
   },
   btnText: {
-    fontWeight: '600'
+    fontWeight: '400',
+    fontSize: 12
   }
 });
