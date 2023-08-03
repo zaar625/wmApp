@@ -89,8 +89,7 @@ const PasswordForm = () => {
     const signUpForm = { email, password };
     try {
       const { user } = await signUp(signUpForm);
-      console.log('user:', user.uid);
-      console.log(email, password, name, phone);
+
       if (user) {
         dispatch(
           openModal({

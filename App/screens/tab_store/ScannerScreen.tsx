@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import React, { useMemo } from 'react';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
@@ -7,20 +7,45 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../type';
 import { searchStore, addStore } from '../../api/addStore';
+import { useDispatch } from 'react-redux';
+import { openModal } from '../../state/slice/modal';
+import { ADDSTORE_MODAL_SUCCESS, ADDSTORE_MODAL_FAIL } from '../../constant';
 
 import { deviceheight } from '../../theme';
 
 const ScannerScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const dispatch = useDispatch();
 
-  const scanerHandler = async (event: any) => {
-    const { data: storeId } = await event;
+  const scanerHandler = async (scanNum: any) => {
+    const { data: storeId } = await scanNum;
     const isStore = await searchStore(storeId);
-    console.log('isStore:', isStore);
 
     if (isStore) {
       addStore(storeId, 'DMWrTCluLrhJMrI01BVhJK6byFs1');
-      navigation.goBack();
+      dispatch(
+        openModal({
+          modalType: 'OneBtnModal',
+          contents: {
+            ...ADDSTORE_MODAL_SUCCESS,
+            onPress() {
+              navigation.goBack();
+            }
+          }
+        })
+      );
+    } else {
+      dispatch(
+        openModal({
+          modalType: 'OneBtnModal',
+          contents: {
+            ...ADDSTORE_MODAL_FAIL,
+            onPress() {
+              navigation.goBack();
+            }
+          }
+        })
+      );
     }
   };
 
