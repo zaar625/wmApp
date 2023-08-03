@@ -1,11 +1,26 @@
 import { StyleSheet, Text, View, Pressable, Image } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import themeChange from '../../../util/theme';
 import { SemiTitle } from '../../../components/Title';
 import SvgIcon from '../../../components/SvgIcon';
+import { myStoreList } from '../../../api/store';
+import { useIsFocused } from '@react-navigation/native';
+import { deleteStore } from '../../../api/store';
 
 const WorkingStore = () => {
   const themeMode = themeChange();
+  const [stores, setStores] = useState([]);
+  const isfocus = useIsFocused();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const storeList = await myStoreList();
+      setStores(storeList);
+    };
+
+    fetchData();
+  }, [isfocus === true]);
+
   return (
     <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
       <SemiTitle title="현재 근무지" style={{ marginBottom: 10 }} />
@@ -19,20 +34,25 @@ const WorkingStore = () => {
           이상윤님이 근무중인 매장입니다.
         </Text>
       </View>
-      <StoreCardContainer />
-      <StoreCardContainer />
-
-      {/* <Text style={styles.noneText}>현재 등록된 근무지가 없습니다.</Text> */}
+      {stores.length > 0 ? (
+        stores.map(store => <StoreCardContainer store={store} />)
+      ) : (
+        <Text style={styles.noneText}>현재 등록된 근무지가 없습니다.</Text>
+      )}
     </View>
   );
 };
 
-const StoreCardContainer = () => {
+const StoreCardContainer = ({ store }: any) => {
   const themeMode = themeChange();
+
+  const deleteHandler = (id: string) => {
+    deleteStore(id).then(() => console.log('삭제완료'));
+  };
   return (
     <View style={[styles.cardWrapper, { backgroundColor: themeMode.card }]}>
-      <Text style={[styles.storeName, { color: themeMode.tint }]}>카페이루</Text>
-      <Pressable style={styles.deleteIcon}>
+      <Text style={[styles.storeName, { color: themeMode.tint }]}>{store.name}</Text>
+      <Pressable style={styles.deleteIcon} onPress={() => deleteHandler(store.id)}>
         <SvgIcon name="delete" width={30} color={themeMode.tint} />
       </Pressable>
     </View>

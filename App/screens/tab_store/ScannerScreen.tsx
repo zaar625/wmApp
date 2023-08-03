@@ -6,7 +6,7 @@ import { NavigationScreenProps } from '../../type';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../type';
-import { searchStore, addStore } from '../../api/addStore';
+import { searchStore, addStore } from '../../api/store';
 import { useDispatch } from 'react-redux';
 import { openModal } from '../../state/slice/modal';
 import { ADDSTORE_MODAL_SUCCESS, ADDSTORE_MODAL_FAIL } from '../../constant';
