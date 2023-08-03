@@ -6,6 +6,7 @@ import { NavigationScreenProps } from '../../type';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../type';
+import { searchStore, addStore } from '../../api/addStore';
 
 import { deviceheight } from '../../theme';
 
@@ -13,14 +14,13 @@ const ScannerScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const scanerHandler = async (event: any) => {
-    const { data } = await event;
+    const { data: storeId } = await event;
+    const isStore = await searchStore(storeId);
+    console.log('isStore:', isStore);
 
-    try {
-      if (data) {
-        navigation.goBack();
-      }
-    } catch (error) {
-      console.log(error);
+    if (isStore) {
+      addStore(storeId, 'DMWrTCluLrhJMrI01BVhJK6byFs1');
+      navigation.goBack();
     }
   };
 
