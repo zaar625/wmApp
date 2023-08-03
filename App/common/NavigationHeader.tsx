@@ -2,15 +2,17 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import SvgIcon from '../components/SvgIcon';
 import { useNavigation } from '@react-navigation/native';
+import themeChange from '../util/theme';
 
 const NavigationHeader = ({ header }: { header: string }) => {
+  const themeMode = themeChange();
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <Pressable style={styles.icon} onPress={() => navigation.goBack()} hitSlop={100}>
-        <SvgIcon name="arrow_left" width={18} height={18} color={'#BAC0CE'} />
+        <SvgIcon name="arrow_left" width={18} height={18} color={themeMode.pressIcon} />
       </Pressable>
-      <Text style={styles.headerText}>{header}</Text>
+      <Text style={[styles.headerText, { color: themeMode.tint }]}>{header}</Text>
     </View>
   );
 };
@@ -32,7 +34,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     flex: 1,
     fontSize: 16,
-    color: '#FFF',
-    fontWeight: '500'
+
+    fontWeight: '600'
   }
 });

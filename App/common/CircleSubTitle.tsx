@@ -1,11 +1,13 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
+import themeChange from '../util/theme';
 
 const CircleSubTitle = ({ title }: { title: string }) => {
+  const themeMode = themeChange();
   return (
     <View style={styles.container}>
-      <View style={styles.circle} />
-      <Text style={styles.text}>{title}</Text>
+      <View style={[styles.circle, { backgroundColor: themeMode.subTint }]} />
+      <Text style={{ color: themeMode.subTint }}>{title}</Text>
     </View>
   );
 };
@@ -23,8 +25,5 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     backgroundColor: '#D9D9D9',
     marginRight: 10
-  },
-  text: {
-    color: '#BAC0CE'
   }
 });

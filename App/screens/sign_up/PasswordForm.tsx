@@ -14,6 +14,7 @@ import { openModal, closeModal } from '../../state/slice/modal';
 import { ERROR_MESSEGE } from '../../constant';
 import SvgIcon from '../../components/SvgIcon';
 import themeChange from '../../util/theme';
+import { createUser } from '../../api/users';
 
 const PasswordForm = () => {
   const themeMode = themeChange();
@@ -26,7 +27,7 @@ const PasswordForm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
-  const { email, password } = useSelector((state: RootState) => state.user);
+  const { email, password, name, phone } = useSelector((state: RootState) => state.user);
 
   const passwordInputRef = useRef<null | TextInput>(null);
   const checkedPasswordRef = useRef<null | TextInput>(null);
@@ -88,6 +89,8 @@ const PasswordForm = () => {
     const signUpForm = { email, password };
     try {
       const { user } = await signUp(signUpForm);
+      console.log('user:', user.uid);
+      console.log(email, password, name, phone);
       if (user) {
         dispatch(
           openModal({
@@ -99,19 +102,21 @@ const PasswordForm = () => {
               onPress() {
                 dispatch(closeModal());
                 navigation.navigate('bottomTab');
+                createUser({ id: user.uid, name, email, phone });
               }
             }
           })
         );
       }
     } catch (e: any) {
+      console.log(e);
       dispatch(
         openModal({
           modalType: 'OneBtnModal',
           isOpen: true,
           contents: {
             title: ERROR_MESSEGE[e.code],
-            content: `가입된 계정으로 로그인해주세요.${'\n'}비밀번호를 잊으셨다면 비밀번호 찾기를 해주세요.`,
+            content: `이미 가입이 되어있습니다.${'\n'}비밀번호를 잊으셨다면 비밀번호 찾기를 해주세요.`,
             onPress() {
               dispatch(closeModal());
               navigation.navigate('employeeLoginPage');

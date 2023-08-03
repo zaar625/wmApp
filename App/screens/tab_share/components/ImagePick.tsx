@@ -4,10 +4,12 @@ import CircleSubTitle from '../../../common/CircleSubTitle';
 import SvgIcon from '../../../components/SvgIcon';
 import { deviceWidth, deviceheight } from '../../../theme';
 import ErrorGuide from '../../../components/ErrorGuide';
+import themeChange from '../../../util/theme';
 
 const IMAGE_WIDHT = (deviceWidth - 40) / 3 - 10;
 
 const ImagePick = () => {
+  const themeMode = themeChange();
   const [temp, setTemp] = useState(false);
   const [shareMessage, setShareMessage] = useState('');
 
@@ -21,7 +23,9 @@ const ImagePick = () => {
       <Pressable style={styles.imagePickBtn}>
         <View style={styles.iconWrapper}>
           <SvgIcon color={'#326273'} name="camera" style={styles.icon} />
-          <Text style={styles.btnText}>공유할 이미지 선택</Text>
+          <Text style={[styles.imagePickBtnText, { color: themeMode.subTint }]}>
+            공유할 이미지 선택
+          </Text>
           <Text>
             0<Text>/3</Text>
           </Text>
@@ -37,7 +41,7 @@ const ImagePick = () => {
           </View>
         ) : (
           <View style={styles.noImageWrapper}>
-            <Text style={{ color: '#BAC0CE' }}>공유할 이미지가 없습니다.</Text>
+            <Text style={{ color: themeMode.subTint }}>공유할 이미지가 없습니다.</Text>
           </View>
         )}
       </View>
@@ -45,7 +49,7 @@ const ImagePick = () => {
       <CircleSubTitle title="공유 내용 입력" />
       <TextInput
         onChangeText={onChangeText}
-        style={styles.inputBox}
+        style={[styles.inputBox, { borderColor: themeMode.card, color: themeMode.tint }]}
         placeholder="내용을 150자 이내로 작성해주세요."
         multiline
         placeholderTextColor={'#797979'}
@@ -77,9 +81,9 @@ const styles = StyleSheet.create({
   icon: {
     marginRight: 8
   },
-  btnText: {
+  imagePickBtnText: {
     marginRight: 8,
-    color: '#fff'
+    fontWeight: '600'
   },
   imagesWrapper: {
     flexDirection: 'row',
@@ -100,10 +104,9 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   inputBox: {
-    borderRadius: 10,
     borderWidth: 1,
+    borderRadius: 10,
     padding: 10,
-    borderColor: '#D9D9D9',
     height: deviceheight * 0.328,
     marginVertical: 10
   },
