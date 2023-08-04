@@ -17,30 +17,6 @@ export async function searchStore(storeId: string) {
   }
 }
 
-export async function addStore(storeId: string, userId: string) {
-  const storeListRef = await storeList.doc(storeId).get();
-  const storeInfo = storeListRef.data();
-
-  if (storeInfo) {
-    usersCollection.doc(userId).collection('storeList').doc(storeId).set(storeInfo);
-  }
-}
-
-export async function myStoreList() {
-  const storeList: any = [];
-
-  try {
-    const storeRef = await users.doc('DMWrTCluLrhJMrI01BVhJK6byFs1').collection('storeList').get();
-    storeRef.forEach(data => {
-      storeList.push(data.data());
-    });
-
-    return storeList;
-  } catch (e) {
-    console.log(e);
-  }
-}
-
 export function deleteStore(id: string) {
   const storeRef = users.doc('DMWrTCluLrhJMrI01BVhJK6byFs1').collection('storeList').doc(id);
 

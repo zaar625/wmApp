@@ -1,25 +1,15 @@
 import { StyleSheet, Text, View, Pressable, Image } from 'react-native';
 import React, { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import themeChange from '../../../util/theme';
 import { SemiTitle } from '../../../components/Title';
 import SvgIcon from '../../../components/SvgIcon';
-import { myStoreList } from '../../../api/store';
-import { useIsFocused } from '@react-navigation/native';
 import { deleteStore } from '../../../api/store';
+import { useMyStoreList } from '../../../api/store/hooks/useMyStoreList';
 
 const WorkingStore = () => {
   const themeMode = themeChange();
-  const [stores, setStores] = useState([]);
-  const isfocus = useIsFocused();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const storeList = await myStoreList();
-      setStores(storeList);
-    };
-
-    fetchData();
-  }, [isfocus === true]);
+  const { data: stores = [] } = useMyStoreList();
 
   return (
     <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
@@ -35,7 +25,7 @@ const WorkingStore = () => {
         </Text>
       </View>
       {stores.length > 0 ? (
-        stores.map(store => <StoreCardContainer store={store} />)
+        stores.map((store, index) => <StoreCardContainer key={index} store={store} />)
       ) : (
         <Text style={styles.noneText}>현재 등록된 근무지가 없습니다.</Text>
       )}
