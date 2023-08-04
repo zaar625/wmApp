@@ -4,7 +4,6 @@ import { usersCollection } from '../../users';
 const storeList = firestore().collection('store');
 
 export async function muTateaddStore({ storeId, userId }: any) {
-  console.log(storeId, userId);
   const storeListRef = await storeList.doc(storeId).get();
   const storeInfo = storeListRef.data();
 

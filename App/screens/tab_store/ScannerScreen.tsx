@@ -33,7 +33,6 @@ const ScannerScreen = () => {
 
   const scanerHandler = async (event: BarCodeReadEvent) => {
     const { data: codeId } = event;
-    console.log(codeId);
 
     const isStore = await searchStore(codeId);
 

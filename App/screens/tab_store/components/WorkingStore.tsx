@@ -6,7 +6,7 @@ import { SemiTitle } from '../../../components/Title';
 import SvgIcon from '../../../components/SvgIcon';
 import { deleteStore } from '../../../api/store';
 import { useMyStoreList } from '../../../api/store/hooks/useMyStoreList';
-
+import { useDeletStore } from '../../../api/store/hooks/useDeleteStoreList';
 const WorkingStore = () => {
   const themeMode = themeChange();
   const { data: stores = [] } = useMyStoreList();
@@ -25,7 +25,7 @@ const WorkingStore = () => {
         </Text>
       </View>
       {stores.length > 0 ? (
-        stores.map((store, index) => <StoreCardContainer key={index} store={store} />)
+        stores.map((store: any, index: number) => <StoreCardContainer key={index} store={store} />)
       ) : (
         <Text style={styles.noneText}>현재 등록된 근무지가 없습니다.</Text>
       )}
@@ -35,14 +35,12 @@ const WorkingStore = () => {
 
 const StoreCardContainer = ({ store }: any) => {
   const themeMode = themeChange();
+  const { mutate } = useDeletStore();
 
-  const deleteHandler = (id: string) => {
-    deleteStore(id).then(() => console.log('삭제완료'));
-  };
   return (
     <View style={[styles.cardWrapper, { backgroundColor: themeMode.card }]}>
       <Text style={[styles.storeName, { color: themeMode.tint }]}>{store.name}</Text>
-      <Pressable style={styles.deleteIcon} onPress={() => deleteHandler(store.id)}>
+      <Pressable style={styles.deleteIcon} onPress={() => mutate({ storeId: store.id })}>
         <SvgIcon name="delete" width={30} color={themeMode.tint} />
       </Pressable>
     </View>
