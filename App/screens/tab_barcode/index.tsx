@@ -6,17 +6,37 @@ import { BarCodeReadEvent } from 'react-native-camera';
 import { deviceWidth, deviceheight } from '../../theme';
 import themeChange from '../../util/theme';
 
+import firestore from '@react-native-firebase/firestore';
+
+const workHourRef = firestore()
+  .collection('users')
+  .doc('DMWrTCluLrhJMrI01BVhJK6byFs1')
+  .collection('workHour');
+
 const BarcodeTabScreen = () => {
   const themeMode = themeChange();
 
   const scanerHandler = async (event: BarCodeReadEvent) => {
+    const storeId = event.data;
     const currentTime = new Date();
     console.log(currentTime);
+
+    console.log((await workHourRef.doc(String(currentTime)).get()).exists);
+
+    workHourRef
+      .doc(String(currentTime))
+      .set({ work: [{ start: currentTime, end: null, storeName: storeId, date: currentTime }] });
+
+    // const { work }: any = dateWork;
+
+    // dateWork.update({
+    //   work: [...work, { start: currentTime, end: null, storeName: storeId, date: currentTime }]
+    // });
   };
 
   return (
     <View style={{ flex: 1, backgroundColor: themeMode.primary }}>
-      <QRCodeScanner
+      {/* <QRCodeScanner
         onRead={scanerHandler}
         showMarker={true}
         cameraStyle={{
@@ -31,7 +51,7 @@ const BarcodeTabScreen = () => {
         }
         reactivate={true}
         reactivateTimeout={5000}
-      />
+      /> */}
     </View>
   );
 };

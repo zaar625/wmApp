@@ -1,10 +1,9 @@
 import { StyleSheet, Text, View, Pressable, Image } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import React from 'react';
+
 import themeChange from '../../../util/theme';
 import { SemiTitle } from '../../../components/Title';
 import SvgIcon from '../../../components/SvgIcon';
-import { deleteStore } from '../../../api/store';
 import { useMyStoreList } from '../../../api/store/hooks/useMyStoreList';
 import { useDeletStore } from '../../../api/store/hooks/useDeleteStoreList';
 const WorkingStore = () => {
