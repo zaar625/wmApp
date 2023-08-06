@@ -11,12 +11,21 @@ import {
 import themeChange from '../../util/theme';
 import { useDispatch } from 'react-redux';
 import { openBottomSheet } from '../../state/slice/bottomSheet';
+import { useWorkingDate } from '../../api/store/hooks/useDateWork';
 
-const Dates = ({ currentMonth }: { currentMonth: Date }) => {
+// 시간함수 테스트용
+import { monthTotalHour, dailyWorkInfo } from './handler/totalHourhandler';
+
+const Dates = ({ currentDate }: { currentDate: Date }) => {
+  const { data } = useWorkingDate(format(currentDate, 'yyyy-MM'));
+
+  const dailWorkData = dailyWorkInfo('6', data);
+  console.log(monthTotalHour(dailWorkData));
+
   const themeMode = themeChange();
   const dispatch = useDispatch();
 
-  const monthStart = startOfMonth(currentMonth);
+  const monthStart = startOfMonth(currentDate);
   const monthEnd = endOfMonth(monthStart);
   // const startDate = startOfWeek(monthStart);
   // const endDate = endOfWeek(monthEnd);
@@ -34,20 +43,28 @@ const Dates = ({ currentMonth }: { currentMonth: Date }) => {
     dispatch(openBottomSheet({ route: 'calendarTabScreen' }));
   };
 
+  const dailyTotalHour = (day: string) => {
+    const dailWorkData = dailyWorkInfo(day, data);
+
+    return monthTotalHour(dailWorkData);
+  };
+
   return (
     <>
       {datesOfWeek.map((date, index) => (
         <View key={index} style={{ backgroundColor: themeMode.secondary }}>
           <View style={styles.weekContainer}>
-            {date.map(date => (
-              <Pressable onPress={dateOnPress} style={styles.dateWrapper}>
+            {date.map((date, index) => (
+              <Pressable key={index} onPress={dateOnPress} style={styles.dateWrapper}>
                 {isSameMonth(monthStart, date) && (
                   <>
                     <Text style={[styles.dateText, { color: themeMode.subTint }]}>
                       {format(date, 'd')}
                     </Text>
                     <View style={{ minHeight: 50 }}>
-                      <Text style={[styles.priceText, { color: themeMode.subTint }]}>+ 11,000</Text>
+                      <Text style={[styles.priceText, { color: themeMode.subTint }]}>
+                        + {dailyTotalHour(format(date, 'd')) * 9250}
+                      </Text>
                     </View>
                   </>
                 )}

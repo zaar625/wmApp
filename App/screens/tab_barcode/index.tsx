@@ -21,10 +21,10 @@ const BarcodeTabScreen = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: themeMode.primary }]}>
-      <Pressable onPress={() => onAttendance(currentDate)}>
+      <Pressable onPress={() => onAttendance(currentDate, 'start')}>
         <Text style={{ color: '#FFF' }}>출근</Text>
       </Pressable>
-      <Pressable onPress={onAttendance}>
+      <Pressable onPress={() => onAttendance(currentDate, 'end')}>
         <Text style={{ color: '#FFF' }}>퇴근</Text>
       </Pressable>
     </View>

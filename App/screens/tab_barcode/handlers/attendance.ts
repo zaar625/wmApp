@@ -5,8 +5,8 @@ const workHourCollection = firestore()
   .doc('DMWrTCluLrhJMrI01BVhJK6byFs1')
   .collection('workHour');
 
-export const onAttendance = async (currentDate: any) => {
-  const code = 'ItGwR9Tj8BNlgxR37Nrp';
+export const onAttendance = async (currentDate: any, worktime: string) => {
+  const code = 'lFddsTVznYG9ZNstQYo9';
   const workHourRef = workHourCollection.doc(currentDate);
 
   const workData = await workHourRef.get();
@@ -18,14 +18,13 @@ export const onAttendance = async (currentDate: any) => {
       if (work.storeName === code) {
         return {
           ...work,
-          end: new Date()
+          [worktime]: new Date()
         };
       }
       return work;
     });
 
     const isNewStore = workArray.some((work: any) => work.storeName === code);
-    console.log(isNewStore);
 
     if (!isNewStore) {
       workHourCollection.doc(currentDate).update({

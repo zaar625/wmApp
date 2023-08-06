@@ -9,21 +9,21 @@ import Days from './Days';
 import Dates from './Dates';
 
 const Calender = () => {
-  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const prevMonth = () => {
-    setCurrentMonth(subMonths(currentMonth, 1));
+    setCurrentDate(subMonths(currentDate, 1));
   };
   const nextMonth = () => {
-    setCurrentMonth(addMonths(currentMonth, 1));
+    setCurrentDate(addMonths(currentDate, 1));
   };
 
   return (
     <View style={styles.container}>
-      <Month currentMonth={currentMonth} prevMonth={prevMonth} nextMonth={nextMonth} />
+      <Month currentDate={currentDate} prevMonth={prevMonth} nextMonth={nextMonth} />
       <Days />
-      <Dates currentMonth={currentMonth} />
+      <Dates currentDate={currentDate} />
     </View>
   );
 };
