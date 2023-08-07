@@ -28,7 +28,6 @@ export const addWorkingTime = async (currentDate: Date, attendanceType: string) 
         work.storeName === storeCode &&
         format(work.date.toDate(), 'yyyy-MM-dd') === format(currentDate, 'yyyy-MM-dd')
     );
-    console.log(hasWorkDate);
 
     if (hasWorkDate && hasStoreInworksArray) {
       const updateWorkArray = worksArray.map((worksItem: any) => {
@@ -56,7 +55,6 @@ export const addWorkingTime = async (currentDate: Date, attendanceType: string) 
     }
 
     if (!hasWorkDate) {
-      console.log('달라');
       workHourCollection.doc(format(currentDate, 'yyyy-MM')).update({
         work: firestore.FieldValue.arrayUnion({
           date: new Date(),

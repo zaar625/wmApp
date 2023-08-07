@@ -25,19 +25,19 @@ const Dates = ({ currentDate }: { currentDate: Date }) => {
   // const startDate = startOfWeek(monthStart);
   // const endDate = endOfWeek(monthEnd);
 
-  const weeksInMonth = eachWeekOfInterval({ start: monthStart, end: monthEnd }); //당월 시작하는 주의 첫번째값
+  const weeklyStartDates = eachWeekOfInterval({ start: monthStart, end: monthEnd }); //당월 시작하는 주의 첫번째값
 
   let datesOfWeek = [];
 
-  for (let i = 0; i < weeksInMonth.length; i++) {
-    const week = [...Array(7)].map((_, index) => addDays(weeksInMonth[i], index));
+  for (let i = 0; i < weeklyStartDates.length; i++) {
+    const week = [...Array(7)].map((_, index) => addDays(weeklyStartDates[i], index));
     datesOfWeek.push(week);
   }
 
   const dateOnPress = () => {
     dispatch(openBottomSheet({ route: 'calendarTabScreen' }));
   };
-  console.log(datesOfWeek);
+
   return (
     <>
       {datesOfWeek.map((date, index) => (
@@ -51,9 +51,11 @@ const Dates = ({ currentDate }: { currentDate: Date }) => {
                       {format(dayDate, 'd')}
                     </Text>
                     <View style={{ minHeight: 50 }}>
-                      <Text style={[styles.priceText, { color: themeMode.subTint }]}>
-                        {dailyTotalHour(dayDate, data)}
-                      </Text>
+                      {dailyTotalHour(dayDate, data) > 0 && (
+                        <Text style={[styles.priceText, { color: themeMode.subTint }]}>
+                          {dailyTotalHour(dayDate, data)}
+                        </Text>
+                      )}
                     </View>
                   </>
                 )}

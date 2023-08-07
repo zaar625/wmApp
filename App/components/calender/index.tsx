@@ -8,10 +8,13 @@ import Month from './Month';
 import Days from './Days';
 import Dates from './Dates';
 
-const Calender = () => {
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState(new Date());
-
+const Calender = ({
+  setCurrentDate,
+  currentDate
+}: {
+  currentDate: Date;
+  setCurrentDate: React.Dispatch<React.SetStateAction<Date>>;
+}) => {
   const prevMonth = () => {
     setCurrentDate(subMonths(currentDate, 1));
   };

@@ -18,7 +18,6 @@ import { deviceheight } from '../../theme';
 import { muTateaddStore } from '../../api/store/hooks/useAddStore';
 
 const ScannerScreen = () => {
-  console.log('scannermound');
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
