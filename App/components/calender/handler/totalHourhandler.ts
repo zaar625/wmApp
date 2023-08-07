@@ -1,6 +1,6 @@
 import format from 'date-fns/format';
 
-type TWorkData = {
+export type TWorkData = {
   date: any;
   end: any;
   start: any;
@@ -70,4 +70,13 @@ export function weeklyTotalHour(datesOfweek: Date[], workData: TWorkData[]) {
   const weeklyTotal = dateOfWeekHour.reduce((acc, curr) => acc + curr);
   // console.log(weeklyTotal);
   return weeklyTotal;
+}
+
+export function dailyTime(start: any, end: any) {
+  const startWork = format(start.toDate(), 'k:mm');
+  const endWork = format(end.toDate(), 'k:mm');
+
+  const totalMin = (end.seconds - start.seconds) / 60;
+  const totalHour = changeHour(Math.floor(totalMin));
+  return { startWork, endWork, totalHour };
 }

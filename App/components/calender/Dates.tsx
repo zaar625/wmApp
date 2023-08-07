@@ -34,8 +34,13 @@ const Dates = ({ currentDate }: { currentDate: Date }) => {
     datesOfWeek.push(week);
   }
 
-  const dateOnPress = () => {
-    dispatch(openBottomSheet({ route: 'calendarTabScreen' }));
+  const dateOnPress = (date: Date) => {
+    const formatDate = format(date, 'yyyy-MM-dd');
+    const findDayData = data?.filter(
+      (dayItem: any) => format(dayItem.date.toDate(), 'yyyy-MM-dd') === formatDate
+    );
+
+    dispatch(openBottomSheet({ route: 'calendarTabScreen', data: findDayData }));
   };
 
   return (
@@ -44,7 +49,11 @@ const Dates = ({ currentDate }: { currentDate: Date }) => {
         <View key={index} style={{ backgroundColor: themeMode.secondary }}>
           <View style={styles.weekContainer}>
             {date.map((dayDate, index) => (
-              <Pressable key={index} onPress={dateOnPress} style={styles.dateWrapper}>
+              <Pressable
+                key={index}
+                onPress={() => dateOnPress(dayDate)}
+                style={styles.dateWrapper}
+              >
                 {isSameMonth(monthStart, dayDate) && (
                   <>
                     <Text style={[styles.dateText, { color: themeMode.subTint }]}>
