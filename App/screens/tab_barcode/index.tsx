@@ -5,7 +5,7 @@ import themeChange from '../../util/theme';
 import firestore from '@react-native-firebase/firestore';
 import format from 'date-fns/format';
 
-import { onAttendance } from './handlers/attendance';
+import { addWorkingTime } from './handlers/attendance';
 
 const BarcodeTabScreen = () => {
   const workHourRef = firestore()
@@ -21,10 +21,10 @@ const BarcodeTabScreen = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: themeMode.primary }]}>
-      <Pressable onPress={() => onAttendance(currentDate, 'start')}>
+      <Pressable onPress={() => addWorkingTime(currentTime, 'start')}>
         <Text style={{ color: '#FFF' }}>출근</Text>
       </Pressable>
-      <Pressable onPress={() => onAttendance(currentDate, 'end')}>
+      <Pressable onPress={() => addWorkingTime(currentTime, 'end')}>
         <Text style={{ color: '#FFF' }}>퇴근</Text>
       </Pressable>
     </View>

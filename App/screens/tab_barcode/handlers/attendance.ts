@@ -1,50 +1,78 @@
 import firestore from '@react-native-firebase/firestore';
+import format from 'date-fns/format';
 
 const workHourCollection = firestore()
   .collection('users')
   .doc('DMWrTCluLrhJMrI01BVhJK6byFs1')
   .collection('workHour');
 
-export const onAttendance = async (currentDate: any, worktime: string) => {
-  const code = 'lFddsTVznYG9ZNstQYo9';
-  const workHourRef = workHourCollection.doc(currentDate);
+//lFddsTVznYG9ZNstQYo9
+//ItGwR9Tj8BNlgxR37Nrp
+export const addWorkingTime = async (currentDate: Date, attendanceType: string) => {
+  const storeCode = 'ItGwR9Tj8BNlgxR37Nrp';
+  const monthQuery = format(currentDate, 'yyyy-MM');
+
+  const workHourRef = workHourCollection.doc(monthQuery);
 
   const workData = await workHourRef.get();
 
-  const workArray = await workData.data()?.work; // undefined || [item]
+  const worksArray = await workData.data()?.work; // undefined || item[]
 
-  if (workArray) {
-    const updateWorkArray = workArray.map((work: any) => {
-      if (work.storeName === code) {
-        return {
-          ...work,
-          [worktime]: new Date()
-        };
-      }
-      return work;
-    });
+  if (worksArray) {
+    const hasWorkDate = worksArray.some(
+      (work: any) => format(work.date.toDate(), 'yyyy-MM-dd') === format(currentDate, 'yyyy-MM-dd')
+    );
 
-    const isNewStore = workArray.some((work: any) => work.storeName === code);
+    const hasStoreInworksArray = worksArray.some(
+      (work: any) =>
+        work.storeName === storeCode &&
+        format(work.date.toDate(), 'yyyy-MM-dd') === format(currentDate, 'yyyy-MM-dd')
+    );
+    console.log(hasWorkDate);
 
-    if (!isNewStore) {
-      workHourCollection.doc(currentDate).update({
+    if (hasWorkDate && hasStoreInworksArray) {
+      const updateWorkArray = worksArray.map((worksItem: any) => {
+        if (worksItem.storeName === storeCode && hasWorkDate) {
+          return {
+            ...worksItem,
+            [attendanceType]: new Date()
+          };
+        }
+        return worksItem;
+      });
+
+      workHourCollection.doc(format(currentDate, 'yyyy-MM')).update({ work: updateWorkArray });
+    }
+
+    if (hasWorkDate && !hasStoreInworksArray) {
+      workHourCollection.doc(format(currentDate, 'yyyy-MM')).update({
         work: firestore.FieldValue.arrayUnion({
           date: new Date(),
           end: null,
           start: new Date(),
-          storeName: code
+          storeName: storeCode
         })
       });
-    } else {
-      workHourCollection.doc(currentDate).update({ work: updateWorkArray });
+    }
+
+    if (!hasWorkDate) {
+      console.log('달라');
+      workHourCollection.doc(format(currentDate, 'yyyy-MM')).update({
+        work: firestore.FieldValue.arrayUnion({
+          date: new Date(),
+          end: null,
+          start: new Date(),
+          storeName: storeCode
+        })
+      });
     }
   } else {
-    workHourCollection.doc(currentDate).set({
+    workHourCollection.doc(format(currentDate, 'yyyy-MM')).set({
       work: firestore.FieldValue.arrayUnion({
         date: new Date(),
         end: null,
         start: new Date(),
-        storeName: code
+        storeName: storeCode
       })
     });
   }

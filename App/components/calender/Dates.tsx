@@ -12,15 +12,10 @@ import themeChange from '../../util/theme';
 import { useDispatch } from 'react-redux';
 import { openBottomSheet } from '../../state/slice/bottomSheet';
 import { useWorkingDate } from '../../api/store/hooks/useDateWork';
-
-// 시간함수 테스트용
-import { monthTotalHour, dailyWorkInfo } from './handler/totalHourhandler';
+import { dailyTotalHour, weeklyTotalHour } from './handler/totalHourhandler';
 
 const Dates = ({ currentDate }: { currentDate: Date }) => {
   const { data } = useWorkingDate(format(currentDate, 'yyyy-MM'));
-
-  const dailWorkData = dailyWorkInfo('6', data);
-  console.log(monthTotalHour(dailWorkData));
 
   const themeMode = themeChange();
   const dispatch = useDispatch();
@@ -42,28 +37,22 @@ const Dates = ({ currentDate }: { currentDate: Date }) => {
   const dateOnPress = () => {
     dispatch(openBottomSheet({ route: 'calendarTabScreen' }));
   };
-
-  const dailyTotalHour = (day: string) => {
-    const dailWorkData = dailyWorkInfo(day, data);
-
-    return monthTotalHour(dailWorkData);
-  };
-
+  console.log(datesOfWeek);
   return (
     <>
       {datesOfWeek.map((date, index) => (
         <View key={index} style={{ backgroundColor: themeMode.secondary }}>
           <View style={styles.weekContainer}>
-            {date.map((date, index) => (
+            {date.map((dayDate, index) => (
               <Pressable key={index} onPress={dateOnPress} style={styles.dateWrapper}>
-                {isSameMonth(monthStart, date) && (
+                {isSameMonth(monthStart, dayDate) && (
                   <>
                     <Text style={[styles.dateText, { color: themeMode.subTint }]}>
-                      {format(date, 'd')}
+                      {format(dayDate, 'd')}
                     </Text>
                     <View style={{ minHeight: 50 }}>
                       <Text style={[styles.priceText, { color: themeMode.subTint }]}>
-                        + {dailyTotalHour(format(date, 'd')) * 9250}
+                        {dailyTotalHour(dayDate, data)}
                       </Text>
                     </View>
                   </>
@@ -72,7 +61,9 @@ const Dates = ({ currentDate }: { currentDate: Date }) => {
             ))}
           </View>
           <View style={[styles.total, { backgroundColor: themeMode.card }]}>
-            <Text style={[styles.totalPriceText, { color: themeMode.tint }]}>+ 35,000</Text>
+            <Text style={[styles.totalPriceText, { color: themeMode.tint }]}>
+              {weeklyTotalHour(date, data)}
+            </Text>
           </View>
         </View>
       ))}
