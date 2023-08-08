@@ -5,10 +5,15 @@ import SvgIcon from '../../../components/SvgIcon';
 import { deviceWidth, deviceheight } from '../../../theme';
 import ErrorGuide from '../../../components/ErrorGuide';
 import themeChange from '../../../util/theme';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../../../type';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
+import { CameraRoll } from '@react-native-camera-roll/camera-roll';
 
 const IMAGE_WIDHT = (deviceWidth - 40) / 3 - 10;
 
 const ImagePick = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const themeMode = themeChange();
   const [temp, setTemp] = useState(false);
   const [shareMessage, setShareMessage] = useState('');
@@ -16,11 +21,25 @@ const ImagePick = () => {
   const onChangeText = (inputText: string) => {
     setShareMessage(inputText);
   };
+
+  const handleButtonPress = () => {
+    navigation.navigate('imagePickScreen');
+    // CameraRoll.getPhotos({
+    //   first: 20,
+    //   assetType: 'Photos'
+    // })
+    //   .then(res => {
+    //     setImages({ photos: res.edges });
+    //   })
+    //   .catch(err => {
+    //     //Error Loading Images
+    //   });
+  };
   return (
     <View style={styles.container}>
       <CircleSubTitle title="사진 첨부" />
 
-      <Pressable style={styles.imagePickBtn}>
+      <Pressable style={styles.imagePickBtn} onPress={handleButtonPress}>
         <View style={styles.iconWrapper}>
           <SvgIcon color={'#326273'} name="camera" style={styles.icon} />
           <Text style={[styles.imagePickBtnText, { color: themeMode.subTint }]}>

@@ -18,6 +18,7 @@ import ScannerScreen from './App/screens/tab_store/ScannerScreen';
 import GlobalBottomSheet from './App/components/bottom_sheet/GlobalBottomSheet';
 
 import WriteScreen from './App/screens/tab_share/WriteScreen';
+import ImagePickScreen from './App/screens/tab_share/ImagePickScreen';
 import ShareDetailScreen from './App/screens/tab_share/ShareDetailScreen';
 import MyInfoModifyScreen from './App/screens/tab_setting/MyInfoModifyScreen';
 
@@ -76,6 +77,11 @@ export default function App() {
                   options={{ presentation: 'modal' }}
                 />
                 <Stack.Screen name="writeScreen" component={WriteScreen} />
+                <Stack.Screen
+                  name="imagePickScreen"
+                  component={ImagePickScreen}
+                  options={{ presentation: 'modal' }}
+                />
                 <Stack.Screen name="shareDetailScreen" component={ShareDetailScreen} />
                 <Stack.Screen name="myInfoModifyScreen" component={MyInfoModifyScreen} />
               </Stack.Navigator>
