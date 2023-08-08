@@ -11,11 +11,12 @@ import {
 } from 'react-native';
 import React, { useState } from 'react';
 import ErrorGuide from '../../components/ErrorGuide';
+import themeChange from '../../util/theme';
 
-import EyeIcon from '../../assets/icon/eye.svg';
-import CloseIcon from '../../assets/icon/close.svg';
+import SvgIcon from '../../components/SvgIcon';
 
 interface Props {
+  defaultValue?: any;
   onSubmitEditing?: (e: any) => void;
   placeholder: string;
   label: string;
@@ -31,6 +32,8 @@ export default React.forwardRef(function InputBox(
   { eyeIconVisible, closeIconVisible, ...props }: Props,
   ref: any
 ) {
+  const themeMode = themeChange();
+
   const [inputFocusActive, setInputFocusActive] = useState(false);
   const [inputText, setInputText] = useState('');
   const [passwordView, setPasswordView] = useState(true);
@@ -50,7 +53,7 @@ export default React.forwardRef(function InputBox(
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>{props.label}</Text>
+      <Text style={[styles.label, { color: themeMode.tint }]}>{props.label}</Text>
       <View>
         <TextInput
           ref={ref}
@@ -58,7 +61,8 @@ export default React.forwardRef(function InputBox(
           style={[
             styles.input,
             inputFocusActive && styles.focusedInput,
-            errorObj?.error && styles.errorInput
+            errorObj?.error && styles.errorInput,
+            { color: themeMode.tint }
           ]}
           onFocus={inputFocused}
           onBlur={() => setInputFocusActive(false)}
@@ -73,12 +77,18 @@ export default React.forwardRef(function InputBox(
           <View style={styles.iconWrapper}>
             {eyeIconVisible && (
               <Pressable onPress={() => setPasswordView(!passwordView)} hitSlop={15}>
-                <EyeIcon width={20} height={20} color={'#797979'} style={{ marginRight: 10 }} />
+                <SvgIcon
+                  name="eye"
+                  width={20}
+                  height={20}
+                  color={themeMode.pressIcon}
+                  style={{ marginRight: 10 }}
+                />
               </Pressable>
             )}
             {closeIconVisible && (
               <Pressable onPress={() => setInputText('')} hitSlop={15}>
-                <CloseIcon width={20} height={20} color={'#fff'} />
+                <SvgIcon name="close_round" width={20} height={20} color={'#FFF'} />
               </Pressable>
             )}
           </View>
@@ -95,14 +105,12 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   label: {
-    marginBottom: 20,
-    color: '#fff'
+    marginBottom: 20
   },
   input: {
     borderBottomWidth: 1,
     borderBottomColor: '#202632',
     paddingBottom: 10,
-    color: '#fff',
     fontSize: 16
   },
   focusedInput: {

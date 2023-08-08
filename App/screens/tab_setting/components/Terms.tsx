@@ -1,8 +1,8 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import React, { useEffect } from 'react';
-import { SemiTitle } from '../../components/Title';
-import themeChange from '../../util/theme';
-import SvgIcon from '../../components/SvgIcon';
+import { SemiTitle, SmallTitle } from '../../../components/Title';
+import themeChange from '../../../util/theme';
+import SvgIcon from '../../../components/SvgIcon';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -33,8 +33,15 @@ const Terms = () => {
     }
   ];
   return (
-    <View style={{ backgroundColor: themeMode.secondary }}>
-      <SemiTitle title="앱 정보 및 이용약관" style={styles.title} />
+    <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
+      <View style={styles.title}>
+        <Image
+          source={require('../../../assets/img/term.png')}
+          style={styles.image}
+          resizeMode="contain"
+        />
+        <SmallTitle title="앱 정보 및 이용약관" />
+      </View>
       <View>
         {termsList.map((list, index) => (
           <TermsList list={list} />
@@ -73,23 +80,33 @@ const TermsList = ({ list }: { list: TTerms }) => {
   return (
     <Pressable
       onPressIn={() => {
-        (scaleAni.value = 0.95), (backgound.value = themeMode.primary);
+        (scaleAni.value = 0.95), (backgound.value = themeMode.card);
       }}
       onPressOut={() => ((scaleAni.value = 1), (backgound.value = themeMode.secondary))}
     >
       <Animated.View style={[styles.btnWrapper, animatedStyles]}>
         <Text style={{ color: themeMode.tint }}>{list.name}</Text>
-        <SvgIcon name="arrow_right" color={'#BAC0CE'} />
+        <SvgIcon name="arrow_right" color={themeMode.pressIcon} />
       </Animated.View>
     </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    borderRadius: 15,
+    paddingTop: 15,
+    paddingBottom: 5
+  },
   title: {
-    marginVertical: 10,
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
+    flexDirection: 'row',
+    marginBottom: 10
+  },
+  image: {
+    width: 30,
+    height: 30,
+    marginRight: 10
   },
   btnWrapper: {
     paddingHorizontal: 20,

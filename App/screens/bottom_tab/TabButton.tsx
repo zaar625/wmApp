@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import React, { useEffect } from 'react';
-import { BottomTabBarButtonProps } from '@react-navigation/bottom-tabs';
+
 import SvgIcon from '../../components/SvgIcon';
 import Animated, { useSharedValue } from 'react-native-reanimated';
 import { useAnimatedStyle, withTiming, Easing } from 'react-native-reanimated';
@@ -42,12 +42,12 @@ const TabButton = (props: any) => {
       onPress={onPress}
       onPressIn={() => {
         haptic('impactMedium');
-        (scaleAni.value = 0.95), (backgound.value = themeMode.primary);
+        (scaleAni.value = 0.95), (backgound.value = themeMode.card);
       }}
       onPressOut={() => ((scaleAni.value = 1), (backgound.value = themeMode.secondary))}
     >
       <Animated.View style={[styles.btnAniWrapper, animatedStyles]}>
-        <SvgIcon name={item.icon} color={activeColor} />
+        <SvgIcon name={item.icon} color={activeColor} width={25} />
         <Text style={[styles.label, { color: activeColor }]}>{item.label}</Text>
       </Animated.View>
     </Pressable>
@@ -65,12 +65,12 @@ const styles = StyleSheet.create({
   btnAniWrapper: {
     alignItems: 'center',
     justifyContent: 'center',
-    flex: 1,
     borderRadius: 10,
-    paddingHorizontal: 15
+    width: 60,
+    padding: 5
   },
   label: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '700',
     marginTop: 5
   }

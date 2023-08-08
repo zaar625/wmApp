@@ -3,36 +3,46 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { closeBottomSheet } from '../../state/slice/bottomSheet';
 import SvgIcon from '../SvgIcon';
+import { TWorkData, dailyTime } from '../calender/handler/totalHourhandler';
+import { format } from 'date-fns';
+import { dailyTotalHour } from '../calender/handler/totalHourhandler';
 
-const DateSheet = () => {
+const DateSheet = ({ data }: any) => {
+  const FIRSTDATA = 0;
+  const selectedDate = data[FIRSTDATA].date.toDate();
+  const dailyHour = dailyTotalHour(selectedDate, data);
+
   const dispatch = useDispatch();
   return (
     <View style={{ padding: 20 }}>
       <View style={styles.header}>
-        <Text style={styles.title}>4일 수요일 근로 상세</Text>
+        <Text style={styles.title}>{`${format(selectedDate, 'd')}일 근로 상세`}</Text>
         <Pressable onPress={() => dispatch(closeBottomSheet())}>
           <SvgIcon name="close" color={'#FFF'} />
         </Pressable>
       </View>
       <View style={styles.totalWorkHourWrapper}>
-        <Text style={{ color: '#FFF' }}>총 근무시간: 12H</Text>
-        <Text style={{ color: '#FFF' }}>+ 45,000</Text>
+        <Text style={{ color: '#FFF' }}>{`총 근무시간: ${dailyHour}H`}</Text>
+        <Text style={{ color: '#FFF' }}>{`+ ${Math.floor(dailyHour * 9250)}원`}</Text>
       </View>
-      <WorkInfoCard />
-      <WorkInfoCard />
-      <WorkInfoCard />
+      {data.map((workItem: TWorkData, index: number) => (
+        <WorkInfoCard workItem={workItem} key={index} />
+      ))}
     </View>
   );
 };
 
-const WorkInfoCard = () => {
+const WorkInfoCard = ({ workItem }: { workItem: TWorkData }) => {
+  const { date, end, start, storeName } = workItem;
+
+  const { startWork, endWork, totalHour } = dailyTime(start, end);
   return (
     <View style={styles.cardContainer}>
       <View style={styles.storeWorkHourWrapper}>
         <Text style={[{ color: '#FFF' }, styles.storeText]}>카페이루</Text>
-        <Text style={{ color: '#FFF' }}>18:00 - 22:00 (4H)</Text>
+        <Text style={{ color: '#FFF' }}>{`${startWork} ~ ${endWork} (${totalHour}H)`}</Text>
       </View>
-      <Text style={{ color: '#FFF' }}>+ 15,000</Text>
+      <Text style={{ color: '#FFF' }}>{`+ ${totalHour * 9620}`}</Text>
     </View>
   );
 };

@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import OneBtnModal from '../../components/modal/OneBtnModal';
 
 const initialState = {
   modalType: '',

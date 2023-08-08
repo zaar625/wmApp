@@ -1,21 +1,29 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import { ScrollView, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
 import Calender from '../../components/calender';
-import TabHeader from '../../components/TabHeader';
+import { ScreenTitle } from '../../components/Title';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import themeChange from '../../util/theme';
+import MonthPayRoll from './components/MonthPayRoll';
+import addMonths from 'date-fns/addMonths';
+import subMonths from 'date-fns/subMonths';
 
-import { colors } from '../../theme';
+import firestore from '@react-native-firebase/firestore';
 
 const Calendar = () => {
-  const headerContent = {
-    title: `이번달${`\n`}이만큼 벌었어요`,
-    image: require('../../assets/img/calendar_banner.png')
-  };
+  const themeMode = themeChange();
+  const [currentDate, setCurrentDate] = useState(new Date());
+  // const [selectedDate, setSelectedDate] = useState(new Date());
+
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: themeMode.primary }]}
+      edges={['top']}
+    >
       <ScrollView>
-        <TabHeader contents={headerContent} />
-        <Calender />
+        <ScreenTitle title={`이번달${`\n`}이만큼 벌었어요`} style={{ paddingHorizontal: 20 }} />
+        <MonthPayRoll currentDate={currentDate} />
+        <Calender setCurrentDate={setCurrentDate} currentDate={currentDate} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -25,7 +33,6 @@ export default Calendar;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: colors.dark.primary
+    flex: 1
   }
 });
