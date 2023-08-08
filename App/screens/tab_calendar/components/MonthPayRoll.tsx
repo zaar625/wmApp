@@ -2,12 +2,14 @@ import { Image, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import themeChange from '../../../util/theme';
 import { SemiTitle, SmallTitle } from '../../../components/Title';
+import { format } from 'date-fns';
 
-const MonthPayRoll = () => {
+const MonthPayRoll = ({ currentDate }: { currentDate: Date }) => {
   const themeMode = themeChange();
+  const formatMonth = format(currentDate, 'M');
   return (
     <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
-      <SemiTitle title="7월 수입" style={{ marginBottom: 20 }} />
+      <SemiTitle title={`${formatMonth}월 수입`} style={{ marginBottom: 20 }} />
 
       <View style={[styles.imageWrapper, { marginBottom: 20 }]}>
         <Image

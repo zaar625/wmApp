@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   route: '',
-  isOpen: false
+  isOpen: false,
+  data: []
 };
 
 export const bottomSheetlSlice = createSlice({
@@ -10,9 +11,11 @@ export const bottomSheetlSlice = createSlice({
   initialState,
   reducers: {
     openBottomSheet: (state, actions) => {
-      const { route } = actions.payload;
+      const { route, data } = actions.payload;
       state.route = route;
       state.isOpen = true;
+      state.data = data;
+      console.log('state', state.data);
     },
     closeBottomSheet: state => {
       state.isOpen = false;
