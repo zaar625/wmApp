@@ -13,18 +13,7 @@ type TProps = {
 const TabHeader = ({ contents }: { contents: TProps }) => {
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-      <View style={{ flex: 2 }}>
-        <ScreenTitle title={contents.title} />
-      </View>
-      <Image
-        source={contents.image}
-        style={{
-          maxWidth: deviceWidth * 0.35,
-          maxHeight: deviceWidth * 0.35,
-          marginRight: 20
-        }}
-        resizeMode="cover"
-      />
+      <ScreenTitle title={contents.title} />
     </View>
   );
 };

@@ -8,16 +8,21 @@ const colors: any = {
     secondary: '#FFF',
     tertiary: '#',
     subTint: '#454545',
-    tint: '#000'
+    tint: '#000',
+    card: '#F2F3F5',
+    pressIcon: '#5C6269',
+    main: '#326273'
   },
   dark: {
-    primary: '#30394B',
-    secondary: '#202632',
+    primary: '#101012',
+    secondary: '#191A1E',
     tertiary: '#',
-    subTint: '#BAC0CE',
-    tint: '#fff'
-  },
-  main: '#326273'
+    subTint: '#868787',
+    tint: '#fff',
+    card: '#25252B',
+    pressIcon: '#BAC0CE',
+    main: '#326273'
+  }
 };
 
 const fontSizes = {

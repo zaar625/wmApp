@@ -16,11 +16,11 @@ const Month = ({ currentMonth, nextMonth, prevMonth }: TProps) => {
   return (
     <View style={styles.container}>
       <Pressable style={{ marginRight: 10 }} onPress={() => prevMonth()}>
-        <SvgIcon name="arrow_left" width={20} height={20} color={'#FFF'} />
+        <SvgIcon name="arrow_left_fill" width={20} height={20} color={themeMode.tint} />
       </Pressable>
       <Text style={[styles.month, { color: themeMode.tint }]}>{format(currentMonth, 'M')}월</Text>
       <Pressable style={{ marginLeft: 10 }} onPress={() => nextMonth()}>
-        <SvgIcon name="arrow_right" width={20} height={20} color={'#FFF'} />
+        <SvgIcon name="arrow_right_fill" width={20} height={20} color={themeMode.tint} />
       </Pressable>
     </View>
   );
@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: 20
   },
   month: {
     fontWeight: 'bold',

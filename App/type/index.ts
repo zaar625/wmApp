@@ -13,6 +13,9 @@ export type RootStackParamList = {
   calendarTabScreen: undefined;
   settingTabScreen: undefined;
   scannerScreen: undefined;
+  writeScreen: { header: string };
+  shareDetailScreen: { header: string };
+  myInfoModifyScreen: { header: string };
 };
 
 export type NavigationScreenProps = NativeStackScreenProps<RootStackParamList>;

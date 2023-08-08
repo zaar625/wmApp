@@ -1,31 +1,13 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native';
 import React, { useEffect } from 'react';
-import { SemiTitle } from '../../components/Title';
-import themeChange from '../../util/theme';
-import SvgIcon from '../../components/SvgIcon';
-import { useSharedValue, useAnimatedStyle, withTiming, Easing } from 'react-native-reanimated';
-import Animated from 'react-native-reanimated';
-
-const Request = () => {
-  const themeMode = themeChange();
-  return (
-    <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
-      <View style={styles.header}>
-        <SemiTitle title="수정요청 건" />
-        <View style={styles.btnWrapper}>
-          <Text style={styles.btnText}>더보기</Text>
-          <SvgIcon name="arrow_right" color={'#BAC0CE'} />
-        </View>
-      </View>
-      <Text style={styles.subDesc}>해당 월에 대한 요청 건만 보여드려요.</Text>
-      <View style={styles.cardsContainer}>
-        <RequestDetailCard />
-        <RequestDetailCard />
-        <RequestDetailCard />
-      </View>
-    </View>
-  );
-};
+import themeChange from '../../../util/theme';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  Easing
+} from 'react-native-reanimated';
+import SvgIcon from '../../../components/SvgIcon';
 
 const RequestDetailCard = () => {
   const themeMode = themeChange();
@@ -54,7 +36,7 @@ const RequestDetailCard = () => {
   return (
     <Pressable
       onPressIn={() => {
-        (scaleAni.value = 0.95), (backgound.value = themeMode.primary);
+        (scaleAni.value = 0.95), (backgound.value = themeMode.card);
       }}
       onPressOut={() => ((scaleAni.value = 1), (backgound.value = themeMode.secondary))}
     >
@@ -65,42 +47,16 @@ const RequestDetailCard = () => {
           <View style={styles.btnState}>
             <Text style={styles.btnStateText}>확인중</Text>
           </View>
-          <SvgIcon name="arrow_right" color={'#BAC0CE'} />
+          <SvgIcon name="arrow_right" color={themeMode.pressIcon} />
         </View>
       </Animated.View>
     </Pressable>
   );
 };
 
-export default Request;
+export default RequestDetailCard;
 
 const styles = StyleSheet.create({
-  container: {
-    marginBottom: 10
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingTop: 10
-  },
-  btnWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  btnText: {
-    color: '#BAC0CE',
-    marginRight: 10
-  },
-  subDesc: {
-    color: '#D9D9D9',
-    fontSize: 12,
-    paddingHorizontal: 20
-  },
-  cardsContainer: {
-    marginVertical: 10
-  },
   cardWrapper: {
     flexDirection: 'row',
     paddingVertical: 20,

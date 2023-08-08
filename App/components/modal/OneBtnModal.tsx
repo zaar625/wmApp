@@ -5,21 +5,23 @@ import NomalButton from '../buttons/NomarButton';
 import { deviceWidth, deviceheight } from '../../theme';
 import { useDispatch } from 'react-redux';
 import { closeModal } from '../../state/slice/modal';
+import themeChange from '../../util/theme';
 
 const OneBtnModal = ({ props }: any) => {
   const dispatch = useDispatch();
+  const themeMode = themeChange();
   return (
     <View
       style={{
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(48,57,75,0.7)'
+        backgroundColor: 'rgba(16,16,16,0.8)'
       }}
     >
       <View
         style={{
-          backgroundColor: '#202632',
+          backgroundColor: themeMode.card,
           width: deviceWidth * 0.888,
           height: deviceheight * 0.23,
           paddingVertical: 20,

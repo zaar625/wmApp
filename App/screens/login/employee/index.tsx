@@ -16,9 +16,11 @@ import { ScreenTitle } from '../../../components/Title';
 import InputBox from '../InputBox';
 import Button from '../../../components/buttons/Button';
 import { useDispatch } from 'react-redux';
+import themeChange from '../../../util/theme';
 
 export default function EmployeeLoginPage({ navigation }: NavigationScreenProps) {
   const dispatch = useDispatch();
+  const themeMode = themeChange();
   const emailInputRef = useRef<null | TextInput>(null);
   const passwordInputRef = useRef<null | TextInput>(null);
 
@@ -66,8 +68,8 @@ export default function EmployeeLoginPage({ navigation }: NavigationScreenProps)
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <SafeAreaView style={styles.bg}>
-        <ScreenTitle title="로그인하기" />
+      <SafeAreaView style={[styles.bg, { backgroundColor: themeMode.primary }]}>
+        <ScreenTitle title="로그인하기" style={{ paddingHorizontal: 20 }} />
         <View style={styles.content}>
           <View style={styles.form}>
             <InputBox
@@ -94,11 +96,11 @@ export default function EmployeeLoginPage({ navigation }: NavigationScreenProps)
               errorType={{ errType: passwordSignInError, handler: setPasswordSignInError }}
             />
           </View>
-          {/* 회원가입 및 비밀번호 */}
+          {/* 하단 회원가입 및 비밀번호 */}
           <View>
             <View style={styles.subBtn}>
               <Pressable onPress={() => navigation.navigate('singInStep01Page')}>
-                <Text style={[styles.subBtnText]}>회원가입</Text>
+                <Text style={[styles.subBtnText, { color: themeMode.tint }]}>회원가입</Text>
               </Pressable>
               <View
                 style={{
@@ -108,7 +110,7 @@ export default function EmployeeLoginPage({ navigation }: NavigationScreenProps)
                   marginHorizontal: 10
                 }}
               />
-              <Text style={styles.subBtnText}>비밀번호찾기</Text>
+              <Text style={[styles.subBtnText, { color: themeMode.tint }]}>비밀번호찾기</Text>
             </View>
             <Button name="로그인" onPress={login} />
           </View>
@@ -157,7 +159,6 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   subBtnText: {
-    color: '#fff',
     fontSize: 12
   }
 });
