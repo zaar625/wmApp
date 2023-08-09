@@ -1,5 +1,11 @@
-import { StyleSheet, Text, View, TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
-import React, { useState } from 'react';
+import {
+  StyleSheet,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Platform,
+  KeyboardAvoidingView
+} from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
 import themeChange from '../../util/theme';
 import NavigationHeader from '../../common-components/NavigationHeader';
 import ImageSelect from './components/ImageSelect';
@@ -8,13 +14,26 @@ import Button from '../../common-components/buttons/Button';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { RootStackParamList } from '../../type';
 import { ScrollView } from 'react-native-gesture-handler';
-import { KeyboardAvoidingView } from 'react-native';
 
 type WriteScreenRouteProp = RouteProp<RootStackParamList, 'writeScreen'>;
 
 const WriteScreen = () => {
   const themeMode = themeChange();
   const { params } = useRoute<WriteScreenRouteProp>();
+
+  const scrollRef = useRef<ScrollView>(null);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', e => {
+      const keyboardHeight = e.endCoordinates.height;
+
+      scrollRef.current?.scrollTo({ y: keyboardHeight, animated: true });
+    });
+
+    return () => {
+      keyboardDidShowListener.remove();
+    };
+  }, []);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -24,7 +43,7 @@ const WriteScreen = () => {
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={{ flex: 1 }}
         >
-          <ScrollView>
+          <ScrollView ref={scrollRef}>
             <ImageSelect />
           </ScrollView>
         </KeyboardAvoidingView>
