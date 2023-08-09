@@ -1,13 +1,17 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { SmallTitle } from '../../../common-components/Title';
 import ShareItem from './ShareItem';
 import SvgIcon from '../../../common-components/SvgIcon';
 import themeChange from '../../../util/theme';
+import { useShareLogDate } from '../../../api/store/hooks/useTodayShare';
+import firestore from '@react-native-firebase/firestore';
 
 const ShareContents = () => {
   const themeMode = themeChange();
+  const { data } = useShareLogDate();
+  console.log(data);
   return (
     <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
       <View style={[styles.titleHeader, styles.titleWrapper]}>
