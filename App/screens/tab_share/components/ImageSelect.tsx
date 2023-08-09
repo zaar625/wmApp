@@ -1,8 +1,8 @@
-import { Pressable, StyleSheet, Text, View, TextInput } from 'react-native';
+import { Pressable, StyleSheet, Text, View, TextInput, Image } from 'react-native';
 import React, { useState } from 'react';
 import CircleSubTitle from '../../../common-components/CircleSubTitle';
 import SvgIcon from '../../../common-components/SvgIcon';
-import { deviceWidth, deviceheight } from '../../../theme';
+import { deviceWidth, deviceheight, fontSizes } from '../../../theme';
 import ErrorGuide from '../../../common-components/ErrorGuide';
 import themeChange from '../../../util/theme';
 import { useNavigation } from '@react-navigation/native';
@@ -11,15 +11,17 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/ty
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../state/store';
 
-const IMAGE_WIDHT = (deviceWidth - 40) / 3 - 10;
+const PADDING = 20;
+const IMAGEGAP = 10;
+const IMAGE_WIDHT = (deviceWidth - PADDING * 2 - IMAGEGAP * 2) / 3;
 
 const ImageSelect = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const themeMode = themeChange();
-  const [temp, setTemp] = useState(false);
   const [shareMessage, setShareMessage] = useState('');
 
-  const { uri } = useSelector((state: RootState) => state.share);
+  const { uri: selectedImages } = useSelector((state: RootState) => state.share);
+  console.log(selectedImages);
 
   const onChangeText = (inputText: string) => {
     setShareMessage(inputText);
@@ -28,6 +30,7 @@ const ImageSelect = () => {
   const handleButtonPress = () => {
     navigation.navigate('imagePickScreen');
   };
+
   return (
     <View style={styles.container}>
       <CircleSubTitle title="사진 첨부" />
@@ -38,17 +41,17 @@ const ImageSelect = () => {
           <Text style={[styles.imagePickBtnText, { color: themeMode.subTint }]}>
             공유할 이미지 선택
           </Text>
-          <Text>
-            0<Text>/3</Text>
+          <Text style={{ color: themeMode.subTint }}>
+            <Text style={{ fontWeight: 'bold' }}>{selectedImages.length}</Text> / 3
           </Text>
         </View>
       </Pressable>
 
-      <View>
-        {temp ? (
+      <View style={{ marginBottom: 30 }}>
+        {selectedImages.length > 0 ? (
           <View style={styles.imagesWrapper}>
-            {[1, 2, 3].map(() => (
-              <View style={styles.imgContainer}></View>
+            {selectedImages.map((image, index) => (
+              <Image key={index} source={{ uri: image }} style={styles.imgContainer} />
             ))}
           </View>
         ) : (
@@ -99,16 +102,13 @@ const styles = StyleSheet.create({
   },
   imagesWrapper: {
     flexDirection: 'row',
-    // width: deviceWidth - 40,
-    height: IMAGE_WIDHT,
-    backgroundColor: 'gray',
-    justifyContent: 'space-between'
+    gap: 10,
+    height: IMAGE_WIDHT
   },
   imgContainer: {
     borderRadius: 10,
     width: IMAGE_WIDHT,
-    height: IMAGE_WIDHT,
-    backgroundColor: 'red'
+    height: IMAGE_WIDHT
   },
   noImageWrapper: {
     height: IMAGE_WIDHT,

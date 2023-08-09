@@ -1,4 +1,4 @@
-import { StyleSheet, FlatList, Pressable } from 'react-native';
+import { StyleSheet, FlatList, Pressable, View, Text } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { CameraRoll, PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
 import ImageBox from './components/ImageBox';
@@ -6,16 +6,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../state/store';
 import { shareInfoSave } from '../../state/slice/share';
 import { openModal } from '../../state/slice/modal';
+import NavigationHeader from '../../common-components/NavigationHeader';
+import themeChange from '../../util/theme';
+import { NavigationScreenProps } from '../../type';
 
 type TPhotos = {
   photos: Array<PhotoIdentifier>;
 };
 
-const ImagePickScreen = () => {
+const ImagePickScreen = ({ navigation }: NavigationScreenProps) => {
   const dispatch = useDispatch();
-  const [images, setImages] = useState<TPhotos>();
+  const themeMode = themeChange();
+  const [phoneImages, setPhoneImages] = useState<TPhotos>();
   const [pageCount, setPageCount] = useState(1);
-  const { uri: stateURI } = useSelector((state: RootState) => state.share);
+  const { uri: stateURIList } = useSelector((state: RootState) => state.share);
+  const [selectImage, setSelectImage] = useState(stateURIList);
 
   useEffect(() => {
     CameraRoll.getPhotos({
@@ -23,8 +28,7 @@ const ImagePickScreen = () => {
       assetType: 'Photos'
     })
       .then(res => {
-        // console.log(res);
-        setImages({ photos: res.edges });
+        setPhoneImages({ photos: res.edges });
       })
       .catch(err => {
         //Error Loading Images
@@ -33,16 +37,15 @@ const ImagePickScreen = () => {
 
   const onImageTouchHandler = (item: PhotoIdentifier) => {
     const imageURI = item.node.image.uri;
-    const isSameURI = stateURI.some(uri => uri === imageURI);
+    const isSameURI = selectImage.some(uri => uri === imageURI);
 
     if (isSameURI) {
-      const removeURI = stateURI.filter(uri => uri !== imageURI);
-      dispatch(shareInfoSave(removeURI));
-
+      const removeURI = selectImage.filter(uri => uri !== imageURI);
+      setSelectImage(removeURI);
       return;
     }
 
-    const stateURILength = stateURI.length;
+    const stateURILength = selectImage.length;
 
     if (stateURILength > 2) {
       dispatch(
@@ -57,28 +60,45 @@ const ImagePickScreen = () => {
       );
       return;
     }
-    dispatch(shareInfoSave([...stateURI, imageURI]));
+    setSelectImage([...selectImage, imageURI]);
+  };
+
+  const onComplateBtn = () => {
+    dispatch(shareInfoSave(selectImage));
+    navigation.goBack();
   };
 
   return (
-    <>
-      {images && (
+    <View style={{ backgroundColor: themeMode.primary }}>
+      <NavigationHeader header="공유할 사진 선택하기">
+        <Pressable onPress={onComplateBtn}>
+          <Text style={[{ color: themeMode.subTint }, styles.headerRightBtn]}>선택완료</Text>
+        </Pressable>
+      </NavigationHeader>
+      {phoneImages && (
         <FlatList
           bounces={false}
-          data={images.photos}
+          data={phoneImages.photos}
           numColumns={4}
           onEndReached={() => setPageCount(pageCount + 1)}
           renderItem={({ item, index }) => (
             <Pressable onPress={() => onImageTouchHandler(item)}>
-              <ImageBox item={item} index={index} />
+              <ImageBox item={item} index={index} selectImage={selectImage} />
             </Pressable>
           )}
         />
       )}
-    </>
+    </View>
   );
 };
 
 export default ImagePickScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {},
+  headerRightBtn: {
+    fontWeight: '700',
+    fontSize: 12,
+    textDecorationLine: 'underline'
+  }
+});

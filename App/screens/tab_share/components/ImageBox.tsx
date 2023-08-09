@@ -8,10 +8,17 @@ import { useSelector, useDispatch } from 'react-redux';
 import { shareInfoSave } from '../../../state/slice/share';
 import { openModal } from '../../../state/slice/modal';
 
-const ImageBox = ({ item, index }: { item: PhotoIdentifier; index: number }) => {
+const ImageBox = ({
+  item,
+  index,
+  selectImage
+}: {
+  item: PhotoIdentifier;
+  index: number;
+  selectImage: string[];
+}) => {
   const itemUri = item.node.image.uri;
-  const { uri: stateURIList } = useSelector((state: RootState) => state.share);
-  const isSameURI = stateURIList.some(uri => uri === item.node.image.uri);
+  const isSameURI = selectImage.some(uri => uri === itemUri);
 
   return (
     <View
