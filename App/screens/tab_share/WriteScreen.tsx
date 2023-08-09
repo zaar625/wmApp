@@ -5,21 +5,28 @@ import {
   Platform,
   KeyboardAvoidingView
 } from 'react-native';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import themeChange from '../../util/theme';
 import NavigationHeader from '../../common-components/NavigationHeader';
 import ImageSelect from './components/ImageSelect';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Button from '../../common-components/buttons/Button';
 import { RouteProp, useRoute } from '@react-navigation/native';
-import { RootStackParamList } from '../../type';
+import { NavigationScreenProps, RootStackParamList } from '../../type';
 import { ScrollView } from 'react-native-gesture-handler';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../state/store';
+//
 
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 type WriteScreenRouteProp = RouteProp<RootStackParamList, 'writeScreen'>;
 
-const WriteScreen = () => {
+const WriteScreen = ({ navigation }: NavigationScreenProps) => {
   const themeMode = themeChange();
   const { params } = useRoute<WriteScreenRouteProp>();
+  const { uris, content } = useSelector((state: RootState) => state.share);
+  console.log(uris);
 
   const scrollRef = useRef<ScrollView>(null);
 
@@ -35,6 +42,29 @@ const WriteScreen = () => {
     };
   }, []);
 
+  const onSubmit = async () => {
+    const reference = storage().ref(`/photo/DMWrTCluLrhJMrI01BVhJK6byFs1/test`);
+    await reference.putFile(uris[0]);
+
+    const photoURL = await reference.getDownloadURL();
+    console.log(photoURL);
+    // 파이어베이스 저장
+    const shareLogCollection = firestore()
+      .collection('users')
+      .doc('DMWrTCluLrhJMrI01BVhJK6byFs1')
+      .collection('shareLog');
+
+    await shareLogCollection.add({
+      user: 'DMWrTCluLrhJMrI01BVhJK6byFs1',
+      photoURL,
+      content,
+      storeName: 'lFddsTVznYG9ZNstQYo9',
+      createAt: firestore.FieldValue.serverTimestamp()
+    });
+
+    navigation.pop();
+  };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={[styles.container, { backgroundColor: themeMode.primary }]}>
@@ -47,7 +77,7 @@ const WriteScreen = () => {
             <ImageSelect />
           </ScrollView>
         </KeyboardAvoidingView>
-        <Button name="완료" onPress={() => {}} />
+        <Button name="완료" onPress={onSubmit} />
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
