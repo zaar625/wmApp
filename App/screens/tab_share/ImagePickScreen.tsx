@@ -19,7 +19,7 @@ const ImagePickScreen = ({ navigation }: NavigationScreenProps) => {
   const themeMode = themeChange();
   const [phoneImages, setPhoneImages] = useState<TPhotos>();
   const [pageCount, setPageCount] = useState(1);
-  const { uri: stateURIList } = useSelector((state: RootState) => state.share);
+  const { uris: stateURIList } = useSelector((state: RootState) => state.share);
   const [selectImage, setSelectImage] = useState(stateURIList);
 
   useEffect(() => {
@@ -64,7 +64,7 @@ const ImagePickScreen = ({ navigation }: NavigationScreenProps) => {
   };
 
   const onComplateBtn = () => {
-    dispatch(shareInfoSave(selectImage));
+    dispatch(shareInfoSave({ uris: selectImage }));
     navigation.goBack();
   };
 

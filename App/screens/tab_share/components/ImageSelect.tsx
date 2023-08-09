@@ -1,8 +1,17 @@
-import { Pressable, StyleSheet, Text, View, TextInput, Image } from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Image,
+  NativeSyntheticEvent,
+  TextInputEndEditingEventData
+} from 'react-native';
 import React, { useState } from 'react';
 import CircleSubTitle from '../../../common-components/CircleSubTitle';
 import SvgIcon from '../../../common-components/SvgIcon';
-import { deviceWidth, deviceheight, fontSizes } from '../../../theme';
+import { deviceWidth, deviceheight } from '../../../theme';
 import ErrorGuide from '../../../common-components/ErrorGuide';
 import themeChange from '../../../util/theme';
 import { useNavigation } from '@react-navigation/native';
@@ -10,6 +19,8 @@ import { RootStackParamList } from '../../../type';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../state/store';
+import { useDispatch } from 'react-redux';
+import { shareInfoSave } from '../../../state/slice/share';
 
 const PADDING = 20;
 const IMAGEGAP = 10;
@@ -18,17 +29,16 @@ const IMAGE_WIDHT = (deviceWidth - PADDING * 2 - IMAGEGAP * 2) / 3;
 const ImageSelect = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const themeMode = themeChange();
-  const [shareMessage, setShareMessage] = useState('');
-
-  const { uri: selectedImages } = useSelector((state: RootState) => state.share);
-  console.log(selectedImages);
-
-  const onChangeText = (inputText: string) => {
-    setShareMessage(inputText);
-  };
+  const dispatch = useDispatch();
+  const { uris: selectedImages, content } = useSelector((state: RootState) => state.share);
 
   const handleButtonPress = () => {
     navigation.navigate('imagePickScreen');
+  };
+
+  const onEndEditing = (event: NativeSyntheticEvent<TextInputEndEditingEventData>) => {
+    const shareContent = event.nativeEvent.text;
+    dispatch(shareInfoSave({ content: shareContent }));
   };
 
   return (
@@ -63,14 +73,15 @@ const ImageSelect = () => {
 
       <CircleSubTitle title="공유 내용 입력" />
       <TextInput
-        onChangeText={onChangeText}
+        onEndEditing={onEndEditing}
         style={[styles.inputBox, { borderColor: themeMode.card, color: themeMode.tint }]}
         placeholder="내용을 150자 이내로 작성해주세요."
         multiline
         placeholderTextColor={'#797979'}
+        maxLength={150}
       />
-      <Text style={styles.lengthText}>0/150</Text>
-      <ErrorGuide message="공유할 내용을 입력해주세요." />
+
+      {!content && <ErrorGuide message="공유할 내용을 입력해주세요." />}
     </View>
   );
 };
@@ -116,13 +127,16 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   inputBox: {
+    marginTop: 20,
     borderWidth: 1,
     borderRadius: 10,
     padding: 10,
-    height: deviceheight * 0.328,
-    marginVertical: 10
+    height: deviceheight * 0.328
   },
   lengthText: {
-    textAlign: 'right'
+    textAlign: 'right',
+    fontWeight: '600',
+    fontSize: 12,
+    marginTop: 10
   }
 });

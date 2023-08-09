@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface IShareSubmit {
-  uri: string[];
+  uris: string[];
   content: string;
 }
 
 const initialState: IShareSubmit = {
-  uri: [],
+  uris: [],
   content: ''
 };
 
@@ -15,8 +15,9 @@ const shareSubmitSlice = createSlice({
   initialState,
   reducers: {
     shareInfoSave: (state, action: PayloadAction<any>) => {
-      console.log(action.payload);
-      state.uri = action.payload;
+      state = { ...state, ...action.payload };
+
+      return state;
     }
   }
 });
