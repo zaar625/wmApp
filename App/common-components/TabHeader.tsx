@@ -12,7 +12,7 @@ type TProps = {
 
 const TabHeader = ({ contents }: { contents: TProps }) => {
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+    <View style={styles.container}>
       <ScreenTitle title={contents.title} />
     </View>
   );
@@ -20,4 +20,10 @@ const TabHeader = ({ contents }: { contents: TProps }) => {
 
 export default TabHeader;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  }
+});

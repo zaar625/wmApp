@@ -11,7 +11,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import themeChange from '../../../util/theme';
-import SvgIcon from '../../../components/SvgIcon';
+import SvgIcon from '../../../common-components/SvgIcon';
 
 const ShareItem = () => {
   const themeMode = themeChange();

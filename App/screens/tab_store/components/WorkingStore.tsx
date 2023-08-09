@@ -2,8 +2,8 @@ import { StyleSheet, Text, View, Pressable, Image } from 'react-native';
 import React from 'react';
 
 import themeChange from '../../../util/theme';
-import { SemiTitle } from '../../../components/Title';
-import SvgIcon from '../../../components/SvgIcon';
+import { SemiTitle } from '../../../common-components/Title';
+import SvgIcon from '../../../common-components/SvgIcon';
 import { useMyStoreList } from '../../../api/store/hooks/useMyStoreList';
 import { useDeletStore } from '../../../api/store/hooks/useDeleteStoreList';
 const WorkingStore = () => {

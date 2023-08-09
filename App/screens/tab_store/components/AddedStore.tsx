@@ -4,8 +4,8 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../type';
 import themeChange from '../../../util/theme';
-import { SemiTitle } from '../../../components/Title';
-import SvgIcon from '../../../components/SvgIcon';
+import { SemiTitle } from '../../../common-components/Title';
+import SvgIcon from '../../../common-components/SvgIcon';
 
 const AddedStore = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();

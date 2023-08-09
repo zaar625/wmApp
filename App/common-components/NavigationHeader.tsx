@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-import SvgIcon from '../components/SvgIcon';
+import SvgIcon from './SvgIcon';
 import { useNavigation } from '@react-navigation/native';
 import themeChange from '../util/theme';
 

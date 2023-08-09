@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import React, { useState } from 'react';
 import themeChange from '../../util/theme';
-import NavigationHeader from '../../common/NavigationHeader';
-import ImagePick from './components/ImagePick';
+import NavigationHeader from '../../common-components/NavigationHeader';
+import ImageSelect from './components/ImageSelect';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Button from '../../components/buttons/Button';
+import Button from '../../common-components/buttons/Button';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { RootStackParamList } from '../../type';
 
@@ -19,7 +19,7 @@ const WriteScreen = () => {
       <SafeAreaView style={[styles.container, { backgroundColor: themeMode.primary }]}>
         <View>
           <NavigationHeader header={params.header} />
-          <ImagePick />
+          <ImageSelect />
         </View>
         <Button name="완료" onPress={() => {}} />
       </SafeAreaView>

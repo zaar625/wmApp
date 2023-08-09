@@ -6,7 +6,7 @@ import { useContext } from 'react';
 import { ThemeContext } from '../../theme/themeContext';
 import AddedStore from './components/AddedStore';
 import PayRoll from './components/PayRoll';
-import { ScreenTitle } from '../../components/Title';
+import { ScreenTitle } from '../../common-components/Title';
 import WorkingStore from './components/WorkingStore';
 
 const StoreTabScreen = () => {

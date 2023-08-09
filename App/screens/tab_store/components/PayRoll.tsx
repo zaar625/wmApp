@@ -2,8 +2,8 @@ import { Image, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 
 import themeChange from '../../../util/theme';
-import SvgIcon from '../../../components/SvgIcon';
-import { SemiTitle } from '../../../components/Title';
+import SvgIcon from '../../../common-components/SvgIcon';
+import { SemiTitle } from '../../../common-components/Title';
 
 const PayRoll = () => {
   const themeMode = themeChange();

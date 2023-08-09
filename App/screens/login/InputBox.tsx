@@ -10,10 +10,10 @@ import {
   TextInputEndEditingEventData
 } from 'react-native';
 import React, { useState } from 'react';
-import ErrorGuide from '../../components/ErrorGuide';
+import ErrorGuide from '../../common-components/ErrorGuide';
 import themeChange from '../../util/theme';
 
-import SvgIcon from '../../components/SvgIcon';
+import SvgIcon from '../../common-components/SvgIcon';
 
 interface Props {
   defaultValue?: any;

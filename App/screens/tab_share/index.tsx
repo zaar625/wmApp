@@ -3,8 +3,8 @@ import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import themeChange from '../../util/theme';
-import { ScreenTitle, SemiTitle } from '../../components/Title';
-import TabHeader from '../../components/TabHeader';
+import { ScreenTitle, SemiTitle } from '../../common-components/Title';
+import TabHeader from '../../common-components/TabHeader';
 import Working from './components/Working';
 import ShareContents from './components/ShareContents';
 import ShareWriten from './components/ShareWriten';

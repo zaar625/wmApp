@@ -1,22 +1,25 @@
 import { Pressable, StyleSheet, Text, View, TextInput } from 'react-native';
 import React, { useState } from 'react';
-import CircleSubTitle from '../../../common/CircleSubTitle';
-import SvgIcon from '../../../components/SvgIcon';
+import CircleSubTitle from '../../../common-components/CircleSubTitle';
+import SvgIcon from '../../../common-components/SvgIcon';
 import { deviceWidth, deviceheight } from '../../../theme';
-import ErrorGuide from '../../../components/ErrorGuide';
+import ErrorGuide from '../../../common-components/ErrorGuide';
 import themeChange from '../../../util/theme';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../../type';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
-import { CameraRoll } from '@react-native-camera-roll/camera-roll';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../state/store';
 
 const IMAGE_WIDHT = (deviceWidth - 40) / 3 - 10;
 
-const ImagePick = () => {
+const ImageSelect = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const themeMode = themeChange();
   const [temp, setTemp] = useState(false);
   const [shareMessage, setShareMessage] = useState('');
+
+  const { uri } = useSelector((state: RootState) => state.share);
 
   const onChangeText = (inputText: string) => {
     setShareMessage(inputText);
@@ -24,16 +27,6 @@ const ImagePick = () => {
 
   const handleButtonPress = () => {
     navigation.navigate('imagePickScreen');
-    // CameraRoll.getPhotos({
-    //   first: 20,
-    //   assetType: 'Photos'
-    // })
-    //   .then(res => {
-    //     setImages({ photos: res.edges });
-    //   })
-    //   .catch(err => {
-    //     //Error Loading Images
-    //   });
   };
   return (
     <View style={styles.container}>
@@ -79,7 +72,7 @@ const ImagePick = () => {
   );
 };
 
-export default ImagePick;
+export default ImageSelect;
 
 const styles = StyleSheet.create({
   container: {

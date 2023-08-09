@@ -1,6 +1,6 @@
-import { StyleSheet, Text, View, ViewStyle } from 'react-native';
+import { StyleSheet, Text, ViewStyle } from 'react-native';
 import React from 'react';
-import { colors, fontSizes, fontWeight } from '../theme';
+import { colors } from '../theme';
 import { useContext } from 'react';
 import { ThemeContext } from '../theme/themeContext';
 

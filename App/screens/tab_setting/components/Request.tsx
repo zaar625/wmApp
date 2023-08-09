@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View, Image } from 'react-native';
 import React from 'react';
-import { SmallTitle } from '../../../components/Title';
+import { SmallTitle } from '../../../common-components/Title';
 import themeChange from '../../../util/theme';
-import SvgIcon from '../../../components/SvgIcon';
+import SvgIcon from '../../../common-components/SvgIcon';
 
 import RequestDetailCard from './RequestDetailCard';
 

@@ -2,14 +2,14 @@ import { StyleSheet, Text, View, TextInput } from 'react-native';
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRoute } from '@react-navigation/native';
-import NavigationHeader from '../../common/NavigationHeader';
+import NavigationHeader from '../../common-components/NavigationHeader';
 import themeChange from '../../util/theme';
 import type { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../type';
-import CircleSubTitle from '../../common/CircleSubTitle';
+import CircleSubTitle from '../../common-components/CircleSubTitle';
 
 import { deviceWidth, deviceheight } from '../../theme';
-import Button from '../../components/buttons/Button';
+import Button from '../../common-components/buttons/Button';
 
 type ShareDetailScreenRouteProp = RouteProp<RootStackParamList, 'shareDetailScreen'>;
 

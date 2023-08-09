@@ -1,7 +1,7 @@
 import { Image, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import themeChange from '../../../util/theme';
-import { SemiTitle, SmallTitle } from '../../../components/Title';
+import { SemiTitle, SmallTitle } from '../../../common-components/Title';
 import { format } from 'date-fns';
 
 const MonthPayRoll = ({ currentDate }: { currentDate: Date }) => {

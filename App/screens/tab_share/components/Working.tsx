@@ -1,7 +1,7 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import themeChange from '../../../util/theme';
-import SvgIcon from '../../../components/SvgIcon';
+import SvgIcon from '../../../common-components/SvgIcon';
 import { useDispatch } from 'react-redux';
 import { openBottomSheet } from '../../../state/slice/bottomSheet';
 import { useRoute } from '@react-navigation/native';

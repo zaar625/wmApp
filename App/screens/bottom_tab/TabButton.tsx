@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import React, { useEffect } from 'react';
 
-import SvgIcon from '../../components/SvgIcon';
+import SvgIcon from '../../common-components/SvgIcon';
 import Animated, { useSharedValue } from 'react-native-reanimated';
 import { useAnimatedStyle, withTiming, Easing } from 'react-native-reanimated';
 import haptic from '../../util/haptic';

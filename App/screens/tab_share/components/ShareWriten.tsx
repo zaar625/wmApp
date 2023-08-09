@@ -1,8 +1,8 @@
 import { Image, Pressable, StyleSheet, View, Text } from 'react-native';
 import React from 'react';
 import themeChange from '../../../util/theme';
-import { SmallTitle } from '../../../components/Title';
-import SvgIcon from '../../../components/SvgIcon';
+import { SmallTitle } from '../../../common-components/Title';
+import SvgIcon from '../../../common-components/SvgIcon';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../type';

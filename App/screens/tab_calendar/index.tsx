@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet } from 'react-native';
 import React, { useState } from 'react';
-import Calender from '../../components/calender';
-import { ScreenTitle } from '../../components/Title';
+import Calender from '../../common-components/calender';
+import { ScreenTitle } from '../../common-components/Title';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import themeChange from '../../util/theme';
 import MonthPayRoll from './components/MonthPayRoll';

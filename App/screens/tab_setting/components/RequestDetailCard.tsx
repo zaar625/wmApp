@@ -7,7 +7,7 @@ import Animated, {
   withTiming,
   Easing
 } from 'react-native-reanimated';
-import SvgIcon from '../../../components/SvgIcon';
+import SvgIcon from '../../../common-components/SvgIcon';
 
 const RequestDetailCard = () => {
   const themeMode = themeChange();

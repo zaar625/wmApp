@@ -12,9 +12,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationScreenProps } from '../../../type';
 import { signIn } from '../../../api/auth';
 import { ERROR_MESSEGE } from '../../../constant';
-import { ScreenTitle } from '../../../components/Title';
+import { ScreenTitle } from '../../../common-components/Title';
 import InputBox from '../InputBox';
-import Button from '../../../components/buttons/Button';
+import Button from '../../../common-components/buttons/Button';
 import { useDispatch } from 'react-redux';
 import themeChange from '../../../util/theme';
 

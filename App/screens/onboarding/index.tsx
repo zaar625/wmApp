@@ -3,7 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import React, { useRef, useState } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
 import { NavigationScreenProps } from '../../type';
-import Button from '../../components/buttons/Button';
+import Button from '../../common-components/buttons/Button';
 import { onBoadingDATA, OnBoadingSlideItem } from './onboardingData';
 import { colors, deviceheight, deviceWidth } from '../../theme';
 import { ThemeContext } from '../../theme/themeContext';

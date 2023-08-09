@@ -12,10 +12,10 @@ import CategorySelectPage from './App/screens/select_category';
 import EmployeeLoginPage from './App/screens/login/employee';
 import SignInStep01Page from './App/screens/sign_up/SignInStep01Page';
 import SignInStep02Page from './App/screens/sign_up/SignInStep02Page';
-import GlobalModal from './App/components/modal/GlobalModal';
+import GlobalModal from './App/common-components/modal/GlobalModal';
 import BottomTab from './App/screens/bottom_tab';
 import ScannerScreen from './App/screens/tab_store/ScannerScreen';
-import GlobalBottomSheet from './App/components/bottom_sheet/GlobalBottomSheet';
+import GlobalBottomSheet from './App/common-components/bottom_sheet/GlobalBottomSheet';
 
 import WriteScreen from './App/screens/tab_share/WriteScreen';
 import ImagePickScreen from './App/screens/tab_share/ImagePickScreen';

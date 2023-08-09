@@ -1,9 +1,9 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 
-import { SmallTitle } from '../../../components/Title';
+import { SmallTitle } from '../../../common-components/Title';
 import ShareItem from './ShareItem';
-import SvgIcon from '../../../components/SvgIcon';
+import SvgIcon from '../../../common-components/SvgIcon';
 import themeChange from '../../../util/theme';
 
 const ShareContents = () => {
