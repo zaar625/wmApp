@@ -38,11 +38,7 @@ const ImageBox = ({
         source={{ uri: item.node.image.uri }}
       />
       {isSameURI && (
-        <SvgIcon
-          name="check_round"
-          style={{ position: 'absolute', top: 0, right: 0 }}
-          color={'#00B712'}
-        />
+        <SvgIcon name="check_fill" style={{ position: 'absolute', top: 5, right: 5 }} />
       )}
     </View>
   );

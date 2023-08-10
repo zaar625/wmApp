@@ -15,7 +15,6 @@ export const bottomSheetlSlice = createSlice({
       state.route = route;
       state.isOpen = true;
       state.data = data;
-      console.log('state', state.data);
     },
     closeBottomSheet: state => {
       state.isOpen = false;

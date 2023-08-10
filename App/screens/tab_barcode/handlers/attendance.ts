@@ -65,7 +65,6 @@ export const addWorkingTime = async (currentDate: Date, attendanceType: string) 
     }
 
     if (!hasWorkDate) {
-      console.log('c');
       workHourCollection.doc(format(currentDate, 'yyyy-MM')).update({
         work: firestore.FieldValue.arrayUnion({
           date: new Date(),

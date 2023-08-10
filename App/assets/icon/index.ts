@@ -4,6 +4,7 @@ export { default as note } from './note.svg';
 export { default as code } from './code.svg';
 export { default as settings } from './settings.svg';
 export { default as check } from './check.svg';
+export { default as check_fill } from './check_fill.svg';
 export { default as check_round } from './check_round.svg';
 export { default as arrow_right } from './arrow_right.svg';
 export { default as arrow_right_fill } from './arrow_right_fill.svg';

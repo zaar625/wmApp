@@ -68,7 +68,7 @@ export function weeklyTotalHour(datesOfweek: Date[], workData: TWorkData[]) {
   const dateOfWeekHour = datesOfweek.map(date => dailyTotalHour(date, workData));
 
   const weeklyTotal = dateOfWeekHour.reduce((acc, curr) => acc + curr);
-  // console.log(weeklyTotal);
+
   return weeklyTotal;
 }
 

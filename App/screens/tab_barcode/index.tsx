@@ -17,8 +17,6 @@ const BarcodeTabScreen = () => {
   const currentTime = new Date();
   const currentDate = format(currentTime, 'yyyy-MM');
 
-  // console.log(workHourRef.doc(String(currentTime)).get().exists);
-
   return (
     <View style={[styles.container, { backgroundColor: themeMode.primary }]}>
       <Pressable onPress={() => addWorkingTime(currentTime, 'start')}>

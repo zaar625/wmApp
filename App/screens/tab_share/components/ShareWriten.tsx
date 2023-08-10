@@ -13,7 +13,7 @@ const ShareWriten = () => {
 
   return (
     <Pressable
-      onPress={() => navigation.navigate('writeScreen', { header: '공유 내용 작성하기' })}
+      onPress={() => navigation.navigate('writeStep1')}
       style={[styles.container, { backgroundColor: themeMode.secondary }]}
     >
       <View style={styles.headerTitle}>
