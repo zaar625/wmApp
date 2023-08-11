@@ -11,7 +11,7 @@ import firestore from '@react-native-firebase/firestore';
 const ShareContents = () => {
   const themeMode = themeChange();
   const { data } = useShareLogDate();
-  console.log(data);
+
   return (
     <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
       <View style={[styles.titleHeader, styles.titleWrapper]}>

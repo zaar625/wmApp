@@ -13,7 +13,7 @@ const ShareWriten = () => {
 
   return (
     <Pressable
-      onPress={() => navigation.navigate('writeStep1')}
+      onPress={() => navigation.navigate('writeScreenStep1')}
       style={[styles.container, { backgroundColor: themeMode.secondary }]}
     >
       <View style={styles.headerTitle}>

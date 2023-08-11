@@ -13,8 +13,8 @@ export type RootStackParamList = {
   calendarTabScreen: undefined;
   settingTabScreen: undefined;
   scannerScreen: undefined;
-  writeStep1: undefined;
-  writeStep2: { storeName: string };
+  writeScreenStep1: undefined;
+  writeScreenStep2: { storeName: string };
   imagePickScreen: undefined;
   shareDetailScreen: { header: string };
   myInfoModifyScreen: { header: string };

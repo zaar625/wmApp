@@ -17,9 +17,9 @@ import BottomTab from './App/screens/bottom_tab';
 import ScannerScreen from './App/screens/tab_store/ScannerScreen';
 import GlobalBottomSheet from './App/common-components/bottom_sheet/GlobalBottomSheet';
 
-import WriteStep1 from './App/screens/tab_share/WriteStep1';
-import WriteStep2 from './App/screens/tab_share/WriteStep2';
-import WriteScreen from './App/screens/tab_share/WriteStep2';
+import WriteScreenStep1 from './App/screens/tab_share/WriteScreenStep1';
+import WriteScreenStep2 from './App/screens/tab_share/WriteScreenStep2';
+import WriteScreen from './App/screens/tab_share/WriteScreenStep2';
 import ImagePickScreen from './App/screens/tab_share/ImagePickScreen';
 import ShareDetailScreen from './App/screens/tab_share/ShareDetailScreen';
 import MyInfoModifyScreen from './App/screens/tab_setting/MyInfoModifyScreen';
@@ -78,8 +78,8 @@ export default function App() {
                   component={ScannerScreen}
                   options={{ presentation: 'modal' }}
                 />
-                <Stack.Screen name="writeStep1" component={WriteStep1} />
-                <Stack.Screen name="writeStep2" component={WriteStep2} />
+                <Stack.Screen name="writeScreenStep1" component={WriteScreenStep1} />
+                <Stack.Screen name="writeScreenStep2" component={WriteScreenStep2} />
                 <Stack.Screen
                   name="imagePickScreen"
                   component={ImagePickScreen}

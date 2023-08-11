@@ -12,6 +12,7 @@ import { RootState } from '../../../state/store';
 import { useDispatch } from 'react-redux';
 import ShareForm from './ShareForm';
 import { FlatList } from 'react-native-gesture-handler';
+import { onLaunchImageLibrary } from '../../../util/onLaunchImageLibrary';
 
 const PADDING = 20;
 const IMAGEGAP = 10;
@@ -20,17 +21,17 @@ const IMAGE_WIDHT = (deviceWidth - PADDING * 2 - IMAGEGAP * 2) / 3;
 const ImageSelect = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const themeMode = themeChange();
-  const dispatch = useDispatch();
+
   const { uris: selectedImages, content } = useSelector((state: RootState) => state.share);
 
-  const handleButtonPress = () => {
-    navigation.navigate('imagePickScreen');
+  const handleButtonPress = async () => {
+    const imagedata = await onLaunchImageLibrary();
+    console.log(imagedata);
   };
 
   return (
     <View style={styles.container}>
-      <CircleSubTitle title="사진 첨부" />
-
+      <Text style={{ color: themeMode.pressIcon }}>사진 첨부하기</Text>
       <Pressable style={styles.imagePickBtn} onPress={handleButtonPress}>
         <View style={styles.iconWrapper}>
           <SvgIcon color={'#326273'} name="camera" style={styles.icon} />
@@ -61,7 +62,6 @@ const ImageSelect = () => {
           </View>
         )}
       </View>
-      <ShareForm />
     </View>
   );
 };
@@ -70,7 +70,7 @@ export default ImageSelect;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20
+    paddingHorizontal: 20
   },
   imagePickBtn: {
     paddingVertical: 13,

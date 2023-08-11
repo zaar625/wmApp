@@ -16,7 +16,7 @@ import Animated, {
   Easing
 } from 'react-native-reanimated';
 
-const WrigthStep1 = () => {
+const WriteScreenStep1 = () => {
   const themeMode = themeChange();
   const { data } = useMyStoreList();
 
@@ -38,7 +38,7 @@ const WrigthStep1 = () => {
             </Text>
           </View>
         </View>
-        {data && data.map(store => <StoreItem store={store} />)}
+        {data && data.map(store => <StoreItem store={store} key={store.id} />)}
       </View>
     </SafeAreaView>
   );
@@ -65,7 +65,7 @@ const StoreItem = ({ store }) => {
 
   return (
     <Pressable
-      onPress={() => navigation.navigate('writeStep2', { storeName: store.name })}
+      onPress={() => navigation.navigate('writeScreenStep2', { storeName: store.name })}
       onPressIn={() => {
         scaleAni.value = 0.95;
       }}
@@ -85,7 +85,7 @@ const StoreItem = ({ store }) => {
   );
 };
 
-export default WrigthStep1;
+export default WriteScreenStep1;
 
 const styles = StyleSheet.create({
   container: {

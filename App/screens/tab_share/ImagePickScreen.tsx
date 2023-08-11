@@ -1,4 +1,4 @@
-import { StyleSheet, FlatList, Pressable, View, Text } from 'react-native';
+import { StyleSheet, FlatList, Pressable, View, Text, Image } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { CameraRoll, PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
 import ImageBox from './components/ImageBox';
@@ -9,6 +9,7 @@ import { openModal } from '../../state/slice/modal';
 import NavigationHeader from '../../common-components/NavigationHeader';
 import themeChange from '../../util/theme';
 import { NavigationScreenProps } from '../../type';
+import { onLaunchImageLibrary } from '../../util/onLaunchImageLibrary';
 
 type TPhotos = {
   photos: Array<PhotoIdentifier>;
@@ -23,49 +24,12 @@ const ImagePickScreen = ({ navigation }: NavigationScreenProps) => {
   const [selectImage, setSelectImage] = useState(stateURIList);
 
   useEffect(() => {
-    CameraRoll.getPhotos({
-      first: 50 * pageCount,
-      assetType: 'Photos'
-    })
-      .then(res => {
-        setPhoneImages({ photos: res.edges });
-      })
-      .catch(err => {
-        //Error Loading Images
-      });
-  }, [pageCount]);
+    onLaunchImageLibrary();
+  }, []);
 
-  const onImageTouchHandler = (item: PhotoIdentifier) => {
-    const imageURI = item.node.image.uri;
-    const isSameURI = selectImage.some(uri => uri === imageURI);
-
-    if (isSameURI) {
-      const removeURI = selectImage.filter(uri => uri !== imageURI);
-      setSelectImage(removeURI);
-      return;
-    }
-
-    const stateURILength = selectImage.length;
-
-    if (stateURILength > 2) {
-      dispatch(
-        openModal({
-          modalType: 'OneBtnModal',
-          contents: {
-            title: '이미지 최대 3장 첨부',
-            content: '이미지는 최대 3장까지 첨부할 수 있습니다.',
-            onPress() {}
-          }
-        })
-      );
-      return;
-    }
-    setSelectImage([...selectImage, imageURI]);
-  };
-
-  const onComplateBtn = () => {
-    dispatch(shareInfoSave({ uris: selectImage }));
-    navigation.goBack();
+  const onComplateBtn = async () => {
+    // dispatch(shareInfoSave({ uris: selectImage }));
+    // navigation.goBack();
   };
 
   return (
@@ -75,7 +39,7 @@ const ImagePickScreen = ({ navigation }: NavigationScreenProps) => {
           <Text style={[{ color: themeMode.subTint }, styles.headerRightBtn]}>선택완료</Text>
         </Pressable>
       </NavigationHeader>
-      {phoneImages && (
+      {/* {phoneImages && (
         <FlatList
           bounces={false}
           data={phoneImages.photos}
@@ -87,7 +51,7 @@ const ImagePickScreen = ({ navigation }: NavigationScreenProps) => {
             </Pressable>
           )}
         />
-      )}
+      )} */}
     </View>
   );
 };
