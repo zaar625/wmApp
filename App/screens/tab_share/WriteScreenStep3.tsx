@@ -25,14 +25,17 @@ const WriteScreenStep3 = ({ navigation }: NavigationScreenProps) => {
     const photosURL: string[] = [];
 
     if (images) {
-      images.forEach(async (image, index) => {
-        const imageRef = reference.child(`image${index}.jpg`);
-        await imageRef.putFile(image.uri);
-        const photoURL = await reference.getDownloadURL();
-        console.log(photoURL);
-        photosURL.push(photoURL);
-      });
+      await Promise.all(
+        images.map(async (image, index) => {
+          const imageRef = reference.child(`image${index}.jpg`);
+          await imageRef.putFile(image.uri);
+          const photoURL = await imageRef.getDownloadURL(); // 여기서 imageRef를 사용합니다
+
+          photosURL.push(photoURL);
+        })
+      );
     }
+
     // 파이어베이스 저장
     const shareLogCollection = firestore()
       .collection('users')
@@ -46,6 +49,16 @@ const WriteScreenStep3 = ({ navigation }: NavigationScreenProps) => {
       store,
       createAt: firestore.FieldValue.serverTimestamp()
     });
+    // 매장 로그 저장
+    const storeLogCollection = firestore().collection('store').doc(store?.id).collection('log');
+    await storeLogCollection.add({
+      user: 'DMWrTCluLrhJMrI01BVhJK6byFs1',
+      photosURL,
+      content: contents.content,
+      store,
+      createAt: firestore.FieldValue.serverTimestamp()
+    });
+
     navigation.navigate('bottomTab');
   };
 

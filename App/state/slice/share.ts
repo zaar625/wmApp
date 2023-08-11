@@ -20,7 +20,7 @@ const shareSubmitSlice = createSlice({
   reducers: {
     shareInfoSave: (state, action: PayloadAction<any>) => {
       state = { ...state, ...action.payload };
-      console.log('state:', state);
+
       return state;
     }
   }
