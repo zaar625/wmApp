@@ -1,18 +1,14 @@
 import { Pressable, StyleSheet, Text, View, Image } from 'react-native';
-import React from 'react';
-import CircleSubTitle from '../../../common-components/CircleSubTitle';
+import React, { useState } from 'react';
 import SvgIcon from '../../../common-components/SvgIcon';
 import { deviceWidth } from '../../../theme';
 import themeChange from '../../../util/theme';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../../type';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../state/store';
-import { useDispatch } from 'react-redux';
-import ShareForm from './ShareForm';
-import { FlatList } from 'react-native-gesture-handler';
 import { onLaunchImageLibrary } from '../../../util/onLaunchImageLibrary';
+import { onImageResizer } from '../../../util/onImageResizer';
+import type { Response } from '@bam.tech/react-native-image-resizer';
 
 const PADDING = 20;
 const IMAGEGAP = 10;
@@ -21,12 +17,17 @@ const IMAGE_WIDHT = (deviceWidth - PADDING * 2 - IMAGEGAP * 2) / 3;
 const ImageSelect = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const themeMode = themeChange();
-
-  const { uris: selectedImages, content } = useSelector((state: RootState) => state.share);
+  const [pickImages, setPickImages] = useState<Response[] | undefined>();
 
   const handleButtonPress = async () => {
     const imagedata = await onLaunchImageLibrary();
-    console.log(imagedata);
+
+    if (imagedata) {
+      const resizingImages = await onImageResizer(imagedata);
+      // console.log(resizingImages);
+
+      setPickImages(resizingImages);
+    }
   };
 
   return (
@@ -38,19 +39,16 @@ const ImageSelect = () => {
           <Text style={[styles.imagePickBtnText, { color: themeMode.subTint }]}>
             공유할 이미지 선택
           </Text>
-          <Text style={{ color: themeMode.subTint }}>
-            <Text style={{ fontWeight: 'bold' }}>{selectedImages.length}</Text> / 3
-          </Text>
         </View>
       </Pressable>
 
       <View style={{ marginBottom: 30 }}>
-        {selectedImages.length > 0 ? (
+        {pickImages ? (
           <View style={styles.imagesWrapper}>
-            {selectedImages.map((image, index) => (
+            {pickImages.map((image, index) => (
               <Image
                 key={index}
-                source={{ uri: image }}
+                source={{ uri: image.path }}
                 style={styles.imgContainer}
                 resizeMode="cover"
               />
