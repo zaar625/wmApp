@@ -23,6 +23,7 @@ import WriteScreen from './App/screens/tab_share/WriteScreenStep2';
 import ImagePickScreen from './App/screens/tab_share/ImagePickScreen';
 import ShareDetailScreen from './App/screens/tab_share/ShareDetailScreen';
 import MyInfoModifyScreen from './App/screens/tab_setting/MyInfoModifyScreen';
+import WriteScreenStep3 from './App/screens/tab_share/WriteScreenStep3';
 
 import { RootStackParamList } from './App/type';
 
@@ -80,6 +81,7 @@ export default function App() {
                 />
                 <Stack.Screen name="writeScreenStep1" component={WriteScreenStep1} />
                 <Stack.Screen name="writeScreenStep2" component={WriteScreenStep2} />
+                <Stack.Screen name="writeScreenStep3" component={WriteScreenStep3} />
                 <Stack.Screen
                   name="imagePickScreen"
                   component={ImagePickScreen}

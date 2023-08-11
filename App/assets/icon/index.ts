@@ -12,6 +12,7 @@ export { default as arrow_left } from './arrow_left.svg';
 export { default as arrow_left_fill } from './arrow_left_fill.svg';
 export { default as close } from './close.svg';
 export { default as close_round } from './close_round.svg';
+export { default as remove } from './remove.svg';
 export { default as user } from './user.svg';
 export { default as camera } from './camera.svg';
 export { default as plus_round } from './plus_round.svg';

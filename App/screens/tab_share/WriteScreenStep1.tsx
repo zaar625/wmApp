@@ -15,6 +15,8 @@ import Animated, {
   withTiming,
   Easing
 } from 'react-native-reanimated';
+import { useDispatch } from 'react-redux';
+import { shareInfoSave } from '../../state/slice/share';
 
 const WriteScreenStep1 = () => {
   const themeMode = themeChange();
@@ -44,7 +46,8 @@ const WriteScreenStep1 = () => {
   );
 };
 
-const StoreItem = ({ store }) => {
+const StoreItem = ({ store }: any) => {
+  const dispatch = useDispatch();
   const themeMode = themeChange();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
@@ -63,9 +66,13 @@ const StoreItem = ({ store }) => {
     };
   }, []);
 
+  const onPress = () => {
+    dispatch(shareInfoSave({ store }));
+    navigation.navigate('writeScreenStep2');
+  };
   return (
     <Pressable
-      onPress={() => navigation.navigate('writeScreenStep2', { storeName: store.name })}
+      onPress={onPress}
       onPressIn={() => {
         scaleAni.value = 0.95;
       }}

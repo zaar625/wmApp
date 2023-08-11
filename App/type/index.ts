@@ -14,7 +14,8 @@ export type RootStackParamList = {
   settingTabScreen: undefined;
   scannerScreen: undefined;
   writeScreenStep1: undefined;
-  writeScreenStep2: { storeName: string };
+  writeScreenStep2: undefined;
+  writeScreenStep3: undefined;
   imagePickScreen: undefined;
   shareDetailScreen: { header: string };
   myInfoModifyScreen: { header: string };

@@ -1,5 +1,5 @@
 import { StyleSheet, TouchableWithoutFeedback, Keyboard, View, Image, Text } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import themeChange from '../../util/theme';
 import NavigationHeader from '../../common-components/NavigationHeader';
 import ImageSelect from './components/ImageSelect';
@@ -8,13 +8,24 @@ import Button from '../../common-components/buttons/Button';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { NavigationScreenProps, RootStackParamList } from '../../type';
 import { SemiTitle } from '../../common-components/Title';
+import type { Response } from '@bam.tech/react-native-image-resizer';
+import { useDispatch } from 'react-redux';
+import { shareInfoSave } from '../../state/slice/share';
 
 type WriteScreenRouteProp = RouteProp<RootStackParamList, 'writeScreenStep2'>;
 
 const WriteScreenStep2 = ({ navigation }: NavigationScreenProps) => {
   const themeMode = themeChange();
+  const dispatch = useDispatch();
+  const [pickImages, setPickImages] = useState<Response[] | undefined>();
   const { params } = useRoute<WriteScreenRouteProp>();
 
+  const nextBtn = () => {
+    if (pickImages) {
+      dispatch(shareInfoSave({ images: pickImages }));
+    }
+    navigation.navigate('writeScreenStep3');
+  };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={[styles.container, { backgroundColor: themeMode.primary }]}>
@@ -33,9 +44,9 @@ const WriteScreenStep2 = ({ navigation }: NavigationScreenProps) => {
                 </View>
               </View>
             </View>
-            <ImageSelect />
+            <ImageSelect pickImages={pickImages} setPickImages={setPickImages} />
           </View>
-          <Button name="다음" onPress={() => {}} />
+          <Button name="다음" onPress={nextBtn} />
         </View>
       </SafeAreaView>
     </TouchableWithoutFeedback>

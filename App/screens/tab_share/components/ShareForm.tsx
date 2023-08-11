@@ -7,39 +7,50 @@ import {
   TextInputEndEditingEventData
 } from 'react-native';
 import React, { useRef } from 'react';
-import CircleSubTitle from '../../../common-components/CircleSubTitle';
+
 import themeChange from '../../../util/theme';
 import { useDispatch } from 'react-redux';
 import { shareInfoSave } from '../../../state/slice/share';
 import { deviceheight } from '../../../theme';
 
-const ShareForm = () => {
+type PropsContent = {
+  title: string;
+  content: string;
+};
+
+type Props = {
+  setContents: React.Dispatch<React.SetStateAction<PropsContent>>;
+  contents: PropsContent;
+};
+
+const ShareForm = ({ setContents, contents }: Props) => {
   const themeMode = themeChange();
   const dispatch = useDispatch();
   const titleInputRef = useRef<TextInput>(null);
 
   const onEndTitleEditing = (event: NativeSyntheticEvent<TextInputEndEditingEventData>) => {
     const title = event.nativeEvent.text;
+    setContents({ ...contents, title });
     titleInputRef.current?.focus();
-    dispatch(shareInfoSave({ title: title }));
   };
 
   const onEndContentsEditing = (event: NativeSyntheticEvent<TextInputEndEditingEventData>) => {
-    const shareContent = event.nativeEvent.text;
-    dispatch(shareInfoSave({ content: shareContent }));
+    const content = event.nativeEvent.text;
+    setContents({ ...contents, content });
   };
 
   return (
     <View>
-      <CircleSubTitle title="공유 제목" />
+      <Text style={[styles.subTitle, { color: themeMode.pressIcon }]}>제목</Text>
       <TextInput
+        // onBlur={onBlur}
         onEndEditing={onEndTitleEditing}
         style={[styles.titleInput, { borderColor: themeMode.card, color: themeMode.tint }]}
         placeholder="제목을 입력해주세요."
         placeholderTextColor={'#797979'}
       />
 
-      <CircleSubTitle title="공유 내용 입력" />
+      <Text style={[styles.subTitle, { color: themeMode.pressIcon }]}>공유 내용</Text>
       <TextInput
         ref={titleInputRef}
         onEndEditing={onEndContentsEditing}
@@ -56,17 +67,25 @@ const ShareForm = () => {
 export default ShareForm;
 
 const styles = StyleSheet.create({
+  subTitle: {
+    marginBottom: 20
+  },
   titleInput: {
     padding: 10,
-    marginVertical: 20,
     borderWidth: 1,
-    borderRadius: 10
+    borderRadius: 10,
+    marginBottom: 50
   },
   contentInput: {
-    marginTop: 20,
     borderWidth: 1,
     borderRadius: 10,
     padding: 10,
     height: deviceheight * 0.328
+  },
+  titleInputFocused: {
+    borderColor: 'blue' // 원하는 포커스된 상태의 스타일
+  },
+  contentInputFocused: {
+    borderColor: 'green' // 원하는 포커스된 상태의 스타일
   }
 });

@@ -1,15 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import type { Response } from '@bam.tech/react-native-image-resizer';
 
 export interface IShareSubmit {
-  uris: string[];
-  title: string;
-  content: string;
+  images: Response[];
+  store: {
+    id: string;
+    name: string;
+  } | null;
 }
 
 const initialState: IShareSubmit = {
-  uris: [],
-  title: '',
-  content: ''
+  images: [],
+  store: null
 };
 
 const shareSubmitSlice = createSlice({
@@ -18,7 +20,7 @@ const shareSubmitSlice = createSlice({
   reducers: {
     shareInfoSave: (state, action: PayloadAction<any>) => {
       state = { ...state, ...action.payload };
-
+      console.log('state:', state);
       return state;
     }
   }

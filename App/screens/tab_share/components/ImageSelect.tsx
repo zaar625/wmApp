@@ -14,10 +14,14 @@ const PADDING = 20;
 const IMAGEGAP = 10;
 const IMAGE_WIDHT = (deviceWidth - PADDING * 2 - IMAGEGAP * 2) / 3;
 
-const ImageSelect = () => {
+type Props = {
+  pickImages: Response[] | undefined;
+  setPickImages: React.Dispatch<React.SetStateAction<Response[] | undefined>>;
+};
+
+const ImageSelect = ({ pickImages, setPickImages }: Props) => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const themeMode = themeChange();
-  const [pickImages, setPickImages] = useState<Response[] | undefined>();
 
   const handleButtonPress = async () => {
     const imagedata = await onLaunchImageLibrary();
@@ -30,13 +34,18 @@ const ImageSelect = () => {
     }
   };
 
+  const imageRemove = (imageName: string) => {
+    const newPickImages = pickImages?.filter(image => image.name !== imageName);
+    setPickImages(newPickImages);
+  };
+
   return (
     <View style={styles.container}>
       <Text style={{ color: themeMode.pressIcon }}>사진 첨부하기</Text>
       <Pressable style={styles.imagePickBtn} onPress={handleButtonPress}>
-        <View style={styles.iconWrapper}>
-          <SvgIcon color={'#326273'} name="camera" style={styles.icon} />
-          <Text style={[styles.imagePickBtnText, { color: themeMode.subTint }]}>
+        <View style={styles.cameraIconWrapper}>
+          <SvgIcon color={'#326273'} name="camera" style={styles.cameraIcon} />
+          <Text style={[styles.imagePickBtnText, { color: themeMode.pressIcon }]}>
             공유할 이미지 선택
           </Text>
         </View>
@@ -46,12 +55,17 @@ const ImageSelect = () => {
         {pickImages ? (
           <View style={styles.imagesWrapper}>
             {pickImages.map((image, index) => (
-              <Image
-                key={index}
-                source={{ uri: image.path }}
-                style={styles.imgContainer}
-                resizeMode="cover"
-              />
+              <View>
+                <Image
+                  key={index}
+                  source={{ uri: image.path }}
+                  style={styles.imgContainer}
+                  resizeMode="cover"
+                />
+                <Pressable style={styles.removeIcon} onPress={() => imageRemove(image.name)}>
+                  <SvgIcon name="remove" />
+                </Pressable>
+              </View>
             ))}
           </View>
         ) : (
@@ -77,13 +91,18 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginVertical: 15
   },
-  iconWrapper: {
+  cameraIconWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center'
   },
-  icon: {
+  cameraIcon: {
     marginRight: 8
+  },
+  removeIcon: {
+    position: 'absolute',
+    top: 6,
+    right: 6
   },
   imagePickBtnText: {
     marginRight: 8,
