@@ -18,7 +18,7 @@ export type RootStackParamList = {
   writeScreenStep2: undefined;
   writeScreenStep3: undefined;
   imagePickScreen: undefined;
-  shareDetailScreen: { header: string };
+  shareDetailScreen: { header: string; data: any };
   myInfoModifyScreen: { header: string };
 };
 

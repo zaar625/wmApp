@@ -9,11 +9,10 @@ import { useTotalLogsData } from '../../../api/store/hooks/useLogsData';
 const ShareContents = () => {
   const themeMode = themeChange();
   const { data } = useTotalLogsData();
-  console.log(data);
 
   const render = () => {
     if (data && data.length > 0) {
-      return data.map(item => <ShareItem item={item} />);
+      return data.map((item, index) => <ShareItem key={index} item={item} />);
     } else {
       return (
         <View style={styles.nonData}>

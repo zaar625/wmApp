@@ -19,6 +19,7 @@ const ShareItem = ({ item }: any) => {
   const scaleAni = useSharedValue(1);
   const backgound = useSharedValue(themeMode.secondary);
   const logInfo = item.data();
+  console.log(logInfo);
   useEffect(() => {
     //테마변경이 될 때마다 기본값 변경해줘야합니다.
     backgound.value = themeMode.secondary;
@@ -40,7 +41,9 @@ const ShareItem = ({ item }: any) => {
 
   return (
     <Pressable
-      onPress={() => navigation.navigate('shareDetailScreen', { header: '공유 내용 상세' })}
+      onPress={() =>
+        navigation.navigate('shareDetailScreen', { header: '공유 내용 상세', data: logInfo })
+      }
       onPressIn={() => ((scaleAni.value = 0.95), (backgound.value = themeMode.card))}
       onPressOut={() => ((scaleAni.value = 1), (backgound.value = themeMode.secondary))}
     >

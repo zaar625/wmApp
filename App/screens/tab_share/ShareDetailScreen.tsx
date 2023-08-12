@@ -1,57 +1,55 @@
-import { StyleSheet, Text, View, TextInput } from 'react-native';
-import React, { useState } from 'react';
+import { StyleSheet, Text, View, Image } from 'react-native';
+import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRoute } from '@react-navigation/native';
 import NavigationHeader from '../../common-components/NavigationHeader';
 import themeChange from '../../util/theme';
 import type { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../type';
-import CircleSubTitle from '../../common-components/CircleSubTitle';
+import format from 'date-fns/format';
 
-import { deviceWidth, deviceheight } from '../../theme';
+import { deviceWidth } from '../../theme';
 import Button from '../../common-components/buttons/Button';
 
 type ShareDetailScreenRouteProp = RouteProp<RootStackParamList, 'shareDetailScreen'>;
 
-const IMAGE_WIDHT = (deviceWidth - 40) / 3 - 10;
-
 const ShareDetailScreen = () => {
   const themeMode = themeChange();
   const { params } = useRoute<ShareDetailScreenRouteProp>();
-  const [temp, setTemp] = useState(true);
+
+  const { content, title, photosURL, createAt } = params.data;
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: themeMode.primary }]}>
-      <View>
-        <NavigationHeader header={params.header} />
-        <View style={styles.contents}>
-          <View style={styles.shareImageContainer}>
-            <CircleSubTitle title="공유된 사진" />
+      <NavigationHeader header={params.header} />
+      <View style={styles.layout}>
+        <View style={styles.contentContainer}>
+          <Text style={[styles.contentStore, { color: themeMode.tint }]}>카페이루</Text>
+          <Text style={[{ color: themeMode.subTint, fontSize: 12 }]}>@ 이상윤</Text>
 
-            {temp ? (
-              <View style={styles.imagesWrapper}>
-                {[1, 2, 3].map(() => (
-                  <View style={styles.imgContainer}></View>
-                ))}
+          {photosURL.length > 0 ? (
+            <View style={styles.imageContainer}>
+              <Image source={{ uri: photosURL[0] }} style={styles.mainImage} />
+              <View style={{ justifyContent: 'space-between' }}>
+                <Image source={{ uri: photosURL[1] }} style={styles.subImage} />
+                <Image source={{ uri: photosURL[2] }} style={styles.subImage} />
               </View>
-            ) : (
-              <View style={styles.noImageWrapper}>
-                <Text style={{ color: '#BAC0CE' }}>공유할 이미지가 없습니다.</Text>
-              </View>
-            )}
-          </View>
-          <CircleSubTitle title="공유 내용" />
-          <TextInput
-            style={styles.inputBox}
-            value={'예시입니다.'}
-            multiline
-            editable={false}
-            placeholderTextColor={'#797979'}
-          />
+            </View>
+          ) : (
+            <View style={styles.nonImageContainer}>
+              <Text style={{ color: themeMode.subTint }}>공유된 이미지가 없습니다.</Text>
+            </View>
+          )}
+
+          <Text style={[styles.contentTitle, { color: themeMode.tint }]}>{title}</Text>
+          <Text style={[styles.content, { color: themeMode.tint }]}>{content}</Text>
+          <Text style={[styles.date, { color: themeMode.subTint }]}>
+            {format(createAt.toDate(), 'yyyy.MM.dd')}
+          </Text>
         </View>
-      </View>
 
-      <Button name="확인" onPress={() => {}} />
+        <Button name="확인" onPress={() => {}} />
+      </View>
     </SafeAreaView>
   );
 };
@@ -60,40 +58,51 @@ export default ShareDetailScreen;
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1
+  },
+  layout: {
     flex: 1,
     justifyContent: 'space-between'
   },
-  contents: {
+  contentContainer: {
     paddingHorizontal: 20
   },
-  shareImageContainer: { marginVertical: 20 },
-  imagesWrapper: {
+  contentStore: {
+    fontWeight: '600',
+    fontSize: 16,
+    marginBottom: 10
+  },
+  contentTitle: {
+    fontWeight: '700',
+    fontSize: 15,
+    marginBottom: 20
+  },
+  content: {
+    marginBottom: 20
+  },
+  date: {
+    fontSize: 12,
+    textAlign: 'right'
+  },
+  mainImage: {
+    width: deviceWidth * 0.583,
+    height: deviceWidth * 0.583,
+    borderRadius: 15
+  },
+  subImage: {
+    width: deviceWidth * 0.277,
+    height: deviceWidth * 0.277,
+    borderRadius: 15
+  },
+  imageContainer: {
     flexDirection: 'row',
-    marginVertical: 10,
-    // width: deviceWidth - 40,
-    height: IMAGE_WIDHT,
-    backgroundColor: 'gray',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    marginVertical: 30
   },
-  imgContainer: {
-    borderRadius: 10,
-    width: IMAGE_WIDHT,
-    height: IMAGE_WIDHT,
-    backgroundColor: 'red'
-  },
-  noImageWrapper: {
-    marginVertical: 10,
-    height: IMAGE_WIDHT,
+  nonImageContainer: {
+    height: deviceWidth * 0.583,
     justifyContent: 'center',
-    alignItems: 'center'
-  },
-  inputBox: {
-    borderRadius: 10,
-    borderWidth: 1,
-    padding: 10,
-    borderColor: '#D9D9D9',
-    height: deviceheight * 0.328,
-    marginVertical: 10,
-    color: '#fff'
+    alignItems: 'center',
+    marginVertical: 30
   }
 });
