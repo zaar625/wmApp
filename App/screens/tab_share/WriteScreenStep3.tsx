@@ -54,6 +54,7 @@ const WriteScreenStep3 = ({ navigation }: NavigationScreenProps) => {
     await storeLogCollection.add({
       user: 'DMWrTCluLrhJMrI01BVhJK6byFs1',
       photosURL,
+      title: contents.title,
       content: contents.content,
       store,
       createAt: firestore.FieldValue.serverTimestamp()

@@ -11,15 +11,14 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import themeChange from '../../../util/theme';
-import SvgIcon from '../../../common-components/SvgIcon';
 
-const ShareItem = () => {
+const ShareItem = ({ item }: any) => {
   const themeMode = themeChange();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const scaleAni = useSharedValue(1);
   const backgound = useSharedValue(themeMode.secondary);
-
+  const logInfo = item.data();
   useEffect(() => {
     //테마변경이 될 때마다 기본값 변경해줘야합니다.
     backgound.value = themeMode.secondary;
@@ -52,9 +51,9 @@ const ShareItem = () => {
             numberOfLines={1}
             ellipsizeMode="tail"
           >
-            오늘 삼성카드 분실물이 들어왔습니다.오늘 삼성카드 분실물이 들어왔습니다.
+            {logInfo.title}
           </Text>
-          <Text style={[styles.author, { color: themeMode.subTint }]}>이상윤</Text>
+          <Text style={[styles.author, { color: themeMode.subTint }]}>{logInfo.store.name}</Text>
         </View>
       </Animated.View>
     </Pressable>

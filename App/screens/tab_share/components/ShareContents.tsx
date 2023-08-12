@@ -1,16 +1,28 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { SmallTitle } from '../../../common-components/Title';
 import ShareItem from './ShareItem';
 import SvgIcon from '../../../common-components/SvgIcon';
 import themeChange from '../../../util/theme';
-import { useShareLogDate } from '../../../api/store/hooks/useTodayShare';
-import firestore from '@react-native-firebase/firestore';
+import { useTotalLogsData } from '../../../api/store/hooks/useLogsData';
 
 const ShareContents = () => {
   const themeMode = themeChange();
-  const { data } = useShareLogDate();
+  const { data } = useTotalLogsData();
+  console.log(data);
+
+  const render = () => {
+    if (data && data.length > 0) {
+      return data.map(item => <ShareItem item={item} />);
+    } else {
+      return (
+        <View style={styles.nonData}>
+          <Text style={{ color: themeMode.subTint }}>금일 전달사항이 없습니다.</Text>
+        </View>
+      );
+    }
+  };
 
   return (
     <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
@@ -24,9 +36,7 @@ const ShareContents = () => {
           <SvgIcon name="arrow_right" style={styles.icon} color={themeMode.pressIcon} />
         </Pressable>
       </View>
-      <ShareItem />
-      <ShareItem />
-      <ShareItem />
+      {render()}
     </View>
   );
 };
@@ -63,5 +73,9 @@ const styles = StyleSheet.create({
   btnText: {
     fontWeight: '400',
     fontSize: 12
+  },
+  nonData: {
+    alignSelf: 'center',
+    marginVertical: 20
   }
 });
