@@ -11,6 +11,7 @@ const TabButton = (props: any) => {
   const themeMode = themeChange();
 
   const { item, onPress, accessibilityState } = props;
+
   const focused = accessibilityState?.selected;
   const activeColor = focused ? themeMode.tint : '#6B6F78';
 

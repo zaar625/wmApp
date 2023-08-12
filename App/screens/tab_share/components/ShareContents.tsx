@@ -1,6 +1,5 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-
 import { SmallTitle } from '../../../common-components/Title';
 import ShareItem from './ShareItem';
 import SvgIcon from '../../../common-components/SvgIcon';

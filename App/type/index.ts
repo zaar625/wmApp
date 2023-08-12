@@ -10,6 +10,7 @@ export type RootStackParamList = {
   storeTabScreen: undefined;
   shareTabScreen: undefined;
   barcodeTabScreen: undefined;
+  attendanceScreen: undefined;
   calendarTabScreen: undefined;
   settingTabScreen: undefined;
   scannerScreen: undefined;

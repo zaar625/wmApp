@@ -24,7 +24,7 @@ import ImagePickScreen from './App/screens/tab_share/ImagePickScreen';
 import ShareDetailScreen from './App/screens/tab_share/ShareDetailScreen';
 import MyInfoModifyScreen from './App/screens/tab_setting/MyInfoModifyScreen';
 import WriteScreenStep3 from './App/screens/tab_share/WriteScreenStep3';
-
+import AttendanceScreen from './App/screens/tab_barcode/AttendanceScreen';
 import { RootStackParamList } from './App/type';
 
 import { ThemeContext } from './App/theme/themeContext';
@@ -77,6 +77,11 @@ export default function App() {
                 <Stack.Screen
                   name="scannerScreen"
                   component={ScannerScreen}
+                  options={{ presentation: 'modal' }}
+                />
+                <Stack.Screen
+                  name="attendanceScreen"
+                  component={AttendanceScreen}
                   options={{ presentation: 'modal' }}
                 />
                 <Stack.Screen name="writeScreenStep1" component={WriteScreenStep1} />
