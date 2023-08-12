@@ -11,9 +11,11 @@ import storage from '@react-native-firebase/storage';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../state/store';
 import { NavigationScreenProps } from '../../type';
+import { useQueryClient } from '@tanstack/react-query';
 
 const WriteScreenStep3 = ({ navigation }: NavigationScreenProps) => {
   const themeMode = themeChange();
+  const queryClient = useQueryClient();
   const { images, store } = useSelector((state: RootState) => state.share);
   const [contents, setContents] = useState({
     title: '',
@@ -61,6 +63,7 @@ const WriteScreenStep3 = ({ navigation }: NavigationScreenProps) => {
     });
 
     navigation.navigate('bottomTab');
+    queryClient.invalidateQueries({ queryKey: ['total-logs'] });
   };
 
   return (

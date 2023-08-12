@@ -10,10 +10,11 @@ import format from 'date-fns/format';
 
 import { deviceWidth } from '../../theme';
 import Button from '../../common-components/buttons/Button';
+import { NavigationScreenProps } from '../../type';
 
 type ShareDetailScreenRouteProp = RouteProp<RootStackParamList, 'shareDetailScreen'>;
 
-const ShareDetailScreen = () => {
+const ShareDetailScreen = ({ navigation }: NavigationScreenProps) => {
   const themeMode = themeChange();
   const { params } = useRoute<ShareDetailScreenRouteProp>();
 
@@ -22,6 +23,7 @@ const ShareDetailScreen = () => {
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: themeMode.primary }]}>
       <NavigationHeader header={params.header} />
+
       <View style={styles.layout}>
         <View style={styles.contentContainer}>
           <Text style={[styles.contentStore, { color: themeMode.tint }]}>카페이루</Text>
@@ -48,7 +50,7 @@ const ShareDetailScreen = () => {
           </Text>
         </View>
 
-        <Button name="확인" onPress={() => {}} />
+        <Button name="확인" onPress={navigation.goBack} />
       </View>
     </SafeAreaView>
   );
