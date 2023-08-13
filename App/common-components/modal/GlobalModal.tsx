@@ -1,8 +1,9 @@
 import { StyleSheet, Text, View, Modal } from 'react-native';
 import React from 'react';
 import OneBtnModal from './OneBtnModal';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../state/store';
+import TwoBtnModal from './TwoBtnModal';
 
 const GlobalModal = () => {
   const { modalType, isOpen, contents } = useSelector((state: RootState) => state.modal);
@@ -13,6 +14,8 @@ const GlobalModal = () => {
     if (modalType === 'OneBtnModal') {
       return <OneBtnModal props={contents} />;
     }
+
+    return <TwoBtnModal props={contents} />;
   };
 
   return (

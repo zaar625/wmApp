@@ -6,8 +6,12 @@ import { SemiTitle } from '../../../common-components/Title';
 import SvgIcon from '../../../common-components/SvgIcon';
 import { useMyStoreList } from '../../../api/store/hooks/useMyStoreList';
 import { useDeletStore } from '../../../api/store/hooks/useDeleteStoreList';
+import { useDispatch } from 'react-redux';
+import { openModal, closeModal } from '../../../state/slice/modal';
+
 const WorkingStore = () => {
   const themeMode = themeChange();
+
   const { data: stores = [] } = useMyStoreList();
 
   return (
@@ -34,12 +38,31 @@ const WorkingStore = () => {
 
 const StoreCardContainer = ({ store }: any) => {
   const themeMode = themeChange();
+  const dispatch = useDispatch();
   const { mutate } = useDeletStore();
+
+  const removeStore = (id: string) => {
+    console.log('click');
+    dispatch(
+      openModal({
+        type: 'TwoBtnModal',
+        contents: {
+          title: '등록된 근무지를 삭제하시겠습니까?',
+          content: `근무지를 삭제 할 경우${`\n`}일부 데이터가 유실됩니다.`,
+          buttons: {
+            취소: () => dispatch(closeModal()),
+            삭제: () => mutate({ storeId: id }, { onSuccess: () => dispatch(closeModal()) })
+          }
+        }
+      })
+    );
+    // mutate({ storeId: id });
+  };
 
   return (
     <View style={[styles.cardWrapper, { backgroundColor: themeMode.card }]}>
       <Text style={[styles.storeName, { color: themeMode.tint }]}>{store.name}</Text>
-      <Pressable style={styles.deleteIcon} onPress={() => mutate({ storeId: store.id })}>
+      <Pressable style={styles.deleteIcon} onPress={() => removeStore(store.id)}>
         <SvgIcon name="delete" width={30} color={themeMode.tint} />
       </Pressable>
     </View>

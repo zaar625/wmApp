@@ -6,6 +6,7 @@ type Props = {
   onPress: () => void;
 };
 
+//높이가 높은 버튼입니다.
 const Button = ({ name, onPress }: Props) => {
   return (
     <Pressable

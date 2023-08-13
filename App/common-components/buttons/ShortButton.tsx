@@ -7,7 +7,7 @@ type Props = {
 };
 
 //모달이나 바텀시트에 들어가는 버튼입니다.
-const NomalButton = ({ name, onPress }: Props) => {
+const ShortButton = ({ name, onPress }: Props) => {
   return (
     <Pressable
       onPress={onPress}
@@ -18,16 +18,16 @@ const NomalButton = ({ name, onPress }: Props) => {
   );
 };
 
-export default NomalButton;
+export default ShortButton;
 
 const styles = StyleSheet.create({
   btn: {
-    // flex: 1,
+    flex: 1,
     backgroundColor: '#326273',
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 15,
-    marginHorizontal: 20,
+    // marginHorizontal: 20,
     borderRadius: 10
   },
   btnText: {
