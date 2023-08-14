@@ -27,27 +27,22 @@ export function monthlyTotalHour(workData: TWorkData[]) {
   return monthTotalWorkHour;
 }
 
-function changeHour(totalMin: number) {
+function changeHour(totalMin: number | undefined) {
+  if (!totalMin) return 0;
+
   const hour = Math.floor(totalMin / 60);
   const min = totalMin % 60;
   return Number(`${hour}.${min}`);
 }
 
-export function dailyTotalHour(day: Date, workData: TWorkData[]) {
-  const formatPropsDay = format(day, 'yyyy-MM-dd');
+function totalTimePerWork(workInfoArr: TWorkData[] | undefined) {
+  if (!workInfoArr) return;
 
-  if (workData === undefined) return 0;
-
-  const findDailyWorkInfo = workData.filter((work: TWorkData) => {
-    const dateFireStoreTimeStamp = work.date;
-    const formatTimeStempDay = format(dateFireStoreTimeStamp.toDate(), 'yyyy-MM-dd');
-
-    return formatPropsDay === formatTimeStempDay;
-  });
-
-  const totalTimePerItem = findDailyWorkInfo.map((work: TWorkData) => {
+  const totalTimePerItem = workInfoArr.map((work: TWorkData) => {
     const endTime = work.end;
     const startTime = work.start;
+
+    if (!endTime || !startTime) return;
 
     const totalFireStoreTimeStamp = endTime.seconds - startTime.seconds;
     const minutes = Math.floor(totalFireStoreTimeStamp / 60);
@@ -55,9 +50,28 @@ export function dailyTotalHour(day: Date, workData: TWorkData[]) {
     return { date: work.date, totalTime: minutes };
   });
 
-  const dailyTotalWorkMinutes = totalTimePerItem.reduce((acc: number, curr: any) => {
-    return acc + curr.totalTime;
-  }, 0);
+  return totalTimePerItem;
+}
+
+export function dailyTotalHour(day: Date, dailyWorkData: TWorkData[] | undefined) {
+  const date = format(day, 'yyyy-MM-dd');
+
+  if (!dailyWorkData) return 0;
+
+  const findSameDateData: TWorkData[] | undefined = dailyWorkData.filter((work: TWorkData) => {
+    const dateTimeStamp = work.date;
+    const formatTimeStempDay = format(dateTimeStamp.toDate(), 'yyyy-MM-dd');
+
+    return date === formatTimeStempDay;
+  });
+
+  const dailyTotalWorkMinutes = totalTimePerWork(findSameDateData)?.reduce(
+    (acc: number, curr: any) => {
+      if (!curr) return;
+      return acc + curr.totalTime;
+    },
+    0
+  );
 
   return changeHour(dailyTotalWorkMinutes);
 }
@@ -69,7 +83,7 @@ export function weeklyTotalHour(datesOfweek: Date[], workData: TWorkData[]) {
 
   const weeklyTotal = dateOfWeekHour.reduce((acc, curr) => acc + curr);
 
-  return weeklyTotal;
+  return weeklyTotal.toFixed(2);
 }
 
 export function dailyTime(start: any, end: any) {

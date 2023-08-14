@@ -28,7 +28,6 @@ const ImageSelect = ({ pickImages, setPickImages }: Props) => {
 
     if (imagedata) {
       const resizingImages = await onImageResizer(imagedata);
-      // console.log(resizingImages);
 
       setPickImages(resizingImages);
     }

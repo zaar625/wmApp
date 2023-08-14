@@ -7,7 +7,6 @@ export const onImageResizer = async (imagesData: Asset[]) => {
   const resizeImagesData = [];
 
   for (const image of imagesData) {
-    // console.log(image);
     try {
       let result = await ImageResizer.createResizedImage(
         image.uri,

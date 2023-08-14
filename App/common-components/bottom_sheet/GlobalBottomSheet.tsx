@@ -13,11 +13,11 @@ const GlobalBottomSheet = () => {
   const themeMode = themeChange();
   const modalizeRef = useRef<Modalize>();
   const dispatch = useDispatch();
-  const { route, isOpen, data } = useSelector((state: RootState) => state.bottomSheet);
+  const { route, isOpen, data, date } = useSelector((state: RootState) => state.bottomSheet);
 
   const renderBottomSheet = (route: string) => {
     if (route === 'shareTabScreen') return <TimeModifySheet />;
-    if (route === 'calendarTabScreen') return <DateSheet data={data} />;
+    if (route === 'calendarTabScreen') return <DateSheet data={data} date={date} />;
   };
 
   useEffect(() => {

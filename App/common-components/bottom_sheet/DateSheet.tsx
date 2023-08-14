@@ -1,5 +1,5 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import { StyleSheet, Text, View, Pressable } from 'react-native';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { closeBottomSheet } from '../../state/slice/bottomSheet';
 import SvgIcon from '../SvgIcon';
@@ -7,16 +7,24 @@ import { TWorkData, dailyTime } from '../calender/handler/totalHourhandler';
 import { format } from 'date-fns';
 import { dailyTotalHour } from '../calender/handler/totalHourhandler';
 
-const DateSheet = ({ data }: any) => {
-  const FIRSTDATA = 0;
-  const selectedDate = data[FIRSTDATA].date.toDate();
-  const dailyHour = dailyTotalHour(selectedDate, data);
-
+const DateSheet = ({ data, date }: { data: TWorkData[]; date: Date }) => {
   const dispatch = useDispatch();
+
+  const getTotalHourForDate = () => {
+    if (data.length === 0) return 0;
+
+    const dailyHour = dailyTotalHour(date, data);
+
+    return dailyHour;
+  };
+
+  getTotalHourForDate();
+
+  const dailyHour = getTotalHourForDate();
   return (
     <View style={{ padding: 20 }}>
       <View style={styles.header}>
-        <Text style={styles.title}>{`${format(selectedDate, 'd')}일 근로 상세`}</Text>
+        <Text style={styles.title}>{`${format(date, 'd')}일 근로 상세`}</Text>
         <Pressable onPress={() => dispatch(closeBottomSheet())}>
           <SvgIcon name="close" color={'#FFF'} />
         </Pressable>
@@ -25,7 +33,7 @@ const DateSheet = ({ data }: any) => {
         <Text style={{ color: '#FFF' }}>{`총 근무시간: ${dailyHour}H`}</Text>
         <Text style={{ color: '#FFF' }}>{`+ ${Math.floor(dailyHour * 9250)}원`}</Text>
       </View>
-      {data.map((workItem: TWorkData, index: number) => (
+      {data?.map((workItem: TWorkData, index: number) => (
         <WorkInfoCard workItem={workItem} key={index} />
       ))}
     </View>

@@ -27,7 +27,7 @@ const Dates = ({ currentDate }: { currentDate: Date }) => {
 
   const weeklyStartDates = eachWeekOfInterval({ start: monthStart, end: monthEnd }); //당월 시작하는 주의 첫번째값
 
-  let datesOfWeek = [];
+  let datesOfWeek: Date[][] = [];
 
   for (let i = 0; i < weeklyStartDates.length; i++) {
     const week = [...Array(7)].map((_, index) => addDays(weeklyStartDates[i], index));
@@ -36,11 +36,12 @@ const Dates = ({ currentDate }: { currentDate: Date }) => {
 
   const dateOnPress = (date: Date) => {
     const formatDate = format(date, 'yyyy-MM-dd');
+
     const findDayData = data?.filter(
       (dayItem: any) => format(dayItem.date.toDate(), 'yyyy-MM-dd') === formatDate
     );
 
-    dispatch(openBottomSheet({ route: 'calendarTabScreen', data: findDayData }));
+    dispatch(openBottomSheet({ route: 'calendarTabScreen', data: findDayData, date }));
   };
 
   return (

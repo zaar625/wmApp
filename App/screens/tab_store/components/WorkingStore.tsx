@@ -42,7 +42,6 @@ const StoreCardContainer = ({ store }: any) => {
   const { mutate } = useDeletStore();
 
   const removeStore = (id: string) => {
-    console.log('click');
     dispatch(
       openModal({
         type: 'TwoBtnModal',

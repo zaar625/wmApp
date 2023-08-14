@@ -1,4 +1,4 @@
-import firestore from '@react-native-firebase/firestore';
+import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import { useQuery } from '@tanstack/react-query';
 
 const workHourCollection = firestore()
@@ -6,10 +6,17 @@ const workHourCollection = firestore()
   .doc('DMWrTCluLrhJMrI01BVhJK6byFs1')
   .collection('workHour');
 
-async function fetchWorkingDate(query: string) {
+async function fetchWorkingDate(
+  query: string
+): Promise<FirebaseFirestoreTypes.DocumentData | undefined> {
   const workHourRef = await workHourCollection.doc(query).get();
+  const data = workHourRef.data();
 
-  return workHourRef.data()?.work;
+  if (!data) {
+    return undefined;
+  }
+
+  return data.work;
 }
 
 export const useWorkingDate = (query: string) => {
