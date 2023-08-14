@@ -16,7 +16,10 @@ const ShareTabScreen = () => {
       edges={['top']}
     >
       <ScrollView showsVerticalScrollIndicator={false}>
-        <ScreenTitle title={`공유된 내용 확인하고${`\n`}나도 공유하고`} />
+        <ScreenTitle
+          title={`공유된 내용 확인하고${`\n`}나도 공유하고`}
+          style={{ paddingHorizontal: 20 }}
+        />
         <SemiTitle title="오늘" style={styles.title} />
         <Working />
         <ShareContents />
@@ -30,10 +33,10 @@ export default ShareTabScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    paddingHorizontal: 20
+    flex: 1
   },
   title: {
-    marginBottom: 20
+    marginBottom: 20,
+    paddingHorizontal: 20
   }
 });

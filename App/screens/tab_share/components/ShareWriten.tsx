@@ -38,6 +38,7 @@ export default ShareWriten;
 
 const styles = StyleSheet.create({
   container: {
+    marginHorizontal: 20,
     paddingHorizontal: 20,
     paddingVertical: 15,
     marginBottom: 20,
