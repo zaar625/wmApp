@@ -11,8 +11,9 @@ import {
 import themeChange from '../../util/theme';
 import { useDispatch } from 'react-redux';
 import { openBottomSheet } from '../../state/slice/bottomSheet';
-import { useWorkingDate } from '../../api/store/hooks/useDateWork';
-import { dailyTotalHour, weeklyTotalHour } from './handler/totalHourhandler';
+import { useWorkingDate } from '../../api/store/hooks/useMonthlyWork';
+import { dailyTotalHour, weeklyTotalHour } from '../../util/time';
+import { calculatePayment } from '../../util/calculatePayment';
 
 const Dates = ({ currentDate }: { currentDate: Date }) => {
   const { data } = useWorkingDate(format(currentDate, 'yyyy-MM'));
@@ -22,10 +23,9 @@ const Dates = ({ currentDate }: { currentDate: Date }) => {
 
   const monthStart = startOfMonth(currentDate);
   const monthEnd = endOfMonth(monthStart);
-  // const startDate = startOfWeek(monthStart);
-  // const endDate = endOfWeek(monthEnd);
 
-  const weeklyStartDates = eachWeekOfInterval({ start: monthStart, end: monthEnd }); //당월 시작하는 주의 첫번째값
+  // 당월 주마다 시작하는 날짜
+  const weeklyStartDates = eachWeekOfInterval({ start: monthStart, end: monthEnd });
 
   let datesOfWeek: Date[][] = [];
 
@@ -47,7 +47,9 @@ const Dates = ({ currentDate }: { currentDate: Date }) => {
   return (
     <>
       {datesOfWeek.map((date, index) => (
+        //주
         <View key={index} style={{ backgroundColor: themeMode.secondary }}>
+          {/* 일 */}
           <View style={styles.weekContainer}>
             {date.map((dayDate, index) => (
               <Pressable
@@ -62,8 +64,8 @@ const Dates = ({ currentDate }: { currentDate: Date }) => {
                     </Text>
                     <View style={{ minHeight: 50 }}>
                       {dailyTotalHour(dayDate, data) > 0 && (
-                        <Text style={[styles.priceText, { color: themeMode.subTint }]}>
-                          {dailyTotalHour(dayDate, data)}
+                        <Text style={[styles.priceText, { color: themeMode.pressIcon }]}>
+                          {calculatePayment(dailyTotalHour(dayDate, data))}
                         </Text>
                       )}
                     </View>
@@ -72,9 +74,10 @@ const Dates = ({ currentDate }: { currentDate: Date }) => {
               </Pressable>
             ))}
           </View>
+          {/* 주 */}
           <View style={[styles.total, { backgroundColor: themeMode.card }]}>
             <Text style={[styles.totalPriceText, { color: themeMode.tint }]}>
-              {weeklyTotalHour(date, data)}
+              {weeklyTotalHour(date, data) > 0 && calculatePayment(weeklyTotalHour(date, data))}
             </Text>
           </View>
         </View>

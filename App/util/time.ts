@@ -7,20 +7,13 @@ export type TWorkData = {
   storeName: string;
 };
 
-export function monthlyTotalHour(workData: TWorkData[]) {
-  if (workData === undefined) return;
+export function monthlyTotalHour(workData: TWorkData[] | undefined) {
+  if (!workData) return;
 
-  const totalTimePerItem = workData.map((work: TWorkData) => {
-    const endTime = work.end;
-    const startTime = work.start;
+  const totalTime = totalTimePerWork(workData);
 
-    const totalFireBaseTimeStamp = endTime.seconds - startTime.seconds;
-    const hours = Math.floor(totalFireBaseTimeStamp / 3600);
-    // const minutes = Math.floor((totalFireBaseTimeStamp % 3600) / 60);
-    return { date: work.date, totalTime: hours };
-  });
-
-  const monthTotalWorkHour = totalTimePerItem.reduce((acc: number, curr: any) => {
+  const monthTotalWorkHour = totalTime?.reduce((acc: number, curr: any) => {
+    if (!curr) return acc;
     return acc + curr.totalTime;
   }, 0);
 
@@ -77,13 +70,13 @@ export function dailyTotalHour(day: Date, dailyWorkData: TWorkData[] | undefined
 }
 
 export function weeklyTotalHour(datesOfweek: Date[], workData: TWorkData[] | undefined) {
-  if (workData === undefined) return;
+  if (!workData) return 0;
 
   const dateOfWeekHour = datesOfweek.map(date => dailyTotalHour(date, workData));
 
   const weeklyTotal = dateOfWeekHour.reduce((acc, curr) => acc + curr);
 
-  return weeklyTotal.toFixed(2);
+  return Number(weeklyTotal.toFixed(2));
 }
 
 export function dailyTime(start: any, end: any) {

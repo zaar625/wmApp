@@ -3,10 +3,11 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { closeBottomSheet } from '../../state/slice/bottomSheet';
 import SvgIcon from '../SvgIcon';
-import { TWorkData, dailyTime } from '../calender/handler/totalHourhandler';
+import { TWorkData, dailyTime } from '../../util/time';
 import { format } from 'date-fns';
-import { dailyTotalHour } from '../calender/handler/totalHourhandler';
+import { dailyTotalHour } from '../../util/time';
 import themeChange from '../../util/theme';
+import { calculatePayment } from '../../util/calculatePayment';
 
 const DateSheet = ({ data, date }: { data: TWorkData[]; date: Date }) => {
   const dispatch = useDispatch();
@@ -36,7 +37,7 @@ const DateSheet = ({ data, date }: { data: TWorkData[]; date: Date }) => {
       </View>
       <View style={styles.totalWorkHourWrapper}>
         <Text style={{ color: themeMode.tint }}>{`총 근무시간: ${dailyHour}H`}</Text>
-        <Text style={{ color: themeMode.tint }}>{`+ ${Math.floor(dailyHour * 9250)}원`}</Text>
+        <Text style={{ color: themeMode.tint }}>+ {calculatePayment(dailyHour)}원</Text>
       </View>
       {data?.map((workItem: TWorkData, index: number) => (
         <WorkInfoCard workItem={workItem} key={index} />
@@ -62,7 +63,7 @@ const WorkInfoCard = ({ workItem }: { workItem: TWorkData }) => {
         </View>
         <View style={styles.iconWrapper}>
           <SvgIcon name="money_line" width={18} height={18} style={styles.icon} />
-          <Text style={{ color: themeMode.tint }}>총 {`+ ${totalHour * 9620}`}원</Text>
+          <Text style={{ color: themeMode.tint }}>총 {calculatePayment(totalHour)}원</Text>
         </View>
       </View>
     </View>

@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import React, { useState } from 'react';
+import React from 'react';
 
 import addMonths from 'date-fns/addMonths';
 import subMonths from 'date-fns/subMonths';
