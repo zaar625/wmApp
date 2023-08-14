@@ -16,10 +16,10 @@ const MonthPayRoll = ({ currentDate }: { currentDate: Date }) => {
   const month = format(currentDate, 'M');
 
   const monthlyTotalTime = monthlyTotalHour(data);
-  const hour = monthlyTotalTime ? Math.floor(monthlyTotalTime / 60) : 0;
-  const min = monthlyTotalTime ? monthlyTotalTime % 60 : 0;
 
-  const totalPayment = monthlyTotalTime ? calculatePayment(monthlyTotalTime / 60) : 0;
+  const hour = monthlyTotalTime ? Number((monthlyTotalTime / 60).toFixed(1)) : 0;
+
+  const totalPayment = monthlyTotalTime ? calculatePayment(hour) : 0;
 
   return (
     <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
@@ -34,7 +34,8 @@ const MonthPayRoll = ({ currentDate }: { currentDate: Date }) => {
         <View>
           <Text style={[{ color: themeMode.subTint }]}>당월에는</Text>
           <Text style={[{ color: themeMode.subTint }]}>
-            <Text style={[{ color: themeMode.tint }, styles.bold]}>{totalPayment}</Text>원 벌었어요.
+            <Text style={[{ color: themeMode.tint }, styles.bold]}>{totalPayment}</Text> 원
+            벌었어요.
           </Text>
         </View>
       </View>
@@ -48,10 +49,7 @@ const MonthPayRoll = ({ currentDate }: { currentDate: Date }) => {
         <View>
           <Text style={[{ color: themeMode.subTint }]}>당월 총 근로시간은</Text>
           <Text style={[{ color: themeMode.subTint }]}>
-            <Text style={[{ color: themeMode.tint }, styles.bold]}>
-              {hour}시간 {min}분
-            </Text>{' '}
-            근무 했어요.
+            <Text style={[{ color: themeMode.tint }, styles.bold]}>{hour} 시간</Text> 근무 했어요.
           </Text>
         </View>
       </View>
