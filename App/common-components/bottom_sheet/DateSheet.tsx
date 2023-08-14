@@ -1,14 +1,16 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { closeBottomSheet } from '../../state/slice/bottomSheet';
 import SvgIcon from '../SvgIcon';
 import { TWorkData, dailyTime } from '../calender/handler/totalHourhandler';
 import { format } from 'date-fns';
 import { dailyTotalHour } from '../calender/handler/totalHourhandler';
+import themeChange from '../../util/theme';
 
 const DateSheet = ({ data, date }: { data: TWorkData[]; date: Date }) => {
   const dispatch = useDispatch();
+  const themeMode = themeChange();
 
   const getTotalHourForDate = () => {
     if (data.length === 0) return 0;
@@ -24,14 +26,17 @@ const DateSheet = ({ data, date }: { data: TWorkData[]; date: Date }) => {
   return (
     <View style={{ padding: 20 }}>
       <View style={styles.header}>
-        <Text style={styles.title}>{`${format(date, 'd')}일 근로 상세`}</Text>
+        <Text style={[styles.title, { color: themeMode.tint }]}>{`${format(
+          date,
+          'd'
+        )}일 근로 상세`}</Text>
         <Pressable onPress={() => dispatch(closeBottomSheet())}>
-          <SvgIcon name="close" color={'#FFF'} />
+          <SvgIcon name="close" color={themeMode.tint} />
         </Pressable>
       </View>
       <View style={styles.totalWorkHourWrapper}>
-        <Text style={{ color: '#FFF' }}>{`총 근무시간: ${dailyHour}H`}</Text>
-        <Text style={{ color: '#FFF' }}>{`+ ${Math.floor(dailyHour * 9250)}원`}</Text>
+        <Text style={{ color: themeMode.tint }}>{`총 근무시간: ${dailyHour}H`}</Text>
+        <Text style={{ color: themeMode.tint }}>{`+ ${Math.floor(dailyHour * 9250)}원`}</Text>
       </View>
       {data?.map((workItem: TWorkData, index: number) => (
         <WorkInfoCard workItem={workItem} key={index} />
@@ -41,16 +46,25 @@ const DateSheet = ({ data, date }: { data: TWorkData[]; date: Date }) => {
 };
 
 const WorkInfoCard = ({ workItem }: { workItem: TWorkData }) => {
-  const { date, end, start, storeName } = workItem;
+  const { end, start } = workItem;
+  const themeMode = themeChange();
 
   const { startWork, endWork, totalHour } = dailyTime(start, end);
   return (
-    <View style={styles.cardContainer}>
-      <View style={styles.storeWorkHourWrapper}>
-        <Text style={[{ color: '#FFF' }, styles.storeText]}>카페이루</Text>
-        <Text style={{ color: '#FFF' }}>{`${startWork} ~ ${endWork} (${totalHour}H)`}</Text>
+    <View style={[styles.cardContainer, { backgroundColor: themeMode.card }]}>
+      <Text style={[{ color: themeMode.tint }, styles.storeText]}>카페이루</Text>
+      <View>
+        <View style={[styles.iconWrapper, { marginVertical: 10 }]}>
+          <SvgIcon name="clock_line" width={15} height={15} style={styles.icon} />
+          <Text
+            style={{ color: themeMode.tint }}
+          >{`${startWork} ~ ${endWork} (${totalHour}H)`}</Text>
+        </View>
+        <View style={styles.iconWrapper}>
+          <SvgIcon name="money_line" width={18} height={18} style={styles.icon} />
+          <Text style={{ color: themeMode.tint }}>총 {`+ ${totalHour * 9620}`}원</Text>
+        </View>
       </View>
-      <Text style={{ color: '#FFF' }}>{`+ ${totalHour * 9620}`}</Text>
     </View>
   );
 };
@@ -66,8 +80,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontWeight: '700',
-    marginBottom: 20,
-    color: '#FFF'
+    marginBottom: 20
   },
   totalWorkHourWrapper: {
     flexDirection: 'row',
@@ -80,10 +93,6 @@ const styles = StyleSheet.create({
   cardContainer: {
     paddingHorizontal: 20,
     paddingVertical: 20,
-    backgroundColor: '#202632',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
     borderRadius: 10,
     marginBottom: 10
   },
@@ -95,5 +104,12 @@ const styles = StyleSheet.create({
     marginRight: 10,
     fontWeight: '600',
     fontSize: 16
+  },
+  iconWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  icon: {
+    marginRight: 5
   }
 });

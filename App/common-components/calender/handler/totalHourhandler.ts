@@ -76,7 +76,7 @@ export function dailyTotalHour(day: Date, dailyWorkData: TWorkData[] | undefined
   return changeHour(dailyTotalWorkMinutes);
 }
 
-export function weeklyTotalHour(datesOfweek: Date[], workData: TWorkData[]) {
+export function weeklyTotalHour(datesOfweek: Date[], workData: TWorkData[] | undefined) {
   if (workData === undefined) return;
 
   const dateOfWeekHour = datesOfweek.map(date => dailyTotalHour(date, workData));

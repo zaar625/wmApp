@@ -6,6 +6,8 @@ export { default as settings } from './settings.svg';
 export { default as check } from './check.svg';
 export { default as check_fill } from './check_fill.svg';
 export { default as check_round } from './check_round.svg';
+export { default as clock_line } from './clock_line.svg';
+export { default as money_line } from './money_line.svg';
 export { default as arrow_right } from './arrow_right.svg';
 export { default as arrow_right_fill } from './arrow_right_fill.svg';
 export { default as arrow_left } from './arrow_left.svg';
