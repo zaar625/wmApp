@@ -17,13 +17,13 @@ export function monthlyTotalHour(workData: TWorkData[] | undefined) {
     return acc + curr.totalTime;
   }, 0);
 
-  return monthTotalWorkHour;
+  return changeHour(monthTotalWorkHour);
 }
 
 function changeHour(totalMin: number | undefined) {
   if (!totalMin) return 0;
 
-  const hour = Number((totalMin / 60).toFixed(1));
+  const hour = Math.floor((totalMin / 60) * 10) / 10;
 
   return hour;
 }
@@ -80,10 +80,12 @@ export function weeklyTotalHour(datesOfweek: Date[], workData: TWorkData[] | und
 }
 
 export function dailyTime(start: any, end: any) {
+  if (!start || !end) return;
+
   const startWork = format(start.toDate(), 'k:mm');
   const endWork = format(end.toDate(), 'k:mm');
 
-  const totalMin = (end.seconds - start.seconds) / 60;
-  const totalHour = changeHour(Math.floor(totalMin));
-  return { startWork, endWork, totalHour };
+  const totalMin = Math.floor((end.seconds - start.seconds) / 60);
+  const totalHour = changeHour(totalMin);
+  return { startWork, endWork, totalHour, totalMin };
 }

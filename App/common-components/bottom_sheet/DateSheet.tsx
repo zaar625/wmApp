@@ -24,6 +24,7 @@ const DateSheet = ({ data, date }: { data: TWorkData[]; date: Date }) => {
   getTotalHourForDate();
 
   const dailyHour = getTotalHourForDate();
+
   return (
     <View style={{ padding: 20 }}>
       <View style={styles.header}>
@@ -48,25 +49,32 @@ const DateSheet = ({ data, date }: { data: TWorkData[]; date: Date }) => {
 
 const WorkInfoCard = ({ workItem }: { workItem: TWorkData }) => {
   const { end, start } = workItem;
-  const themeMode = themeChange();
 
-  const { startWork, endWork, totalHour } = dailyTime(start, end);
+  const themeMode = themeChange();
+  const dailyFormatTime = dailyTime(start, end);
+
   return (
-    <View style={[styles.cardContainer, { backgroundColor: themeMode.card }]}>
-      <Text style={[{ color: themeMode.tint }, styles.storeText]}>카페이루</Text>
-      <View>
-        <View style={[styles.iconWrapper, { marginVertical: 10 }]}>
-          <SvgIcon name="clock_line" width={15} height={15} style={styles.icon} />
-          <Text
-            style={{ color: themeMode.tint }}
-          >{`${startWork} ~ ${endWork} (${totalHour}H)`}</Text>
+    <>
+      {dailyFormatTime && (
+        <View style={[styles.cardContainer, { backgroundColor: themeMode.card }]}>
+          <Text style={[{ color: themeMode.tint }, styles.storeText]}>카페이루</Text>
+          <View>
+            <View style={[styles.iconWrapper, { marginVertical: 10 }]}>
+              <SvgIcon name="clock_line" width={15} height={15} style={styles.icon} />
+              <Text
+                style={{ color: themeMode.tint }}
+              >{`${dailyFormatTime.startWork} ~ ${dailyFormatTime.endWork} (${dailyFormatTime.totalHour}H)`}</Text>
+            </View>
+            <View style={styles.iconWrapper}>
+              <SvgIcon name="money_line" width={18} height={18} style={styles.icon} />
+              <Text style={{ color: themeMode.tint }}>
+                총 {calculatePayment(dailyFormatTime.totalHour)}원
+              </Text>
+            </View>
+          </View>
         </View>
-        <View style={styles.iconWrapper}>
-          <SvgIcon name="money_line" width={18} height={18} style={styles.icon} />
-          <Text style={{ color: themeMode.tint }}>총 {calculatePayment(totalHour)}원</Text>
-        </View>
-      </View>
-    </View>
+      )}
+    </>
   );
 };
 

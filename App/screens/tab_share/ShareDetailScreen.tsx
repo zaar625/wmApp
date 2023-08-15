@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, Image } from 'react-native';
-import React from 'react';
+import { StyleSheet, Text, View, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
+import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRoute } from '@react-navigation/native';
 import NavigationHeader from '../../common-components/NavigationHeader';
@@ -7,10 +7,13 @@ import themeChange from '../../util/theme';
 import type { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../type';
 import format from 'date-fns/format';
+import ImageCarousel from './components/ImageCarousel';
 
 import { deviceWidth } from '../../theme';
 import Button from '../../common-components/buttons/Button';
 import { NavigationScreenProps } from '../../type';
+import { ScrollView } from 'react-native-gesture-handler';
+import { deviceheight } from '../../theme';
 
 type ShareDetailScreenRouteProp = RouteProp<RootStackParamList, 'shareDetailScreen'>;
 
@@ -20,36 +23,40 @@ const ShareDetailScreen = ({ navigation }: NavigationScreenProps) => {
 
   const { content, title, photosURL, createAt } = params.data;
 
+  const [imageHeigt, setImageHeigt] = useState(0);
+
+  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const yOffset = event.nativeEvent.contentOffset.y;
+    setImageHeigt(yOffset);
+  };
+
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: themeMode.primary }]}>
       <NavigationHeader header={params.header} />
 
       <View style={styles.layout}>
-        <View style={styles.contentContainer}>
-          <Text style={[styles.contentStore, { color: themeMode.tint }]}>카페이루</Text>
-          <Text style={[{ color: themeMode.subTint, fontSize: 12 }]}>@ 이상윤</Text>
-
+        <ScrollView onScroll={handleScroll} bounces={false} scrollEventThrottle={16}>
           {photosURL.length > 0 ? (
-            <View style={styles.imageContainer}>
-              <Image source={{ uri: photosURL[0] }} style={styles.mainImage} />
-              <View style={{ justifyContent: 'space-between' }}>
-                <Image source={{ uri: photosURL[1] }} style={styles.subImage} />
-                <Image source={{ uri: photosURL[2] }} style={styles.subImage} />
-              </View>
-            </View>
+            <ImageCarousel photosURL={photosURL} imageHeigt={imageHeigt} />
           ) : (
             <View style={styles.nonImageContainer}>
               <Text style={{ color: themeMode.subTint }}>공유된 이미지가 없습니다.</Text>
             </View>
           )}
 
-          <Text style={[styles.contentTitle, { color: themeMode.tint }]}>{title}</Text>
-          <Text style={[styles.content, { color: themeMode.tint }]}>{content}</Text>
-          <Text style={[styles.date, { color: themeMode.subTint }]}>
-            {format(createAt.toDate(), 'yyyy.MM.dd')}
-          </Text>
-        </View>
+          <View style={{ paddingHorizontal: 20 }}>
+            <Text style={[styles.contentStore, { color: themeMode.tint }]}>카페이루</Text>
+            <Text style={[styles.contentTitle, { color: themeMode.tint }]}>{title}</Text>
+            <Text style={[styles.content, { color: themeMode.tint }]}>{content}</Text>
 
+            <View style={styles.authContainer}>
+              <Text style={[{ color: themeMode.subTint }, styles.auth]}>@ 이상윤</Text>
+              <Text style={[styles.date, { color: themeMode.subTint }]}>
+                {format(createAt.toDate(), 'yyyy.MM.dd')}
+              </Text>
+            </View>
+          </View>
+        </ScrollView>
         <Button name="확인" onPress={navigation.goBack} />
       </View>
     </SafeAreaView>
@@ -66,13 +73,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between'
   },
+
   contentContainer: {
     paddingHorizontal: 20
   },
   contentStore: {
-    fontWeight: '600',
-    fontSize: 16,
-    marginBottom: 10
+    fontWeight: '700',
+    fontSize: 18,
+    marginBottom: 40
   },
   contentTitle: {
     fontWeight: '700',
@@ -83,28 +91,20 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   date: {
-    fontSize: 12,
-    textAlign: 'right'
-  },
-  mainImage: {
-    width: deviceWidth * 0.583,
-    height: deviceWidth * 0.583,
-    borderRadius: 15
-  },
-  subImage: {
-    width: deviceWidth * 0.277,
-    height: deviceWidth * 0.277,
-    borderRadius: 15
-  },
-  imageContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginVertical: 30
+    fontSize: 12
   },
   nonImageContainer: {
     height: deviceWidth * 0.583,
     justifyContent: 'center',
     alignItems: 'center',
     marginVertical: 30
+  },
+  authContainer: {
+    flexDirection: 'row',
+    alignSelf: 'flex-end'
+  },
+  auth: {
+    marginRight: 10,
+    fontSize: 12
   }
 });
