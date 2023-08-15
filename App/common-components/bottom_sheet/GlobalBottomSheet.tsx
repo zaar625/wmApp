@@ -16,7 +16,7 @@ const GlobalBottomSheet = () => {
   const { route, isOpen, data, date } = useSelector((state: RootState) => state.bottomSheet);
 
   const renderBottomSheet = (route: string) => {
-    if (route === 'shareTabScreen') return <TimeModifySheet />;
+    if (route === 'shareTabScreen') return <TimeModifySheet data={data} />;
     if (route === 'calendarTabScreen') return <DateSheet data={data} date={date} />;
   };
 

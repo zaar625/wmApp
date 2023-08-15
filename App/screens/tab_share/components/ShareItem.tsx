@@ -19,7 +19,7 @@ const ShareItem = ({ item }: any) => {
   const scaleAni = useSharedValue(1);
   const backgound = useSharedValue(themeMode.secondary);
   const logInfo = item.data();
-  console.log(logInfo);
+
   useEffect(() => {
     //테마변경이 될 때마다 기본값 변경해줘야합니다.
     backgound.value = themeMode.secondary;

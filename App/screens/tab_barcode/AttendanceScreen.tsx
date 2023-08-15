@@ -24,7 +24,6 @@ const AttendanceScreen = () => {
 
   const scanerHandler = async (event: BarCodeReadEvent) => {
     const { data: codeId } = event;
-    console.log(codeId);
   };
 
   return (

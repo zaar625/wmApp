@@ -1,41 +1,45 @@
-import { Image, Pressable, StyleSheet, Text, View, FlatList } from 'react-native';
+import { StyleSheet, FlatList } from 'react-native';
 import React from 'react';
-import themeChange from '../../../util/theme';
-import SvgIcon from '../../../common-components/SvgIcon';
-import { useDispatch } from 'react-redux';
-import { openBottomSheet } from '../../../state/slice/bottomSheet';
-import { useRoute } from '@react-navigation/native';
 import WorkingCard from './WorkingCard';
 import { deviceWidth } from '../../../theme';
+import { format } from 'date-fns';
+import { useWorkingDate } from '../../../api/store/hooks/useMonthlyWork';
+import { TWorkData } from '../../../util/time';
 
 const Working = () => {
-  const themeMode = themeChange();
-  const route = useRoute();
-  const dispatch = useDispatch();
+  const query = format(new Date(), 'yyyy-MM');
+  const { data } = useWorkingDate(query);
 
-  const modifyRequestOnPress = () => {
-    dispatch(openBottomSheet({ route: 'shareTabScreen' }));
-  };
+  function findTodayData(data: TWorkData[] | undefined) {
+    if (!data) return;
 
-  const dumi = [1, 2, 3];
+    const findToday = data.filter(dateWorkInfo => {
+      const today = format(new Date(), 'yyyy-MM-dd');
+      return today === format(dateWorkInfo.date.toDate(), 'yyyy-MM-dd');
+    });
 
-  const gap = 10;
-  const offset = 16;
+    return findToday;
+  }
+
+  const todayWorks = findTodayData(data);
+
+  const CARD_GAP = 8;
+  const NEXT_CARD_OFFSET = 16;
 
   return (
     <FlatList
       automaticallyAdjustContentInsets={false}
       contentContainerStyle={{
-        paddingHorizontal: offset + gap / 2
+        paddingHorizontal: NEXT_CARD_OFFSET + CARD_GAP / 2
       }}
       decelerationRate="fast"
       horizontal
       pagingEnabled
-      snapToInterval={deviceWidth - 60 + gap}
+      snapToInterval={deviceWidth - 60 + CARD_GAP}
       snapToAlignment="start"
       showsHorizontalScrollIndicator={false}
-      data={dumi}
-      renderItem={({ item }) => <WorkingCard />}
+      data={todayWorks}
+      renderItem={({ item }) => <WorkingCard item={item} />}
     />
   );
 };

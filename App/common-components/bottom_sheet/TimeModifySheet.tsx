@@ -1,21 +1,52 @@
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, Pressable } from 'react-native';
-import React, { useState, forwardRef } from 'react';
+import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native';
+import React, { useState } from 'react';
 import SvgIcon from '../SvgIcon';
 import DatePicker from 'react-native-date-picker';
 import NomalButton from '../buttons/NomarButton';
 import format from 'date-fns/format';
 import themeChange from '../../util/theme';
-
-const TimeModifySheet = () => {
+import firestore from '@react-native-firebase/firestore';
+import { useAddTimeEditing } from '../../api/store/hooks/useTimeEditing';
+import { useDispatch } from 'react-redux';
+import { closeBottomSheet } from '../../state/slice/bottomSheet';
+const TimeModifySheet = ({ data }: any, ref: any) => {
   const themeMode = themeChange();
+
+  const { mutate } = useAddTimeEditing();
+  const dispatch = useDispatch();
   const [workModifyInfo, setWorkModifyInfo] = useState({
     reason: '',
-    출근: '',
-    퇴근: ''
+    start: '-',
+    end: '-'
   });
 
   const onChangeText = (inputText: string) => {
     setWorkModifyInfo({ ...workModifyInfo, reason: inputText });
+  };
+
+  const onsubmit = () => {
+    const afterData = {
+      date: data.date,
+      storeName: data.storeName,
+      start: workModifyInfo.start,
+      end: workModifyInfo.end
+    };
+
+    const queryData = {
+      before: data,
+      after: afterData,
+      createAt: firestore.FieldValue.serverTimestamp(),
+      user: 'DMWrTCluLrhJMrI01BVhJK6byFs1',
+      reason: workModifyInfo.reason,
+      confirm: false
+    };
+
+    mutate(
+      { storeId: data.storeName, data: queryData },
+      {
+        onSuccess: () => dispatch(closeBottomSheet())
+      }
+    );
   };
 
   return (
@@ -39,7 +70,7 @@ const TimeModifySheet = () => {
           <SvgIcon name="check" style={styles.icon} color={themeMode.pressIcon} />
           <Text style={{ color: themeMode.tint }}>수정 시간을 작성해주세요.</Text>
         </View>
-        {['출근', '퇴근'].map((item, index) => (
+        {['start', 'end'].map((item, index) => (
           <WorkTime
             key={index}
             title={item}
@@ -48,7 +79,7 @@ const TimeModifySheet = () => {
           />
         ))}
       </View>
-      <NomalButton name="수정" onPress={() => console.log('수정')} />
+      <NomalButton name="수정" onPress={onsubmit} />
     </View>
   );
 };
@@ -57,6 +88,11 @@ const WorkTime = ({ title, timeHandler, workModifyInfo }: any) => {
   const themeMode = themeChange();
   const [datePickerOpen, setDatePickerOpen] = useState(false);
   const today = new Date();
+
+  const titleName = title === 'start' ? '출근' : '퇴근';
+
+  const formatTime =
+    workModifyInfo[title] !== '-' ? format(workModifyInfo[title], 'HH : mm aaa') : '-';
 
   const workHourOnpress = () => {
     setDatePickerOpen(true);
@@ -68,7 +104,9 @@ const WorkTime = ({ title, timeHandler, workModifyInfo }: any) => {
         style={[styles.workHour, { backgroundColor: themeMode.card }]}
         onPress={workHourOnpress}
       >
-        <Text style={{ color: themeMode.tint }}>{title} :</Text>
+        <Text style={{ color: themeMode.tint }}>
+          {titleName} : {formatTime}
+        </Text>
       </Pressable>
       <DatePicker
         modal
@@ -80,7 +118,7 @@ const WorkTime = ({ title, timeHandler, workModifyInfo }: any) => {
         date={today}
         onConfirm={date => {
           setDatePickerOpen(false);
-          timeHandler({ ...workModifyInfo, [title]: format(date, 'HH : mm aaa') });
+          timeHandler({ ...workModifyInfo, [title]: date });
         }}
         onCancel={() => {
           setDatePickerOpen(false);
@@ -90,7 +128,7 @@ const WorkTime = ({ title, timeHandler, workModifyInfo }: any) => {
   );
 };
 
-export default forwardRef(TimeModifySheet);
+export default TimeModifySheet;
 
 const styles = StyleSheet.create({
   title: {

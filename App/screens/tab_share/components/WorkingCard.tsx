@@ -5,13 +5,21 @@ import themeChange from '../../../util/theme';
 import { useDispatch } from 'react-redux';
 import { openBottomSheet } from '../../../state/slice/bottomSheet';
 import { deviceWidth } from '../../../theme';
+import { TWorkData } from '../../../util/time';
+import { format } from 'date-fns';
 
-const WorkingCard = () => {
+const WorkingCard = ({ item }: { item: TWorkData }) => {
   const themeMode = themeChange();
   const dispatch = useDispatch();
+  const { start, end } = item;
+
+  const startWork = start ? format(start.toDate(), 'HH시 mm분') : '-';
+  const endWork = end ? format(end.toDate(), 'HH시 mm분') : '-';
+
+  const isWorking = !start || !end;
 
   const modifyRequestOnPress = () => {
-    dispatch(openBottomSheet({ route: 'shareTabScreen' }));
+    dispatch(openBottomSheet({ route: 'shareTabScreen', data: item }));
   };
 
   return (
@@ -32,18 +40,18 @@ const WorkingCard = () => {
       </View>
 
       <View style={styles.workState}>
-        <View style={styles.round} />
-        <Text style={{ color: themeMode.tint }}>근무중</Text>
+        <View style={[styles.round, { backgroundColor: isWorking ? '#52C648' : 'gray' }]} />
+        <Text style={{ color: themeMode.tint }}>{isWorking ? '근무중' : '근무중 아님'}</Text>
       </View>
 
       <View style={styles.time}>
         <Text style={[{ color: themeMode.tint }, styles.marginRight]}>출근:</Text>
-        <Text style={[{ color: themeMode.tint }, styles.marginRight]}>10시 30분</Text>
+        <Text style={[{ color: themeMode.tint }, styles.marginRight]}>{startWork}</Text>
       </View>
 
       <View style={styles.time}>
         <Text style={[{ color: themeMode.tint }, styles.marginRight]}>퇴근:</Text>
-        <Text style={[{ color: themeMode.tint }, styles.marginRight]}>17시 30분</Text>
+        <Text style={[{ color: themeMode.tint }, styles.marginRight]}>{endWork}</Text>
       </View>
     </View>
   );
