@@ -1,5 +1,6 @@
 export function calculatePayment(totalTime: number) {
-  const pay = Math.floor(totalTime * 9620);
+  const costPerMinute = Math.floor(9620 / 60);
+  const pay = totalTime * costPerMinute;
 
   const won = pay.toLocaleString('ko-KR');
 

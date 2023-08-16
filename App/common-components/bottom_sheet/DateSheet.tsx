@@ -5,7 +5,7 @@ import { closeBottomSheet } from '../../state/slice/bottomSheet';
 import SvgIcon from '../SvgIcon';
 import { TWorkData, dailyTime } from '../../util/time';
 import { format } from 'date-fns';
-import { dailyTotalHour } from '../../util/time';
+import { dailyTotalTime, changeTime } from '../../util/time';
 import themeChange from '../../util/theme';
 import { calculatePayment } from '../../util/calculatePayment';
 
@@ -16,14 +16,12 @@ const DateSheet = ({ data, date }: { data: TWorkData[]; date: Date }) => {
   const getTotalHourForDate = () => {
     if (data.length === 0) return 0;
 
-    const dailyHour = dailyTotalHour(date, data);
+    const dailyTime = dailyTotalTime(date, data);
 
-    return dailyHour;
+    return dailyTime;
   };
 
-  getTotalHourForDate();
-
-  const dailyHour = getTotalHourForDate();
+  const { hour, minute } = changeTime(getTotalHourForDate());
 
   return (
     <View style={{ padding: 20 }}>
@@ -37,8 +35,8 @@ const DateSheet = ({ data, date }: { data: TWorkData[]; date: Date }) => {
         </Pressable>
       </View>
       <View style={styles.totalWorkHourWrapper}>
-        <Text style={{ color: themeMode.tint }}>{`총 근무시간: ${dailyHour}H`}</Text>
-        <Text style={{ color: themeMode.tint }}>+ {calculatePayment(dailyHour)}원</Text>
+        <Text style={{ color: themeMode.tint }}>{`총 근무시간: ${hour}시간 ${minute}분`}</Text>
+        <Text style={{ color: themeMode.tint }}>+ {calculatePayment(getTotalHourForDate())}원</Text>
       </View>
       {data?.map((workItem: TWorkData, index: number) => (
         <WorkInfoCard workItem={workItem} key={index} />
@@ -51,24 +49,26 @@ const WorkInfoCard = ({ workItem }: { workItem: TWorkData }) => {
   const { end, start } = workItem;
 
   const themeMode = themeChange();
-  const dailyFormatTime = dailyTime(start, end);
+  const dailyTotalMinute = dailyTime(start, end);
+
+  const { hour, minute } = changeTime(dailyTotalMinute?.totalMin);
 
   return (
     <>
-      {dailyFormatTime && (
+      {dailyTotalMinute && (
         <View style={[styles.cardContainer, { backgroundColor: themeMode.card }]}>
-          <Text style={[{ color: themeMode.tint }, styles.storeText]}>카페이루</Text>
-          <View>
-            <View style={[styles.iconWrapper, { marginVertical: 10 }]}>
+          <Text style={[{ color: themeMode.tint }, styles.storeText]}>{`카페이루`}</Text>
+          <View style={[styles.timeWrapper]}>
+            <View style={styles.iconWrapper}>
               <SvgIcon name="clock_line" width={15} height={15} style={styles.icon} />
               <Text
                 style={{ color: themeMode.tint }}
-              >{`${dailyFormatTime.startWork} ~ ${dailyFormatTime.endWork} (${dailyFormatTime.totalHour}H)`}</Text>
+              >{`${dailyTotalMinute.startWork} ~ ${dailyTotalMinute.endWork}`}</Text>
             </View>
             <View style={styles.iconWrapper}>
               <SvgIcon name="money_line" width={18} height={18} style={styles.icon} />
               <Text style={{ color: themeMode.tint }}>
-                총 {calculatePayment(dailyFormatTime.totalHour)}원
+                총 {calculatePayment(dailyTotalMinute.totalMin)}원
               </Text>
             </View>
           </View>
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     paddingHorizontal: 20,
-    paddingVertical: 20,
+    paddingVertical: 10,
     borderRadius: 10,
     marginBottom: 10
   },
@@ -112,7 +112,13 @@ const styles = StyleSheet.create({
   storeText: {
     marginRight: 10,
     fontWeight: '600',
-    fontSize: 16
+    fontSize: 16,
+    marginBottom: 15
+  },
+  timeWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   iconWrapper: {
     flexDirection: 'row',

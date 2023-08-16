@@ -12,20 +12,22 @@ export function monthlyTotalHour(workData: TWorkData[] | undefined) {
 
   const totalTime = totalTimePerWork(workData);
 
-  const monthTotalWorkHour = totalTime?.reduce((acc: number, curr: any) => {
+  const monthlyTotalMinute = totalTime?.reduce((acc: number, curr: any) => {
     if (!curr) return acc;
     return acc + curr.totalTime;
   }, 0);
 
-  return changeHour(monthTotalWorkHour);
+  return monthlyTotalMinute;
 }
 
-function changeHour(totalMin: number | undefined) {
-  if (!totalMin) return 0;
+export function changeTime(totalMinute: number | undefined) {
+  if (!totalMinute) return { hour: 0, minute: 0 };
+  console.log(totalMinute);
 
-  const hour = Math.floor((totalMin / 60) * 10) / 10;
+  const hour = Math.floor(totalMinute / 60);
+  const minute = totalMinute - hour * 60;
 
-  return hour;
+  return { hour, minute };
 }
 
 function totalTimePerWork(workInfoArr: TWorkData[] | undefined) {
@@ -38,15 +40,15 @@ function totalTimePerWork(workInfoArr: TWorkData[] | undefined) {
     if (!endTime || !startTime) return;
 
     const totalFireStoreTimeStamp = endTime.seconds - startTime.seconds;
-    const minutes = Math.floor(totalFireStoreTimeStamp / 60);
+    const minute = Math.floor(totalFireStoreTimeStamp / 60);
 
-    return { date: work.date, totalTime: minutes };
+    return { date: work.date, totalTime: minute };
   });
 
   return totalTimePerItem;
 }
 
-export function dailyTotalHour(day: Date, dailyWorkData: TWorkData[] | undefined) {
+export function dailyTotalTime(day: Date, dailyWorkData: TWorkData[] | undefined) {
   const date = format(day, 'yyyy-MM-dd');
 
   if (!dailyWorkData) return 0;
@@ -58,7 +60,7 @@ export function dailyTotalHour(day: Date, dailyWorkData: TWorkData[] | undefined
     return date === formatTimeStempDay;
   });
 
-  const dailyTotalWorkMinutes = totalTimePerWork(findSameDateData)?.reduce(
+  const dailyTotalWorkMinute = totalTimePerWork(findSameDateData)?.reduce(
     (acc: number, curr: any) => {
       if (!curr) return acc;
       return acc + curr.totalTime;
@@ -66,17 +68,17 @@ export function dailyTotalHour(day: Date, dailyWorkData: TWorkData[] | undefined
     0
   );
 
-  return changeHour(dailyTotalWorkMinutes);
+  return dailyTotalWorkMinute ? dailyTotalWorkMinute : 0;
 }
 
-export function weeklyTotalHour(datesOfweek: Date[], workData: TWorkData[] | undefined) {
+export function weeklyTotalTime(datesOfweek: Date[], workData: TWorkData[] | undefined) {
   if (!workData) return 0;
 
-  const dateOfWeekHour = datesOfweek.map(date => dailyTotalHour(date, workData));
+  const dateOfWeekMinute = datesOfweek.map(date => dailyTotalTime(date, workData));
 
-  const weeklyTotal = dateOfWeekHour.reduce((acc, curr) => acc + curr);
+  const weeklyTotalMinute = dateOfWeekMinute.reduce((acc, curr) => acc + curr);
 
-  return weeklyTotal;
+  return weeklyTotalMinute;
 }
 
 export function dailyTime(start: any, end: any) {
@@ -86,6 +88,6 @@ export function dailyTime(start: any, end: any) {
   const endWork = format(end.toDate(), 'k:mm');
 
   const totalMin = Math.floor((end.seconds - start.seconds) / 60);
-  const totalHour = changeHour(totalMin);
-  return { startWork, endWork, totalHour, totalMin };
+
+  return { startWork, endWork, totalMin };
 }

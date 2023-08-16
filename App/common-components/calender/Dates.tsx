@@ -12,7 +12,7 @@ import themeChange from '../../util/theme';
 import { useDispatch } from 'react-redux';
 import { openBottomSheet } from '../../state/slice/bottomSheet';
 import { useWorkingDate } from '../../api/store/hooks/useMonthlyWork';
-import { dailyTotalHour, weeklyTotalHour } from '../../util/time';
+import { dailyTotalTime, weeklyTotalTime } from '../../util/time';
 import { calculatePayment } from '../../util/calculatePayment';
 
 const Dates = ({ currentDate }: { currentDate: Date }) => {
@@ -63,9 +63,9 @@ const Dates = ({ currentDate }: { currentDate: Date }) => {
                       {format(dayDate, 'd')}
                     </Text>
                     <View style={{ minHeight: 50 }}>
-                      {dailyTotalHour(dayDate, data) > 0 && (
+                      {dailyTotalTime(dayDate, data) > 0 && (
                         <Text style={[styles.priceText, { color: themeMode.pressIcon }]}>
-                          {calculatePayment(dailyTotalHour(dayDate, data))}
+                          {calculatePayment(dailyTotalTime(dayDate, data))}
                         </Text>
                       )}
                     </View>
@@ -77,7 +77,7 @@ const Dates = ({ currentDate }: { currentDate: Date }) => {
           {/* 주 */}
           <View style={[styles.total, { backgroundColor: themeMode.card }]}>
             <Text style={[styles.totalPriceText, { color: themeMode.tint }]}>
-              {weeklyTotalHour(date, data) > 0 && calculatePayment(weeklyTotalHour(date, data))}
+              {weeklyTotalTime(date, data) > 0 && calculatePayment(weeklyTotalTime(date, data))}
             </Text>
           </View>
         </View>

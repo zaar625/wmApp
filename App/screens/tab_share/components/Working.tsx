@@ -1,4 +1,4 @@
-import { StyleSheet, FlatList } from 'react-native';
+import { StyleSheet, FlatList, Text, View } from 'react-native';
 import React from 'react';
 import WorkingCard from './WorkingCard';
 import { deviceWidth } from '../../../theme';
@@ -14,7 +14,8 @@ const Working = () => {
     if (!data) return;
 
     const findToday = data.filter(dateWorkInfo => {
-      const today = format(new Date(), 'yyyy-MM-dd');
+      // const today = format(new Date(), 'yyyy-MM-dd');
+      const today = '2023-08-15';
       return today === format(dateWorkInfo.date.toDate(), 'yyyy-MM-dd');
     });
 
