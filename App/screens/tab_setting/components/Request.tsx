@@ -3,11 +3,20 @@ import React from 'react';
 import { SmallTitle } from '../../../common-components/Title';
 import themeChange from '../../../util/theme';
 import SvgIcon from '../../../common-components/SvgIcon';
+import format from 'date-fns/format';
 
 import RequestDetailCard from './RequestDetailCard';
+import { useGetPersonalWorkHistoryEditList } from '../../../api/store/hooks/useGetPersonalWorkHistoryEditList';
 
 const Request = () => {
   const themeMode = themeChange();
+  const today = format(new Date(), 'yyyy-MM-dd');
+  const { data } = useGetPersonalWorkHistoryEditList();
+
+  const filterTodayData = data?.filter(
+    item => format(item.createAt.toDate(), 'yyyy-MM-dd') === today
+  );
+
   return (
     <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
       <View style={styles.header}>
@@ -31,9 +40,7 @@ const Request = () => {
       </View>
 
       <View style={styles.cardsContainer}>
-        <RequestDetailCard />
-        <RequestDetailCard />
-        <RequestDetailCard />
+        {filterTodayData ? filterTodayData.map(item => <RequestDetailCard data={item} />) : null}
       </View>
     </View>
   );

@@ -8,10 +8,12 @@ import Animated, {
   Easing
 } from 'react-native-reanimated';
 import SvgIcon from '../../../common-components/SvgIcon';
+import format from 'date-fns/format';
 
-const RequestDetailCard = () => {
+const RequestDetailCard = ({ data }: any) => {
   const themeMode = themeChange();
-
+  console.log(data);
+  const { confirm } = data;
   const scaleAni = useSharedValue(1);
   const backgound = useSharedValue(themeMode.secondary);
 
@@ -41,11 +43,17 @@ const RequestDetailCard = () => {
       onPressOut={() => ((scaleAni.value = 1), (backgound.value = themeMode.secondary))}
     >
       <Animated.View style={[styles.cardWrapper, animatedStyles]}>
-        <Text style={{ color: themeMode.tint }}>2023.7.04</Text>
+        <Text style={{ color: themeMode.tint }}>
+          {format(data.createAt.toDate(), 'yyyy-MM-dd')}
+        </Text>
         <View style={styles.storeInfo}>
           <Text style={[styles.storeName, { color: themeMode.tint }]}>카페이루</Text>
-          <View style={styles.btnState}>
-            <Text style={styles.btnStateText}>확인중</Text>
+          <View style={[styles.btnState, { backgroundColor: confirm ? '#52C648' : '#D9D9D9' }]}>
+            {confirm ? (
+              <Text style={styles.btnStateText}>수정완료</Text>
+            ) : (
+              <Text style={styles.btnStateText}>확인중</Text>
+            )}
           </View>
           <SvgIcon name="arrow_right" color={themeMode.pressIcon} />
         </View>

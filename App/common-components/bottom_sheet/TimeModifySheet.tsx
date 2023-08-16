@@ -9,10 +9,12 @@ import firestore from '@react-native-firebase/firestore';
 import { useAddTimeEditing } from '../../api/store/hooks/useTimeEditing';
 import { useDispatch } from 'react-redux';
 import { closeBottomSheet } from '../../state/slice/bottomSheet';
+import { useAddPersonalWorkHistoryEdit } from '../../api/store/hooks/useAddPersonalWorkHistoryEditList';
 const TimeModifySheet = ({ data }: any, ref: any) => {
   const themeMode = themeChange();
 
-  const { mutate } = useAddTimeEditing();
+  const { mutate: timeEdittingToManager } = useAddTimeEditing();
+  const { mutate: timeEdittingToUser } = useAddPersonalWorkHistoryEdit();
   const dispatch = useDispatch();
   const [workModifyInfo, setWorkModifyInfo] = useState({
     reason: '',
@@ -24,7 +26,7 @@ const TimeModifySheet = ({ data }: any, ref: any) => {
     setWorkModifyInfo({ ...workModifyInfo, reason: inputText });
   };
 
-  const onsubmit = () => {
+  const onsubmit = async () => {
     const afterData = {
       date: data.date,
       storeName: data.storeName,
@@ -41,12 +43,16 @@ const TimeModifySheet = ({ data }: any, ref: any) => {
       confirm: false
     };
 
-    mutate(
-      { storeId: data.storeName, data: queryData },
-      {
-        onSuccess: () => dispatch(closeBottomSheet())
-      }
-    );
+    try {
+      await Promise.all([
+        timeEdittingToManager({ storeId: data.storeName, data: queryData }),
+        timeEdittingToUser({ data: queryData })
+      ]);
+
+      dispatch(closeBottomSheet());
+    } catch {
+      console.log('error');
+    }
   };
 
   return (
