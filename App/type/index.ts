@@ -10,11 +10,15 @@ export type RootStackParamList = {
   storeTabScreen: undefined;
   shareTabScreen: undefined;
   barcodeTabScreen: undefined;
+  attendanceScreen: undefined;
   calendarTabScreen: undefined;
   settingTabScreen: undefined;
   scannerScreen: undefined;
-  writeScreen: { header: string };
-  shareDetailScreen: { header: string };
+  writeScreenStep1: undefined;
+  writeScreenStep2: undefined;
+  writeScreenStep3: undefined;
+  imagePickScreen: undefined;
+  shareDetailScreen: { header: string; data: any };
   myInfoModifyScreen: { header: string };
 };
 

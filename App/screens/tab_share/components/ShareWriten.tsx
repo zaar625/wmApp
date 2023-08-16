@@ -1,8 +1,8 @@
 import { Image, Pressable, StyleSheet, View, Text } from 'react-native';
 import React from 'react';
 import themeChange from '../../../util/theme';
-import { SmallTitle } from '../../../components/Title';
-import SvgIcon from '../../../components/SvgIcon';
+import { SmallTitle } from '../../../common-components/Title';
+import SvgIcon from '../../../common-components/SvgIcon';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../type';
@@ -13,7 +13,7 @@ const ShareWriten = () => {
 
   return (
     <Pressable
-      onPress={() => navigation.navigate('writeScreen', { header: '공유 내용 작성하기' })}
+      onPress={() => navigation.navigate('writeScreenStep1')}
       style={[styles.container, { backgroundColor: themeMode.secondary }]}
     >
       <View style={styles.headerTitle}>
@@ -38,6 +38,7 @@ export default ShareWriten;
 
 const styles = StyleSheet.create({
   container: {
+    marginHorizontal: 20,
     paddingHorizontal: 20,
     paddingVertical: 15,
     marginBottom: 20,

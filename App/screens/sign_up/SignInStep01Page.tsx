@@ -4,9 +4,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 import { userSaveInfo } from '../../state/slice/user';
 import { NavigationScreenProps } from '../../type';
-import { ScreenTitle } from '../../components/Title';
+import { ScreenTitle } from '../../common-components/Title';
 import InputBox from '../login/InputBox';
-import Button from '../../components/buttons/Button';
+import Button from '../../common-components/buttons/Button';
 import themeChange from '../../util/theme';
 
 const SingInStep01 = ({ navigation }: NavigationScreenProps) => {

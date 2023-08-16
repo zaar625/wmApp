@@ -4,15 +4,15 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../type';
 import InputBox from '../login/InputBox';
-import Button from '../../components/buttons/Button';
+import Button from '../../common-components/buttons/Button';
 import { userSaveInfo } from '../../state/slice/user';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../state/store';
 import { signUp } from '../../api/auth';
-import ErrorGuide from '../../components/ErrorGuide';
+import ErrorGuide from '../../common-components/ErrorGuide';
 import { openModal, closeModal } from '../../state/slice/modal';
 import { ERROR_MESSEGE } from '../../constant';
-import SvgIcon from '../../components/SvgIcon';
+import SvgIcon from '../../common-components/SvgIcon';
 import themeChange from '../../util/theme';
 import { createUser } from '../../api/users';
 

@@ -8,8 +8,16 @@ const workHourCollection = firestore()
 
 //lFddsTVznYG9ZNstQYo9
 //ItGwR9Tj8BNlgxR37Nrp
+
+/**
+ * 1. 근무이력(배열)에 날짜가 없습니다. -> 새로운 근태등록을 합니다.
+ * 2. 근무이력(배열)에 날짜가 있습니다.
+ *    ㄴ매장이 같을 경우 출근/퇴근 등록을 합니다.(업데이트)
+ *    ㄴ매장이 다를 경우 새로운 근태 등록을 해야합니다.
+ */
 export const addWorkingTime = async (currentDate: Date, attendanceType: string) => {
-  const storeCode = 'ItGwR9Tj8BNlgxR37Nrp';
+  const storeCode = 'lFddsTVznYG9ZNstQYo9';
+  const today = format(currentDate, 'yyyy-MM-dd');
   const monthQuery = format(currentDate, 'yyyy-MM');
 
   const workHourRef = workHourCollection.doc(monthQuery);
@@ -20,18 +28,20 @@ export const addWorkingTime = async (currentDate: Date, attendanceType: string) 
 
   if (worksArray) {
     const hasWorkDate = worksArray.some(
-      (work: any) => format(work.date.toDate(), 'yyyy-MM-dd') === format(currentDate, 'yyyy-MM-dd')
-    );
+      (work: any) => format(work.date.toDate(), 'yyyy-MM-dd') === today
+    ); //근무이력배열에 날짜가 있는지 판별
 
     const hasStoreInworksArray = worksArray.some(
       (work: any) =>
-        work.storeName === storeCode &&
-        format(work.date.toDate(), 'yyyy-MM-dd') === format(currentDate, 'yyyy-MM-dd')
-    );
+        work.storeName === storeCode && format(work.date.toDate(), 'yyyy-MM-dd') === today
+    ); //근무이력배열에 출근한 기록(날짜)이 있으며, 해당 날짜에 동일한 매장인지 판별
 
     if (hasWorkDate && hasStoreInworksArray) {
       const updateWorkArray = worksArray.map((worksItem: any) => {
-        if (worksItem.storeName === storeCode && hasWorkDate) {
+        if (
+          worksItem.storeName === storeCode &&
+          today === format(worksItem.date.toDate(), 'yyyy-MM-dd')
+        ) {
           return {
             ...worksItem,
             [attendanceType]: new Date()

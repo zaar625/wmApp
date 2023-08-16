@@ -1,6 +1,6 @@
 import { Image, StyleSheet, View, Text } from 'react-native';
 import React, { useState } from 'react';
-import { SemiTitle, SmallTitle } from '../../../components/Title';
+import { SemiTitle, SmallTitle } from '../../../common-components/Title';
 import { useContext } from 'react';
 import { ThemeContext } from '../../../theme/themeContext';
 import ThemeTypeBtn from './ThemeTypeBtn';

@@ -9,9 +9,9 @@ import {
 import React, { useState } from 'react';
 import { useRoute, RouteProp } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import NavigationHeader from '../../common/NavigationHeader';
+import NavigationHeader from '../../common-components/NavigationHeader';
 import { RootStackParamList } from '../../type';
-import SvgIcon from '../../components/SvgIcon';
+import SvgIcon from '../../common-components/SvgIcon';
 import ModifyInput from './components/ModifyInput';
 
 import themeChange from '../../util/theme';
