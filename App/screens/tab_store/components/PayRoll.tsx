@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 
 import themeChange from '../../../util/theme';
@@ -8,9 +8,15 @@ import format from 'date-fns/format';
 import { useWorkingDate } from '../../../api/store/hooks/useMonthlyWork';
 import { monthlyTotalHour, changeTime } from '../../../util/time';
 import { calculatePayment } from '../../../util/calculatePayment';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../../type';
+
 const PayRoll = () => {
   const themeMode = themeChange();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const query = format(new Date(), 'yyyy-MM');
+
   const { data } = useWorkingDate(query);
 
   const totalTime = monthlyTotalHour(data);
@@ -22,7 +28,9 @@ const PayRoll = () => {
     <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
       <View style={styles.header}>
         <SemiTitle title="월별 예상 급여" />
-        <SvgIcon name="arrow_right" color={themeMode.pressIcon} />
+        <Pressable onPress={() => navigation.navigate('calendarTabScreen')}>
+          <SvgIcon name="arrow_right" color={themeMode.pressIcon} />
+        </Pressable>
       </View>
       <View style={styles.imageWrapper}>
         <Image

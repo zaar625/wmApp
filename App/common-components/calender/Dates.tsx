@@ -37,6 +37,8 @@ const Dates = ({ currentDate }: { currentDate: Date }) => {
   const dateOnPress = (date: Date) => {
     const formatDate = format(date, 'yyyy-MM-dd');
 
+    if (!data) return dispatch(openBottomSheet({ route: 'calendarTabScreen', data: [], date }));
+
     const findDayData = data?.filter(
       (dayItem: any) => format(dayItem.date.toDate(), 'yyyy-MM-dd') === formatDate
     );
