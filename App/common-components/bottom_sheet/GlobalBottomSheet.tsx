@@ -6,6 +6,7 @@ import { RootState } from '../../state/store';
 import { closeBottomSheet } from '../../state/slice/bottomSheet';
 import { useDispatch } from 'react-redux';
 import TimeModifySheet from './TimeModifySheet';
+import ShareModifySheet from './ShareModifySheet';
 import DateSheet from './DateSheet';
 import themeChange from '../../util/theme';
 
@@ -18,6 +19,7 @@ const GlobalBottomSheet = () => {
   const renderBottomSheet = (route: string) => {
     if (route === 'shareTabScreen') return <TimeModifySheet data={data} />;
     if (route === 'calendarTabScreen') return <DateSheet data={data} date={date} />;
+    if (route === 'shareDetailScreen') return <ShareModifySheet data={data} />;
   };
 
   useEffect(() => {

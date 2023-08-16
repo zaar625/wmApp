@@ -1,4 +1,11 @@
-import { StyleSheet, Text, View, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
+  Pressable
+} from 'react-native';
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRoute } from '@react-navigation/native';
@@ -13,12 +20,15 @@ import { deviceWidth } from '../../theme';
 import Button from '../../common-components/buttons/Button';
 import { NavigationScreenProps } from '../../type';
 import { ScrollView } from 'react-native-gesture-handler';
-import { deviceheight } from '../../theme';
+import SvgIcon from '../../common-components/SvgIcon';
+import { openBottomSheet } from '../../state/slice/bottomSheet';
+import { useDispatch } from 'react-redux';
 
 type ShareDetailScreenRouteProp = RouteProp<RootStackParamList, 'shareDetailScreen'>;
 
 const ShareDetailScreen = ({ navigation }: NavigationScreenProps) => {
   const themeMode = themeChange();
+  const dispatch = useDispatch();
   const { params } = useRoute<ShareDetailScreenRouteProp>();
 
   const { content, title, photosURL, createAt } = params.data;
@@ -30,9 +40,19 @@ const ShareDetailScreen = ({ navigation }: NavigationScreenProps) => {
     setImageHeigt(yOffset);
   };
 
+  const onPressMenu = () => {
+    dispatch(openBottomSheet({ route: 'shareDetailScreen', data: params.data }));
+  };
+
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: themeMode.primary }]}>
-      <NavigationHeader header={params.header} />
+      <View>
+        <NavigationHeader header={params.header}>
+          <Pressable hitSlop={100} onPress={onPressMenu}>
+            <SvgIcon name="menu" />
+          </Pressable>
+        </NavigationHeader>
+      </View>
 
       <View style={styles.layout}>
         <ScrollView onScroll={handleScroll} bounces={false} scrollEventThrottle={16}>
