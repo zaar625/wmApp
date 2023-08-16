@@ -1,57 +1,64 @@
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { StyleSheet, Text, View, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRoute } from '@react-navigation/native';
-import NavigationHeader from '../../common/NavigationHeader';
+import NavigationHeader from '../../common-components/NavigationHeader';
 import themeChange from '../../util/theme';
 import type { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../type';
-import CircleSubTitle from '../../common/CircleSubTitle';
+import format from 'date-fns/format';
+import ImageCarousel from './components/ImageCarousel';
 
-import { deviceWidth, deviceheight } from '../../theme';
-import Button from '../../components/buttons/Button';
+import { deviceWidth } from '../../theme';
+import Button from '../../common-components/buttons/Button';
+import { NavigationScreenProps } from '../../type';
+import { ScrollView } from 'react-native-gesture-handler';
+import { deviceheight } from '../../theme';
 
 type ShareDetailScreenRouteProp = RouteProp<RootStackParamList, 'shareDetailScreen'>;
 
-const IMAGE_WIDHT = (deviceWidth - 40) / 3 - 10;
-
-const ShareDetailScreen = () => {
+const ShareDetailScreen = ({ navigation }: NavigationScreenProps) => {
   const themeMode = themeChange();
   const { params } = useRoute<ShareDetailScreenRouteProp>();
-  const [temp, setTemp] = useState(true);
+
+  const { content, title, photosURL, createAt } = params.data;
+
+  const [imageHeigt, setImageHeigt] = useState(0);
+
+  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const yOffset = event.nativeEvent.contentOffset.y;
+    setImageHeigt(yOffset);
+  };
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: themeMode.primary }]}>
-      <View>
-        <NavigationHeader header={params.header} />
-        <View style={styles.contents}>
-          <View style={styles.shareImageContainer}>
-            <CircleSubTitle title="공유된 사진" />
+      <NavigationHeader header={params.header} />
 
-            {temp ? (
-              <View style={styles.imagesWrapper}>
-                {[1, 2, 3].map(() => (
-                  <View style={styles.imgContainer}></View>
-                ))}
-              </View>
-            ) : (
-              <View style={styles.noImageWrapper}>
-                <Text style={{ color: '#BAC0CE' }}>공유할 이미지가 없습니다.</Text>
-              </View>
-            )}
+      <View style={styles.layout}>
+        <ScrollView onScroll={handleScroll} bounces={false} scrollEventThrottle={16}>
+          {photosURL.length > 0 ? (
+            <ImageCarousel photosURL={photosURL} imageHeigt={imageHeigt} />
+          ) : (
+            <View style={styles.nonImageContainer}>
+              <Text style={{ color: themeMode.subTint }}>공유된 이미지가 없습니다.</Text>
+            </View>
+          )}
+
+          <View style={{ paddingHorizontal: 20 }}>
+            <Text style={[styles.contentStore, { color: themeMode.tint }]}>카페이루</Text>
+            <Text style={[styles.contentTitle, { color: themeMode.tint }]}>{title}</Text>
+            <Text style={[styles.content, { color: themeMode.tint }]}>{content}</Text>
+
+            <View style={styles.authContainer}>
+              <Text style={[{ color: themeMode.subTint }, styles.auth]}>@ 이상윤</Text>
+              <Text style={[styles.date, { color: themeMode.subTint }]}>
+                {format(createAt.toDate(), 'yyyy.MM.dd')}
+              </Text>
+            </View>
           </View>
-          <CircleSubTitle title="공유 내용" />
-          <TextInput
-            style={styles.inputBox}
-            value={'예시입니다.'}
-            multiline
-            editable={false}
-            placeholderTextColor={'#797979'}
-          />
-        </View>
+        </ScrollView>
+        <Button name="확인" onPress={navigation.goBack} />
       </View>
-
-      <Button name="확인" onPress={() => {}} />
     </SafeAreaView>
   );
 };
@@ -60,40 +67,44 @@ export default ShareDetailScreen;
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1
+  },
+  layout: {
     flex: 1,
     justifyContent: 'space-between'
   },
-  contents: {
+
+  contentContainer: {
     paddingHorizontal: 20
   },
-  shareImageContainer: { marginVertical: 20 },
-  imagesWrapper: {
-    flexDirection: 'row',
-    marginVertical: 10,
-    // width: deviceWidth - 40,
-    height: IMAGE_WIDHT,
-    backgroundColor: 'gray',
-    justifyContent: 'space-between'
+  contentStore: {
+    fontWeight: '700',
+    fontSize: 18,
+    marginBottom: 40
   },
-  imgContainer: {
-    borderRadius: 10,
-    width: IMAGE_WIDHT,
-    height: IMAGE_WIDHT,
-    backgroundColor: 'red'
+  contentTitle: {
+    fontWeight: '700',
+    fontSize: 15,
+    marginBottom: 20
   },
-  noImageWrapper: {
-    marginVertical: 10,
-    height: IMAGE_WIDHT,
+  content: {
+    marginBottom: 20
+  },
+  date: {
+    fontSize: 12
+  },
+  nonImageContainer: {
+    height: deviceWidth * 0.583,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginVertical: 30
   },
-  inputBox: {
-    borderRadius: 10,
-    borderWidth: 1,
-    padding: 10,
-    borderColor: '#D9D9D9',
-    height: deviceheight * 0.328,
-    marginVertical: 10,
-    color: '#fff'
+  authContainer: {
+    flexDirection: 'row',
+    alignSelf: 'flex-end'
+  },
+  auth: {
+    marginRight: 10,
+    fontSize: 12
   }
 });

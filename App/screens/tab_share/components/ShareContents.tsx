@@ -1,13 +1,27 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-
-import { SmallTitle } from '../../../components/Title';
+import { SmallTitle } from '../../../common-components/Title';
 import ShareItem from './ShareItem';
-import SvgIcon from '../../../components/SvgIcon';
+import SvgIcon from '../../../common-components/SvgIcon';
 import themeChange from '../../../util/theme';
+import { useTotalLogsData } from '../../../api/store/hooks/useLogsData';
 
 const ShareContents = () => {
   const themeMode = themeChange();
+  const { data } = useTotalLogsData();
+
+  const render = () => {
+    if (data && data.length > 0) {
+      return data.map((item, index) => <ShareItem key={index} item={item} />);
+    } else {
+      return (
+        <View style={styles.nonData}>
+          <Text style={{ color: themeMode.subTint }}>금일 전달사항이 없습니다.</Text>
+        </View>
+      );
+    }
+  };
+
   return (
     <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
       <View style={[styles.titleHeader, styles.titleWrapper]}>
@@ -20,9 +34,7 @@ const ShareContents = () => {
           <SvgIcon name="arrow_right" style={styles.icon} color={themeMode.pressIcon} />
         </Pressable>
       </View>
-      <ShareItem />
-      <ShareItem />
-      <ShareItem />
+      {render()}
     </View>
   );
 };
@@ -33,7 +45,8 @@ const styles = StyleSheet.create({
   container: {
     marginBottom: 20,
     paddingTop: 15,
-    borderRadius: 15
+    borderRadius: 15,
+    marginHorizontal: 20
   },
 
   titleHeader: {
@@ -59,5 +72,9 @@ const styles = StyleSheet.create({
   btnText: {
     fontWeight: '400',
     fontSize: 12
+  },
+  nonData: {
+    alignSelf: 'center',
+    marginVertical: 20
   }
 });

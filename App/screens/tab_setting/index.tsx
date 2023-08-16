@@ -4,7 +4,7 @@ import themeChange from '../../util/theme';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import UserInfo from './components/UserInfo';
 import Request from './components/Request';
-import { ScreenTitle } from '../../components/Title';
+import { ScreenTitle } from '../../common-components/Title';
 import Notification from './components/Notification';
 import ThemeSetting from './components/ThemeSetting';
 import Terms from './components/Terms';

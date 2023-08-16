@@ -7,7 +7,7 @@ import Animated, {
   Easing
 } from 'react-native-reanimated';
 import React, { useEffect } from 'react';
-import SvgIcon from '../../../components/SvgIcon';
+import SvgIcon from '../../../common-components/SvgIcon';
 
 type TThemeType = {
   name: string;

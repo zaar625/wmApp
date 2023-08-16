@@ -11,14 +11,14 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import themeChange from '../../../util/theme';
-import SvgIcon from '../../../components/SvgIcon';
 
-const ShareItem = () => {
+const ShareItem = ({ item }: any) => {
   const themeMode = themeChange();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const scaleAni = useSharedValue(1);
   const backgound = useSharedValue(themeMode.secondary);
+  const logInfo = item.data();
 
   useEffect(() => {
     //테마변경이 될 때마다 기본값 변경해줘야합니다.
@@ -41,7 +41,9 @@ const ShareItem = () => {
 
   return (
     <Pressable
-      onPress={() => navigation.navigate('shareDetailScreen', { header: '공유 내용 상세' })}
+      onPress={() =>
+        navigation.navigate('shareDetailScreen', { header: '공유 내용 상세', data: logInfo })
+      }
       onPressIn={() => ((scaleAni.value = 0.95), (backgound.value = themeMode.card))}
       onPressOut={() => ((scaleAni.value = 1), (backgound.value = themeMode.secondary))}
     >
@@ -52,9 +54,9 @@ const ShareItem = () => {
             numberOfLines={1}
             ellipsizeMode="tail"
           >
-            오늘 삼성카드 분실물이 들어왔습니다.오늘 삼성카드 분실물이 들어왔습니다.
+            {logInfo.title}
           </Text>
-          <Text style={[styles.author, { color: themeMode.subTint }]}>이상윤</Text>
+          <Text style={[styles.author, { color: themeMode.subTint }]}>{logInfo.store.name}</Text>
         </View>
       </Animated.View>
     </Pressable>

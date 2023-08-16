@@ -12,15 +12,19 @@ import CategorySelectPage from './App/screens/select_category';
 import EmployeeLoginPage from './App/screens/login/employee';
 import SignInStep01Page from './App/screens/sign_up/SignInStep01Page';
 import SignInStep02Page from './App/screens/sign_up/SignInStep02Page';
-import GlobalModal from './App/components/modal/GlobalModal';
+import GlobalModal from './App/common-components/modal/GlobalModal';
 import BottomTab from './App/screens/bottom_tab';
 import ScannerScreen from './App/screens/tab_store/ScannerScreen';
-import GlobalBottomSheet from './App/components/bottom_sheet/GlobalBottomSheet';
+import GlobalBottomSheet from './App/common-components/bottom_sheet/GlobalBottomSheet';
 
-import WriteScreen from './App/screens/tab_share/WriteScreen';
+import WriteScreenStep1 from './App/screens/tab_share/WriteScreenStep1';
+import WriteScreenStep2 from './App/screens/tab_share/WriteScreenStep2';
+import WriteScreen from './App/screens/tab_share/WriteScreenStep2';
+import ImagePickScreen from './App/screens/tab_share/ImagePickScreen';
 import ShareDetailScreen from './App/screens/tab_share/ShareDetailScreen';
 import MyInfoModifyScreen from './App/screens/tab_setting/MyInfoModifyScreen';
-
+import WriteScreenStep3 from './App/screens/tab_share/WriteScreenStep3';
+import AttendanceScreen from './App/screens/tab_barcode/AttendanceScreen';
 import { RootStackParamList } from './App/type';
 
 import { ThemeContext } from './App/theme/themeContext';
@@ -75,7 +79,19 @@ export default function App() {
                   component={ScannerScreen}
                   options={{ presentation: 'modal' }}
                 />
-                <Stack.Screen name="writeScreen" component={WriteScreen} />
+                <Stack.Screen
+                  name="attendanceScreen"
+                  component={AttendanceScreen}
+                  options={{ presentation: 'modal' }}
+                />
+                <Stack.Screen name="writeScreenStep1" component={WriteScreenStep1} />
+                <Stack.Screen name="writeScreenStep2" component={WriteScreenStep2} />
+                <Stack.Screen name="writeScreenStep3" component={WriteScreenStep3} />
+                <Stack.Screen
+                  name="imagePickScreen"
+                  component={ImagePickScreen}
+                  options={{ presentation: 'modal' }}
+                />
                 <Stack.Screen name="shareDetailScreen" component={ShareDetailScreen} />
                 <Stack.Screen name="myInfoModifyScreen" component={MyInfoModifyScreen} />
               </Stack.Navigator>

@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View, Text, Image, Pressable } from 'react-native';
 import { BarCodeReadEvent } from 'react-native-camera';
 import React, { useMemo } from 'react';
 import QRCodeScanner from 'react-native-qrcode-scanner';
@@ -12,14 +12,17 @@ import { useDispatch } from 'react-redux';
 import { openModal } from '../../state/slice/modal';
 import { ADDSTORE_MODAL_SUCCESS, ADDSTORE_MODAL_FAIL } from '../../constant';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-
-import { deviceheight } from '../../theme';
+import ScannerMarker from './components/ScannerMarker';
+import themeChange from '../../util/theme';
+import ScannerHeader from './components/ScannerHeader';
 
 import { muTateaddStore } from '../../api/store/hooks/useAddStore';
+import { deviceheight } from '../../theme';
 
 const ScannerScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const dispatch = useDispatch();
+  const themeMode = themeChange();
   const queryClient = useQueryClient();
 
   const mutationAddTodo = useMutation({
@@ -80,15 +83,21 @@ const ScannerScreen = () => {
 
   return (
     <GestureDetector gesture={panGesture}>
-      <QRCodeScanner
-        onRead={scanerHandler}
-        showMarker={true}
-        cameraStyle={{ height: deviceheight }}
-      />
+      <View style={[styles.container, { backgroundColor: themeMode.primary }]}>
+        <ScannerHeader />
+        <QRCodeScanner onRead={scanerHandler} cameraStyle={{ height: deviceheight }} />
+        <ScannerMarker />
+      </View>
     </GestureDetector>
   );
 };
 
 export default ScannerScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1
+  }
+});

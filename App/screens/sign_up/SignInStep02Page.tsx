@@ -2,7 +2,7 @@ import { StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { ScreenTitle } from '../../components/Title';
+import { ScreenTitle } from '../../common-components/Title';
 import PasswordForm from './PasswordForm';
 import themeChange from '../../util/theme';
 

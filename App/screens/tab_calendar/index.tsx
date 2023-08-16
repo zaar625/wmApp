@@ -1,19 +1,14 @@
 import { ScrollView, StyleSheet } from 'react-native';
 import React, { useState } from 'react';
-import Calender from '../../components/calender';
-import { ScreenTitle } from '../../components/Title';
+import Calender from '../../common-components/calender';
+import { ScreenTitle } from '../../common-components/Title';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import themeChange from '../../util/theme';
 import MonthPayRoll from './components/MonthPayRoll';
-import addMonths from 'date-fns/addMonths';
-import subMonths from 'date-fns/subMonths';
-
-import firestore from '@react-native-firebase/firestore';
 
 const Calendar = () => {
   const themeMode = themeChange();
   const [currentDate, setCurrentDate] = useState(new Date());
-  // const [selectedDate, setSelectedDate] = useState(new Date());
 
   return (
     <SafeAreaView

@@ -1,17 +1,36 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 
 import themeChange from '../../../util/theme';
-import SvgIcon from '../../../components/SvgIcon';
-import { SemiTitle } from '../../../components/Title';
+import SvgIcon from '../../../common-components/SvgIcon';
+import { SemiTitle } from '../../../common-components/Title';
+import format from 'date-fns/format';
+import { useWorkingDate } from '../../../api/store/hooks/useMonthlyWork';
+import { monthlyTotalHour, changeTime } from '../../../util/time';
+import { calculatePayment } from '../../../util/calculatePayment';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../../type';
 
 const PayRoll = () => {
   const themeMode = themeChange();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const query = format(new Date(), 'yyyy-MM');
+
+  const { data } = useWorkingDate(query);
+
+  const totalTime = monthlyTotalHour(data);
+
+  const totalPayment = totalTime ? calculatePayment(totalTime) : 0;
+  const { hour, minute } = changeTime(totalTime);
+
   return (
     <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
       <View style={styles.header}>
-        <SemiTitle title="매장별 예상 급여" />
-        <SvgIcon name="arrow_right" color={themeMode.pressIcon} />
+        <SemiTitle title="월별 예상 급여" />
+        <Pressable onPress={() => navigation.navigate('calendarTabScreen')}>
+          <SvgIcon name="arrow_right" color={themeMode.pressIcon} />
+        </Pressable>
       </View>
       <View style={styles.imageWrapper}>
         <Image
@@ -19,7 +38,11 @@ const PayRoll = () => {
           style={styles.image}
           resizeMode="contain"
         />
-        <Text style={{ color: themeMode.subTint }}>{`이번달에는${`\n`}835,000원 벌었어요.`}</Text>
+        <Text style={{ color: themeMode.subTint }}>
+          이번달에는{`\n`}
+          <Text style={[styles.boldText, { color: themeMode.tint }]}>{totalPayment}원 </Text>
+          벌었어요.
+        </Text>
       </View>
       <View style={styles.imageWrapper}>
         <Image
@@ -27,9 +50,13 @@ const PayRoll = () => {
           style={styles.image}
           resizeMode="contain"
         />
-        <Text
-          style={[{ color: themeMode.subTint }]}
-        >{`총 근로시간은${`\n`}15시간 40분이예요.`}</Text>
+        <Text style={[{ color: themeMode.subTint }]}>
+          총 근로시간은{`\n`}
+          <Text style={[styles.boldText, { color: themeMode.tint }]}>
+            {hour}시간 {minute}분
+          </Text>
+          이예요.
+        </Text>
       </View>
     </View>
   );
@@ -58,5 +85,8 @@ const styles = StyleSheet.create({
   imageWrapper: {
     flexDirection: 'row',
     marginBottom: 15
+  },
+  boldText: {
+    fontWeight: '700'
   }
 });

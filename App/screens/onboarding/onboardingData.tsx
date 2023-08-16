@@ -1,5 +1,5 @@
 import { View, ImageRequireSource, Image, StyleSheet, Dimensions } from 'react-native';
-import { ScreenTitle } from '../../components/Title';
+import { ScreenTitle } from '../../common-components/Title';
 
 import { deviceWidth, deviceheight } from '../../theme';
 

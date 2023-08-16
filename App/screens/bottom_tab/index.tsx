@@ -8,15 +8,26 @@ import CalendarTabScreen from '../tab_calendar';
 import SettingTabScreen from '../tab_setting';
 import TabButton from './TabButton';
 import { Shadow } from 'react-native-shadow-2';
+import AttendanceScreen from '../tab_barcode/AttendanceScreen';
 
 import themeChange from '../../util/theme';
 import { deviceWidth } from '../../theme';
+
+import { createStackNavigator } from '@react-navigation/stack';
 
 const Tab = createBottomTabNavigator();
 const NAVIGATION_HEIGHT = 34 + 70;
 
 const BottomTab = () => {
   const themeMode = themeChange();
+
+  const Tab = createBottomTabNavigator();
+  const Stack = createStackNavigator();
+  const BarcodeStack = () => (
+    <Stack.Navigator>
+      <Stack.Screen name="attendanceScreen" component={AttendanceScreen} />
+    </Stack.Navigator>
+  );
 
   const screens = [
     {

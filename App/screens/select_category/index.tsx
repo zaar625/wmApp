@@ -3,7 +3,7 @@ import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useContext } from 'react';
 import CategoryBtn from './CategoryBtn';
-import { ScreenTitle } from '../../components/Title';
+import { ScreenTitle } from '../../common-components/Title';
 
 import { colors, deviceWidth } from '../../theme';
 import { ThemeContext } from '../../theme/themeContext';

@@ -1,7 +1,7 @@
 import { Image, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-import { SmallTitle } from '../../../components/Title';
-import Switch from '../../../components/Switch';
+import { SmallTitle } from '../../../common-components/Title';
+import Switch from '../../../common-components/Switch';
 import themeChange from '../../../util/theme';
 
 const Notification = () => {
