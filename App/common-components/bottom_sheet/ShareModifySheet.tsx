@@ -7,13 +7,15 @@ import { closeBottomSheet } from '../../state/slice/bottomSheet';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../type';
 
 const ShareModifySheet = ({ data }: any) => {
   const themeMode = themeChange();
   const { store } = data;
 
   const queryClient = useQueryClient();
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const dispatch = useDispatch();
   const { mutate } = useDeletShare();
 
@@ -31,9 +33,14 @@ const ShareModifySheet = ({ data }: any) => {
     );
   };
 
+  const onEdit = () => {
+    navigation.navigate('shareEditScreen', { data });
+    dispatch(closeBottomSheet());
+  };
+
   return (
     <View style={styles.container}>
-      <Pressable style={styles.btnContainer}>
+      <Pressable style={styles.btnContainer} onPress={onEdit}>
         <SvgIcon name="pen" style={[styles.icon]} width={25} height={25} />
         <Text style={[styles.btnText, { color: themeMode.tint }]}>수정하기</Text>
       </Pressable>

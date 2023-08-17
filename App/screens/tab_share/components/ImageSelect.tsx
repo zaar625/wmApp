@@ -51,7 +51,7 @@ const ImageSelect = ({ pickImages, setPickImages }: Props) => {
       </Pressable>
 
       <View style={{ marginBottom: 30 }}>
-        {pickImages ? (
+        {pickImages && pickImages.length > 0 ? (
           <View style={styles.imagesWrapper}>
             {pickImages.map((image, index) => (
               <View>

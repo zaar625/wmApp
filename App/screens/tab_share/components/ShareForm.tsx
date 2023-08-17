@@ -6,7 +6,7 @@ import {
   NativeSyntheticEvent,
   TextInputEndEditingEventData
 } from 'react-native';
-import React, { useRef } from 'react';
+import React, { useRef, forwardRef } from 'react';
 
 import themeChange from '../../../util/theme';
 import { useDispatch } from 'react-redux';
@@ -48,6 +48,7 @@ const ShareForm = ({ setContents, contents }: Props) => {
         style={[styles.titleInput, { borderColor: themeMode.card, color: themeMode.tint }]}
         placeholder="제목을 입력해주세요."
         placeholderTextColor={'#797979'}
+        defaultValue={contents.title}
       />
 
       <Text style={[styles.subTitle, { color: themeMode.pressIcon }]}>공유 내용</Text>
@@ -58,6 +59,7 @@ const ShareForm = ({ setContents, contents }: Props) => {
         placeholder="내용을 150자 이내로 작성해주세요."
         multiline
         placeholderTextColor={'#797979'}
+        defaultValue={contents.content}
         maxLength={150}
       />
     </View>

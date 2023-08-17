@@ -42,9 +42,17 @@ const WriteScreenStep3 = ({ navigation }: NavigationScreenProps) => {
     const shareLogCollection = firestore()
       .collection('users')
       .doc('DMWrTCluLrhJMrI01BVhJK6byFs1')
-      .collection('shareLog');
+      .collection('shareLog')
+      .doc();
 
-    await shareLogCollection.add({
+    const storeLogCollection = firestore()
+      .collection('store')
+      .doc(store?.id)
+      .collection('log')
+      .doc();
+
+    await shareLogCollection.set({
+      id: storeLogCollection.id,
       user: 'DMWrTCluLrhJMrI01BVhJK6byFs1',
       photosURL,
       content: contents.content,
@@ -52,11 +60,6 @@ const WriteScreenStep3 = ({ navigation }: NavigationScreenProps) => {
       createAt: firestore.FieldValue.serverTimestamp()
     });
     // 매장 로그 저장
-    const storeLogCollection = firestore()
-      .collection('store')
-      .doc(store?.id)
-      .collection('log')
-      .doc();
     await storeLogCollection.set({
       id: storeLogCollection.id,
       user: 'DMWrTCluLrhJMrI01BVhJK6byFs1',

@@ -22,6 +22,7 @@ import WriteScreenStep2 from './App/screens/tab_share/WriteScreenStep2';
 import WriteScreen from './App/screens/tab_share/WriteScreenStep2';
 import ImagePickScreen from './App/screens/tab_share/ImagePickScreen';
 import ShareDetailScreen from './App/screens/tab_share/ShareDetailScreen';
+import ShareEditScreen from './App/screens/tab_share/ShareEditScreen';
 import MyInfoModifyScreen from './App/screens/tab_setting/MyInfoModifyScreen';
 import WriteScreenStep3 from './App/screens/tab_share/WriteScreenStep3';
 import AttendanceScreen from './App/screens/tab_barcode/AttendanceScreen';
@@ -93,6 +94,7 @@ export default function App() {
                   options={{ presentation: 'modal' }}
                 />
                 <Stack.Screen name="shareDetailScreen" component={ShareDetailScreen} />
+                <Stack.Screen name="shareEditScreen" component={ShareEditScreen} />
                 <Stack.Screen name="myInfoModifyScreen" component={MyInfoModifyScreen} />
               </Stack.Navigator>
             </GestureHandlerRootView>

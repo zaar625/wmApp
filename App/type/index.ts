@@ -9,6 +9,7 @@ export type RootStackParamList = {
   bottomTab: undefined;
   storeTabScreen: undefined;
   shareTabScreen: undefined;
+
   barcodeTabScreen: undefined;
   attendanceScreen: undefined;
   calendarTabScreen: undefined;
@@ -19,6 +20,7 @@ export type RootStackParamList = {
   writeScreenStep3: undefined;
   imagePickScreen: undefined;
   shareDetailScreen: { header: string; data: any };
+  shareEditScreen: { data: any };
   myInfoModifyScreen: { header: string };
 };
 
