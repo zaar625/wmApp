@@ -12,7 +12,7 @@ import format from 'date-fns/format';
 
 const RequestDetailCard = ({ data }: any) => {
   const themeMode = themeChange();
-  console.log(data);
+
   const { confirm } = data;
   const scaleAni = useSharedValue(1);
   const backgound = useSharedValue(themeMode.secondary);

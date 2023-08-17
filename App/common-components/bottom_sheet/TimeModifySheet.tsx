@@ -1,12 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Pressable,
-  NativeSyntheticEvent,
-  TextInputEndEditingEventData
-} from 'react-native';
+import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native';
 import React, { useState } from 'react';
 import SvgIcon from '../SvgIcon';
 import DatePicker from 'react-native-date-picker';
@@ -20,9 +12,13 @@ import { closeBottomSheet } from '../../state/slice/bottomSheet';
 import { useAddPersonalWorkHistoryEdit } from '../../api/store/hooks/useAddPersonalWorkHistoryEditList';
 import ErrorGuide from '../ErrorGuide';
 
+type FormValues = {
+  reason: boolean | null;
+  time: boolean | null;
+};
+
 const TimeModifySheet = ({ data }: any, ref: any) => {
   const themeMode = themeChange();
-  console.log(data);
 
   const { mutate: timeEdittingToManager } = useAddTimeEditing();
   const { mutate: timeEdittingToUser } = useAddPersonalWorkHistoryEdit();
@@ -35,11 +31,19 @@ const TimeModifySheet = ({ data }: any, ref: any) => {
     end: null
   });
 
-  const onEndEditing = (e: NativeSyntheticEvent<TextInputEndEditingEventData>) => {
-    setWorkModifyInfo({ ...workModifyInfo, reason: e.nativeEvent.text });
+  const onChangeText = (text: string) => {
+    setWorkModifyInfo({ ...workModifyInfo, reason: text });
   };
 
+  const isFilledForm = () => {
+    const hasReason = workModifyInfo.reason.length > 0;
+    const hasTime = workModifyInfo.start && workModifyInfo.end;
+
+    return hasReason && !!hasTime;
+  };
   const onsubmit = async () => {
+    const isFilled = isFilledForm();
+
     const afterData = {
       id: data.id,
       date: data.date,
@@ -58,16 +62,17 @@ const TimeModifySheet = ({ data }: any, ref: any) => {
       id: data.id
     };
 
-    // try {
-    //   await Promise.all([
-    //     timeEdittingToManager({ storeId: data.storeName, data: queryData }),
-    //     timeEdittingToUser({ data: queryData })
-    //   ]);
-
-    //   dispatch(closeBottomSheet());
-    // } catch {
-    //   console.log('error');
-    // }
+    if (isFilled) {
+      // try {
+      //   await Promise.all([
+      //     timeEdittingToManager({ storeId: data.storeName, data: queryData }),
+      //     timeEdittingToUser({ data: queryData })
+      //   ]);
+      //   dispatch(closeBottomSheet());
+      // } catch {
+      //   console.log('error');
+      // }
+    }
   };
 
   return (
@@ -75,21 +80,28 @@ const TimeModifySheet = ({ data }: any, ref: any) => {
       <View style={{ padding: 20 }}>
         <Text style={[styles.title, { color: themeMode.tint }]}>출퇴근 등록 수정</Text>
         <View style={styles.checkWrapper}>
-          <SvgIcon name="check" style={styles.icon} color={themeMode.pressIcon} />
+          <SvgIcon
+            name="check"
+            style={styles.icon}
+            color={workModifyInfo.reason.length > 0 ? '#52C648' : themeMode.pressIcon}
+          />
           <Text style={{ color: themeMode.tint }}>사유를 간단하게 작성해주세요.</Text>
         </View>
         <TextInput
-          onEndEditing={onEndEditing}
+          onChangeText={onChangeText}
           placeholder="100자 이내로 작성해주세요."
           placeholderTextColor={'#797979'}
           multiline
           maxLength={100}
           style={[styles.textInput, { backgroundColor: themeMode.card }]}
         />
-        {<ErrorGuide message=" 사유를 작성해주세요." />}
 
         <View style={styles.checkWrapper}>
-          <SvgIcon name="check" style={styles.icon} color={themeMode.pressIcon} />
+          <SvgIcon
+            name="check"
+            style={styles.icon}
+            color={workModifyInfo.start && workModifyInfo.end ? '#52C648' : themeMode.pressIcon}
+          />
           <Text style={{ color: themeMode.tint }}>수정 시간을 작성해주세요.</Text>
         </View>
         {['start', 'end'].map((item, index) => (
@@ -100,7 +112,8 @@ const TimeModifySheet = ({ data }: any, ref: any) => {
             workModifyInfo={workModifyInfo}
           />
         ))}
-        {<ErrorGuide message="수정시간이 입력되지 않았습니다." />}
+
+        {!isFilledForm() && <ErrorGuide message="입력되지 않은 항목이 있어요!" />}
       </View>
       <NomalButton name="수정" onPress={onsubmit} />
     </View>
