@@ -10,8 +10,8 @@ export const onImageResizer = async (imagesData: Asset[]) => {
     try {
       let result = await ImageResizer.createResizedImage(
         image.uri,
-        600,
-        600,
+        1200,
+        1200,
         'JPEG',
         100,
         0,

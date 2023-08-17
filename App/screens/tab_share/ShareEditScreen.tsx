@@ -13,14 +13,20 @@ import Button from '../../common-components/buttons/Button';
 import { imageUpLoad } from '../../util/imageUpLoad';
 import firestore from '@react-native-firebase/firestore';
 import { useEditLog } from '../../api/store/hooks/useEditLog';
+import { useDispatch } from 'react-redux';
+import { openModal, closeModal } from '../../state/slice/modal';
+import { useQueryClient } from '@tanstack/react-query';
 
 const ShareEditScreen = ({
+  navigation,
   route
 }: NativeStackScreenProps<RootStackParamList, 'shareEditScreen'>) => {
   const { data } = route.params;
 
   const themeMode = themeChange();
   const { mutate } = useEditLog();
+  const dispatch = useDispatch();
+  const queryClient = useQueryClient();
   const scrollRef = useRef<ScrollView>(null);
 
   const [pickImages, setPickImages] = useState<Response[] | undefined>();
@@ -53,7 +59,27 @@ const ShareEditScreen = ({
       createAt: firestore.FieldValue.serverTimestamp()
     };
 
-    mutate(uploadData);
+    mutate(uploadData, {
+      onSuccess: editSuccess
+    });
+  };
+
+  const editSuccess = () => {
+    dispatch(
+      openModal({
+        modalType: 'OneBtnModal',
+        isOpen: true,
+        contents: {
+          title: '수정이 완료되었습니다.',
+          content: '공유 탭에서 내용을 확인해 주세요.',
+          onPress() {
+            queryClient.invalidateQueries({ queryKey: ['total-logs'] });
+            dispatch(closeModal());
+            navigation.navigate('shareTabScreen');
+          }
+        }
+      })
+    );
   };
 
   return (

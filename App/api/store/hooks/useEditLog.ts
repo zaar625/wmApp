@@ -3,7 +3,7 @@ import firestore from '@react-native-firebase/firestore';
 
 async function editLog(data: any) {
   const { store, id } = data;
-  console.log(data);
+
   const storeLogRef = firestore().collection('store').doc(store.id).collection('log').doc(id);
 
   const findShareLogDoc = firestore()
@@ -18,7 +18,7 @@ async function editLog(data: any) {
     shareLogDoc.docs[0].ref.update(data);
   }
 
-  // await storeLogRef.set(data);
+  await storeLogRef.update(data);
 }
 
 export const useEditLog = () => {
