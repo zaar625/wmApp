@@ -7,7 +7,7 @@ const personalRequestCollection = firestore()
   .collection('request');
 
 function addPersonalWorkHistoryEditList({ data }: any) {
-  return personalRequestCollection.add(data);
+  return personalRequestCollection.doc(data.id).set(data);
 }
 
 export const useAddPersonalWorkHistoryEdit = () => {

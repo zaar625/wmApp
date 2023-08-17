@@ -1,4 +1,12 @@
-import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Pressable,
+  NativeSyntheticEvent,
+  TextInputEndEditingEventData
+} from 'react-native';
 import React, { useState } from 'react';
 import SvgIcon from '../SvgIcon';
 import DatePicker from 'react-native-date-picker';
@@ -10,24 +18,30 @@ import { useAddTimeEditing } from '../../api/store/hooks/useTimeEditing';
 import { useDispatch } from 'react-redux';
 import { closeBottomSheet } from '../../state/slice/bottomSheet';
 import { useAddPersonalWorkHistoryEdit } from '../../api/store/hooks/useAddPersonalWorkHistoryEditList';
+import ErrorGuide from '../ErrorGuide';
+
 const TimeModifySheet = ({ data }: any, ref: any) => {
   const themeMode = themeChange();
+  console.log(data);
 
   const { mutate: timeEdittingToManager } = useAddTimeEditing();
   const { mutate: timeEdittingToUser } = useAddPersonalWorkHistoryEdit();
+
   const dispatch = useDispatch();
+
   const [workModifyInfo, setWorkModifyInfo] = useState({
     reason: '',
-    start: '-',
-    end: '-'
+    start: null,
+    end: null
   });
 
-  const onChangeText = (inputText: string) => {
-    setWorkModifyInfo({ ...workModifyInfo, reason: inputText });
+  const onEndEditing = (e: NativeSyntheticEvent<TextInputEndEditingEventData>) => {
+    setWorkModifyInfo({ ...workModifyInfo, reason: e.nativeEvent.text });
   };
 
   const onsubmit = async () => {
     const afterData = {
+      id: data.id,
       date: data.date,
       storeName: data.storeName,
       start: workModifyInfo.start,
@@ -40,19 +54,20 @@ const TimeModifySheet = ({ data }: any, ref: any) => {
       createAt: firestore.FieldValue.serverTimestamp(),
       user: 'DMWrTCluLrhJMrI01BVhJK6byFs1',
       reason: workModifyInfo.reason,
-      confirm: false
+      confirm: false,
+      id: data.id
     };
 
-    try {
-      await Promise.all([
-        timeEdittingToManager({ storeId: data.storeName, data: queryData }),
-        timeEdittingToUser({ data: queryData })
-      ]);
+    // try {
+    //   await Promise.all([
+    //     timeEdittingToManager({ storeId: data.storeName, data: queryData }),
+    //     timeEdittingToUser({ data: queryData })
+    //   ]);
 
-      dispatch(closeBottomSheet());
-    } catch {
-      console.log('error');
-    }
+    //   dispatch(closeBottomSheet());
+    // } catch {
+    //   console.log('error');
+    // }
   };
 
   return (
@@ -64,14 +79,15 @@ const TimeModifySheet = ({ data }: any, ref: any) => {
           <Text style={{ color: themeMode.tint }}>사유를 간단하게 작성해주세요.</Text>
         </View>
         <TextInput
-          onChangeText={onChangeText}
+          onEndEditing={onEndEditing}
           placeholder="100자 이내로 작성해주세요."
           placeholderTextColor={'#797979'}
           multiline
           maxLength={100}
           style={[styles.textInput, { backgroundColor: themeMode.card }]}
         />
-        <Text style={styles.lengthText}>{workModifyInfo.reason.length} / 100</Text>
+        {<ErrorGuide message=" 사유를 작성해주세요." />}
+
         <View style={styles.checkWrapper}>
           <SvgIcon name="check" style={styles.icon} color={themeMode.pressIcon} />
           <Text style={{ color: themeMode.tint }}>수정 시간을 작성해주세요.</Text>
@@ -84,6 +100,7 @@ const TimeModifySheet = ({ data }: any, ref: any) => {
             workModifyInfo={workModifyInfo}
           />
         ))}
+        {<ErrorGuide message="수정시간이 입력되지 않았습니다." />}
       </View>
       <NomalButton name="수정" onPress={onsubmit} />
     </View>
@@ -97,8 +114,7 @@ const WorkTime = ({ title, timeHandler, workModifyInfo }: any) => {
 
   const titleName = title === 'start' ? '출근' : '퇴근';
 
-  const formatTime =
-    workModifyInfo[title] !== '-' ? format(workModifyInfo[title], 'HH : mm aaa') : '-';
+  const formatTime = workModifyInfo[title] ? format(workModifyInfo[title], 'HH : mm aaa') : '-';
 
   const workHourOnpress = () => {
     setDatePickerOpen(true);
@@ -146,7 +162,8 @@ const styles = StyleSheet.create({
   checkWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10
+    marginBottom: 10,
+    marginTop: 20
   },
 
   icon: {
