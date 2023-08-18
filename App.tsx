@@ -28,15 +28,17 @@ import WriteScreenStep3 from './App/screens/tab_share/WriteScreenStep3';
 import AttendanceScreen from './App/screens/tab_barcode/AttendanceScreen';
 import { RootStackParamList } from './App/type';
 
+import Loader from './App/common-components/bottom_sheet/Loader';
+
 import { ThemeContext } from './App/theme/themeContext';
 import { TThemeMode } from './App/theme/themeContext';
 
-const queryClient = new QueryClient();
-
 export default function App() {
-  const Stack = createStackNavigator<RootStackParamList>();
-
   const [theme, setTheme] = useState<TThemeMode>({ mode: 'dark' });
+
+  const queryClient = new QueryClient();
+
+  const Stack = createStackNavigator<RootStackParamList>();
 
   useEffect(() => {
     Appearance.addChangeListener(({ colorScheme }) => {
@@ -68,6 +70,7 @@ export default function App() {
             <GestureHandlerRootView style={{ flex: 1 }}>
               <GlobalModal />
               <GlobalBottomSheet />
+              <Loader />
               <Stack.Navigator screenOptions={{ headerShown: false }}>
                 {/* <Stack.Screen name="onBoardingPage" component={OnboardingPage} />
                 <Stack.Screen name="categorySelectPage" component={CategorySelectPage} />

@@ -1,5 +1,6 @@
 import firestore from '@react-native-firebase/firestore';
 import format from 'date-fns/format';
+import { useMutation } from '@tanstack/react-query';
 
 const workHourCollection = firestore()
   .collection('users')
@@ -15,7 +16,12 @@ const workHourCollection = firestore()
  *    ㄴ매장이 같을 경우 출근/퇴근 등록을 합니다.(업데이트)
  *    ㄴ매장이 다를 경우 새로운 근태 등록을 해야합니다.
  */
-export const addWorkingTime = async (currentDate: Date, attendanceType: string) => {
+
+type addWorkingTimePrams = {
+  currentDate: Date;
+  attendanceType: string;
+};
+export const addWorkingTime = async ({ currentDate, attendanceType }: addWorkingTimePrams) => {
   const storeCode = 'lFddsTVznYG9ZNstQYo9';
   const today = format(currentDate, 'yyyy-MM-dd');
   const monthQuery = format(currentDate, 'yyyy-MM');
@@ -84,4 +90,8 @@ export const addWorkingTime = async (currentDate: Date, attendanceType: string) 
       })
     });
   }
+};
+
+export const useAddAttendance = () => {
+  return useMutation({ mutationFn: addWorkingTime });
 };

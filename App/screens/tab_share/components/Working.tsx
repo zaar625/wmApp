@@ -26,7 +26,6 @@ const Working = () => {
   const todayWorks = findTodayData(data)?.sort((a, b) => {
     const timestampA = a.date.seconds;
     const timestampB = b.date.seconds;
-    console.log(timestampA, timestampB);
 
     return timestampB - timestampA; // 최신 날짜 순으로 정렬
   });
