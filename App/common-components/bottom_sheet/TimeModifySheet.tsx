@@ -113,7 +113,7 @@ const TimeModifySheet = ({ data }: any, ref: any) => {
           />
         ))}
 
-        {!isFilledForm() && <ErrorGuide message="입력되지 않은 항목이 있어요!" />}
+        {!isFilledForm() && <ErrorGuide message="입력되지 않은 항목이 있습니다." />}
       </View>
       <NomalButton name="수정" onPress={onsubmit} />
     </View>

@@ -9,6 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../type';
+import { openModal, closeModal } from '../../state/slice/modal';
 
 const ShareModifySheet = ({ data }: any) => {
   const themeMode = themeChange();
@@ -20,16 +21,30 @@ const ShareModifySheet = ({ data }: any) => {
   const { mutate } = useDeletShare();
 
   const onDelete = () => {
-    mutate(
-      { storeId: store.id, logId: data.id },
-      {
-        onSuccess: () => {
-          dispatch(closeBottomSheet());
-          queryClient
-            .invalidateQueries({ queryKey: ['total-logs'] })
-            .then(() => navigation.goBack());
+    dispatch(
+      openModal({
+        type: 'TwoBtnModal',
+        contents: {
+          title: '전달사항을 삭제하시겠습니까?',
+          content: `삭제하면 해당 전달사항 내용은 공유되지 않습니다.`,
+          buttons: {
+            취소: () => dispatch(closeModal()),
+            삭제: () =>
+              mutate(
+                { storeId: store.id, logId: data.id },
+                {
+                  onSuccess: () => {
+                    dispatch(closeBottomSheet());
+                    dispatch(closeModal());
+                    queryClient
+                      .invalidateQueries({ queryKey: ['total-logs'] })
+                      .then(() => navigation.goBack());
+                  }
+                }
+              )
+          }
         }
-      }
+      })
     );
   };
 

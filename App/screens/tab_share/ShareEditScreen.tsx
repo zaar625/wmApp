@@ -16,6 +16,7 @@ import { useEditLog } from '../../api/store/hooks/useEditLog';
 import { useDispatch } from 'react-redux';
 import { openModal, closeModal } from '../../state/slice/modal';
 import { useQueryClient } from '@tanstack/react-query';
+import ErrorGuide from '../../common-components/ErrorGuide';
 
 const ShareEditScreen = ({
   navigation,
@@ -35,6 +36,8 @@ const ShareEditScreen = ({
     content: data.content
   });
 
+  const [buttonActive, setButtonActive] = useState<boolean | null>(null);
+
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', e => {
       const TOP_OFFSET = 200;
@@ -47,6 +50,13 @@ const ShareEditScreen = ({
   }, []);
 
   const onSubmit = async () => {
+    const isFilledForm = contents.title.length > 0 && contents.content.length > 0;
+
+    if (!isFilledForm) {
+      setButtonActive(isFilledForm);
+      return;
+    }
+
     const photosURL = await imageUpLoad(pickImages);
 
     const uploadData = {
@@ -91,8 +101,11 @@ const ShareEditScreen = ({
       >
         <ScrollView ref={scrollRef}>
           <ImageSelect pickImages={pickImages} setPickImages={setPickImages} />
-          <View style={{ paddingHorizontal: 20 }}>
+          <View style={{ paddingHorizontal: 20, marginBottom: 20 }}>
             <ShareForm contents={contents} setContents={setContents} />
+            {buttonActive === false && (
+              <ErrorGuide message="앗! 제목과 내용을 작성했는지 확인해주세요." />
+            )}
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

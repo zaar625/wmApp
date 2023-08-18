@@ -27,6 +27,7 @@ import MyInfoModifyScreen from './App/screens/tab_setting/MyInfoModifyScreen';
 import WriteScreenStep3 from './App/screens/tab_share/WriteScreenStep3';
 import AttendanceScreen from './App/screens/tab_barcode/AttendanceScreen';
 import { RootStackParamList } from './App/type';
+import ShareListScreen from './App/screens/tab_share/ShareListScreen';
 
 import Loader from './App/common-components/bottom_sheet/Loader';
 
@@ -98,6 +99,7 @@ export default function App() {
                 />
                 <Stack.Screen name="shareDetailScreen" component={ShareDetailScreen} />
                 <Stack.Screen name="shareEditScreen" component={ShareEditScreen} />
+                <Stack.Screen name="shareListScreen" component={ShareListScreen} />
                 <Stack.Screen name="myInfoModifyScreen" component={MyInfoModifyScreen} />
               </Stack.Navigator>
             </GestureHandlerRootView>

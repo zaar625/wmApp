@@ -5,10 +5,15 @@ import ShareItem from './ShareItem';
 import SvgIcon from '../../../common-components/SvgIcon';
 import themeChange from '../../../util/theme';
 import { useTotalLogsData } from '../../../api/store/hooks/useLogsData';
+import { deviceheight } from '../../../theme';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../../type';
 
 const ShareContents = () => {
   const themeMode = themeChange();
   const { data } = useTotalLogsData();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const render = () => {
     if (data && data.length > 0) {
@@ -29,7 +34,7 @@ const ShareContents = () => {
           <Image source={require('../../../assets/img/note.png')} style={styles.image} />
           <SmallTitle title="금일 전달 사항" />
         </View>
-        <Pressable style={styles.btn}>
+        <Pressable style={styles.btn} onPress={() => navigation.navigate('shareListScreen')}>
           <Text style={[styles.btnText, { color: themeMode.pressIcon }]}>전체보기</Text>
           <SvgIcon name="arrow_right" style={styles.icon} color={themeMode.pressIcon} />
         </Pressable>
@@ -46,7 +51,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingTop: 15,
     borderRadius: 15,
-    marginHorizontal: 20
+    marginHorizontal: 20,
+    minHeight: deviceheight * 0.15
   },
 
   titleHeader: {
@@ -74,7 +80,8 @@ const styles = StyleSheet.create({
     fontSize: 12
   },
   nonData: {
-    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
     marginVertical: 20
   }
 });
