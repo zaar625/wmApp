@@ -28,7 +28,6 @@ const ScannerScreen = () => {
   const mutationAddTodo = useMutation({
     mutationFn: muTateaddStore,
     onSuccess: () => {
-      // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ['myStoreList'] });
     },
     onError: () => console.log('error')

@@ -4,7 +4,7 @@ import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firest
 async function fetchStoreList() {
   const users = firestore().collection('users');
   const storeList: FirebaseFirestoreTypes.DocumentData[] = [];
-
+  console.log('refetch');
   try {
     const storeRef = await users.doc('DMWrTCluLrhJMrI01BVhJK6byFs1').collection('storeList').get();
     storeRef.forEach(data => {

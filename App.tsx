@@ -70,7 +70,7 @@ export default function App() {
             <GestureHandlerRootView style={{ flex: 1 }}>
               <GlobalModal />
               <GlobalBottomSheet />
-              <Loader />
+              {/* <Loader /> */}
               <Stack.Navigator screenOptions={{ headerShown: false }}>
                 {/* <Stack.Screen name="onBoardingPage" component={OnboardingPage} />
                 <Stack.Screen name="categorySelectPage" component={CategorySelectPage} />

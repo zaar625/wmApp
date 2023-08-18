@@ -8,10 +8,9 @@ const Loader = () => {
   const isFetching = useIsFetching();
   const isMutating = useIsMutating();
 
-  console.log('isFetching', isFetching);
   return (
     <>
-      {isFetching === 0 && (
+      {(isFetching > 0 || isMutating > 0) && (
         <View style={[styles.container, StyleSheet.absoluteFillObject]}>
           <LottieView
             source={require('../../assets/loader.json')}
