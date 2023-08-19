@@ -30,6 +30,7 @@ const ShareDetailScreen = ({ navigation }: NavigationScreenProps) => {
   const themeMode = themeChange();
   const dispatch = useDispatch();
   const { params } = useRoute<ShareDetailScreenRouteProp>();
+  console.log('params', params);
 
   const { content, title, photosURL, createAt } = params.data;
 

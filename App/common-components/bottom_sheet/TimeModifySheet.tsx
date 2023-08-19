@@ -12,11 +12,6 @@ import { closeBottomSheet } from '../../state/slice/bottomSheet';
 import { useAddPersonalWorkHistoryEdit } from '../../api/store/hooks/useAddPersonalWorkHistoryEditList';
 import ErrorGuide from '../ErrorGuide';
 
-type FormValues = {
-  reason: boolean | null;
-  time: boolean | null;
-};
-
 const TimeModifySheet = ({ data }: any, ref: any) => {
   const themeMode = themeChange();
 
@@ -31,6 +26,8 @@ const TimeModifySheet = ({ data }: any, ref: any) => {
     end: null
   });
 
+  const [buttonActive, setButtonActive] = useState<null | boolean>(null);
+
   const onChangeText = (text: string) => {
     setWorkModifyInfo({ ...workModifyInfo, reason: text });
   };
@@ -38,9 +35,11 @@ const TimeModifySheet = ({ data }: any, ref: any) => {
   const isFilledForm = () => {
     const hasReason = workModifyInfo.reason.length > 0;
     const hasTime = workModifyInfo.start && workModifyInfo.end;
+    setButtonActive(hasReason && !!hasTime);
 
     return hasReason && !!hasTime;
   };
+
   const onsubmit = async () => {
     const isFilled = isFilledForm();
 
@@ -63,15 +62,15 @@ const TimeModifySheet = ({ data }: any, ref: any) => {
     };
 
     if (isFilled) {
-      // try {
-      //   await Promise.all([
-      //     timeEdittingToManager({ storeId: data.storeName, data: queryData }),
-      //     timeEdittingToUser({ data: queryData })
-      //   ]);
-      //   dispatch(closeBottomSheet());
-      // } catch {
-      //   console.log('error');
-      // }
+      try {
+        await Promise.all([
+          timeEdittingToManager({ storeId: data.storeName, data: queryData }),
+          timeEdittingToUser({ data: queryData })
+        ]);
+        dispatch(closeBottomSheet());
+      } catch {
+        console.log('error');
+      }
     }
   };
 
@@ -88,6 +87,7 @@ const TimeModifySheet = ({ data }: any, ref: any) => {
           <Text style={{ color: themeMode.tint }}>사유를 간단하게 작성해주세요.</Text>
         </View>
         <TextInput
+          onFocus={() => setButtonActive(null)}
           onChangeText={onChangeText}
           placeholder="100자 이내로 작성해주세요."
           placeholderTextColor={'#797979'}
@@ -110,17 +110,18 @@ const TimeModifySheet = ({ data }: any, ref: any) => {
             title={item}
             timeHandler={setWorkModifyInfo}
             workModifyInfo={workModifyInfo}
+            setButtonActive={setButtonActive}
           />
         ))}
 
-        {!isFilledForm() && <ErrorGuide message="입력되지 않은 항목이 있습니다." />}
+        {buttonActive === false && <ErrorGuide message="입력되지 않은 항목이 있습니다." />}
       </View>
       <NomalButton name="수정" onPress={onsubmit} />
     </View>
   );
 };
 
-const WorkTime = ({ title, timeHandler, workModifyInfo }: any) => {
+const WorkTime = ({ title, timeHandler, workModifyInfo, setButtonActive }: any) => {
   const themeMode = themeChange();
   const [datePickerOpen, setDatePickerOpen] = useState(false);
   const today = new Date();
@@ -130,6 +131,7 @@ const WorkTime = ({ title, timeHandler, workModifyInfo }: any) => {
   const formatTime = workModifyInfo[title] ? format(workModifyInfo[title], 'HH : mm aaa') : '-';
 
   const workHourOnpress = () => {
+    setButtonActive(null);
     setDatePickerOpen(true);
   };
 

@@ -10,5 +10,5 @@ function addTimeEditing({ storeId, data }: any) {
 }
 
 export const useAddTimeEditing = () => {
-  return useMutation({ mutationFn: addTimeEditing });
+  return useMutation({ mutationFn: addTimeEditing, mutationKey: ['timeEditToUser'] });
 };

@@ -29,7 +29,7 @@ import AttendanceScreen from './App/screens/tab_barcode/AttendanceScreen';
 import { RootStackParamList } from './App/type';
 import ShareListScreen from './App/screens/tab_share/ShareListScreen';
 
-import Loader from './App/common-components/bottom_sheet/Loader';
+import Loader from './App/common-components/Loader';
 
 import { ThemeContext } from './App/theme/themeContext';
 import { TThemeMode } from './App/theme/themeContext';
@@ -71,7 +71,7 @@ export default function App() {
             <GestureHandlerRootView style={{ flex: 1 }}>
               <GlobalModal />
               <GlobalBottomSheet />
-              {/* <Loader /> */}
+
               <Stack.Navigator screenOptions={{ headerShown: false }}>
                 {/* <Stack.Screen name="onBoardingPage" component={OnboardingPage} />
                 <Stack.Screen name="categorySelectPage" component={CategorySelectPage} />

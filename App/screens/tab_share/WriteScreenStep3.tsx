@@ -13,10 +13,13 @@ import { RootState } from '../../state/store';
 import { NavigationScreenProps } from '../../type';
 import { useQueryClient } from '@tanstack/react-query';
 import ErrorGuide from '../../common-components/ErrorGuide';
+import { imageUpLoad } from '../../util/imageUpLoad';
+import { useAddLog } from '../../api/store/hooks/useAddLog';
 
 const WriteScreenStep3 = ({ navigation }: NavigationScreenProps) => {
   const themeMode = themeChange();
   const queryClient = useQueryClient();
+  const { mutate } = useAddLog();
   const { images, store } = useSelector((state: RootState) => state.share);
   const [contents, setContents] = useState({
     title: '',
@@ -32,55 +35,27 @@ const WriteScreenStep3 = ({ navigation }: NavigationScreenProps) => {
       setButtonActive(isFilledForm);
       return;
     }
-    const reference = storage().ref(`/photo/DMWrTCluLrhJMrI01BVhJK6byFs1/`);
-    const photosURL: string[] = [];
 
-    if (images) {
-      await Promise.all(
-        images.map(async (image, index) => {
-          const imageRef = reference.child(`image${index}.jpg`);
-          await imageRef.putFile(image.uri);
-          const photoURL = await imageRef.getDownloadURL(); // 여기서 imageRef를 사용합니다
+    const photosURL = await imageUpLoad(images);
 
-          photosURL.push(photoURL);
-        })
-      );
-    }
-
-    // 파이어베이스 저장
-    const shareLogCollection = firestore()
-      .collection('users')
-      .doc('DMWrTCluLrhJMrI01BVhJK6byFs1')
-      .collection('shareLog')
-      .doc();
-
-    const storeLogCollection = firestore()
-      .collection('store')
-      .doc(store?.id)
-      .collection('log')
-      .doc();
-
-    await shareLogCollection.set({
-      id: storeLogCollection.id,
-      user: 'DMWrTCluLrhJMrI01BVhJK6byFs1',
-      photosURL,
-      content: contents.content,
-      store,
-      createAt: firestore.FieldValue.serverTimestamp()
-    });
-    // 매장 로그 저장
-    await storeLogCollection.set({
-      id: storeLogCollection.id,
+    const uploadData = {
       user: 'DMWrTCluLrhJMrI01BVhJK6byFs1',
       photosURL,
       title: contents.title,
       content: contents.content,
       store,
       createAt: firestore.FieldValue.serverTimestamp()
-    });
+    };
 
-    navigation.navigate('bottomTab');
-    queryClient.invalidateQueries({ queryKey: ['total-logs'] });
+    mutate(
+      { store, data: uploadData },
+      {
+        onSuccess: () => {
+          navigation.navigate('bottomTab');
+          queryClient.invalidateQueries({ queryKey: ['total-logs'] });
+        }
+      }
+    );
   };
 
   return (

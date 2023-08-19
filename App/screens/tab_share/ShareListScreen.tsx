@@ -11,7 +11,6 @@ const ShareListScreen = () => {
 
   const { data } = useTotalLogsData();
 
-  // console.log(data.length);
   const render = () => {
     if (data && data.length > 0) {
       return (
@@ -22,7 +21,11 @@ const ShareListScreen = () => {
         />
       );
     } else {
-      return <Text style={{ color: themeMode.subTint }}>금일 전달사항이 없습니다.</Text>;
+      return (
+        <View style={styles.noneList}>
+          <Text style={{ color: themeMode.subTint }}>금일 전달사항이 없습니다.</Text>
+        </View>
+      );
     }
   };
 
@@ -43,5 +46,11 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     paddingHorizontal: 20
+  },
+  noneList: {
+    paddingHorizontal: 20,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });

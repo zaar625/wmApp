@@ -9,6 +9,7 @@ import PayRoll from './components/PayRoll';
 import { ScreenTitle } from '../../common-components/Title';
 import WorkingStore from './components/WorkingStore';
 import { useQueryClient } from '@tanstack/react-query';
+import Loader from '../../common-components/Loader';
 
 const StoreTabScreen = () => {
   const { theme } = useContext(ThemeContext);
@@ -28,20 +29,23 @@ const StoreTabScreen = () => {
   }, []);
 
   return (
-    <SafeAreaView
-      style={[styles.container, { backgroundColor: activeColor.primary }]}
-      edges={['top']}
-    >
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+    <>
+      <SafeAreaView
+        style={[styles.container, { backgroundColor: activeColor.primary }]}
+        edges={['top']}
       >
-        <ScreenTitle title={`안녕하세요. 이상윤님,${`\n`}오늘하루 화이팅입니다 :)`} />
-        <AddedStore />
-        <WorkingStore />
-        <PayRoll />
-      </ScrollView>
-    </SafeAreaView>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        >
+          <ScreenTitle title={`안녕하세요. 이상윤님,${`\n`}오늘하루 화이팅입니다 :)`} />
+          <AddedStore />
+          <WorkingStore />
+          <PayRoll />
+        </ScrollView>
+      </SafeAreaView>
+      <Loader />
+    </>
   );
 };
 
