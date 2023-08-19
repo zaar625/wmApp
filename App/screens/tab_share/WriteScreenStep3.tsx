@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../state/store';
 import { NavigationScreenProps } from '../../type';
 import { useQueryClient } from '@tanstack/react-query';
+import ErrorGuide from '../../common-components/ErrorGuide';
 
 const WriteScreenStep3 = ({ navigation }: NavigationScreenProps) => {
   const themeMode = themeChange();
@@ -22,7 +23,15 @@ const WriteScreenStep3 = ({ navigation }: NavigationScreenProps) => {
     content: ''
   });
 
+  const [buttonActive, setButtonActive] = useState<boolean | null>(null);
+
   const onSubmit = async () => {
+    const isFilledForm = contents.title.length > 0 && contents.content.length > 0;
+
+    if (!isFilledForm) {
+      setButtonActive(isFilledForm);
+      return;
+    }
     const reference = storage().ref(`/photo/DMWrTCluLrhJMrI01BVhJK6byFs1/`);
     const photosURL: string[] = [];
 
@@ -91,6 +100,9 @@ const WriteScreenStep3 = ({ navigation }: NavigationScreenProps) => {
               </Text>
             </View>
             <ShareForm setContents={setContents} contents={contents} />
+            {buttonActive === false && (
+              <ErrorGuide message="앗! 제목과 내용을 작성했는지 확인해주세요." />
+            )}
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

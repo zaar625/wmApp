@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import { StyleSheet, Text, View, Button, FlatList } from 'react-native';
+import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import themeChange from '../../util/theme';
 import NavigationHeader from '../../common-components/NavigationHeader';
@@ -8,11 +8,19 @@ import ShareItem from './components/ShareItem';
 
 const ShareListScreen = () => {
   const themeMode = themeChange();
+
   const { data } = useTotalLogsData();
 
+  // console.log(data.length);
   const render = () => {
     if (data && data.length > 0) {
-      return data.map((item, index) => <ShareItem key={index} item={item} />);
+      return (
+        <FlatList
+          data={data}
+          contentContainerStyle={{ paddingHorizontal: 20 }}
+          renderItem={({ item }) => <ShareItem item={item} />}
+        />
+      );
     } else {
       return <Text style={{ color: themeMode.subTint }}>금일 전달사항이 없습니다.</Text>;
     }
@@ -21,7 +29,8 @@ const ShareListScreen = () => {
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: themeMode.primary }]}>
       <NavigationHeader header="매장별 전달 사항" />
-      <View style={styles.listContainer}>{render()}</View>
+      {render()}
+      {/* <Button title="다음장" color={'#fff'} onPress={() => setPage(page + 1)} /> */}
     </SafeAreaView>
   );
 };

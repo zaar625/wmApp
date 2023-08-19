@@ -9,15 +9,23 @@ import { deviceheight } from '../../../theme';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../type';
+import format from 'date-fns/format';
 
 const ShareContents = () => {
-  const themeMode = themeChange();
-  const { data } = useTotalLogsData();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const themeMode = themeChange();
+  const today = format(new Date(), 'yyyy-MM-dd');
+
+  const { data } = useTotalLogsData();
+
+  const findTodayData = data?.filter(item => {
+    const dataDate = format(item.data().createAt.toDate(), 'yyyy-MM-dd');
+    return dataDate === today;
+  });
 
   const render = () => {
-    if (data && data.length > 0) {
-      return data.map((item, index) => <ShareItem key={index} item={item} />);
+    if (findTodayData && findTodayData.length > 0) {
+      return findTodayData.map((item, index) => <ShareItem key={index} item={item} />);
     } else {
       return (
         <View style={styles.nonData}>
