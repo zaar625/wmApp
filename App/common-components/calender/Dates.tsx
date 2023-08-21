@@ -6,7 +6,8 @@ import {
   addDays,
   format,
   eachWeekOfInterval,
-  isSameMonth
+  isSameMonth,
+  isSameDay
 } from 'date-fns';
 import themeChange from '../../util/theme';
 import { useDispatch } from 'react-redux';
@@ -61,7 +62,14 @@ const Dates = ({ currentDate }: { currentDate: Date }) => {
               >
                 {isSameMonth(monthStart, dayDate) && (
                   <>
-                    <Text style={[styles.dateText, { color: themeMode.subTint }]}>
+                    <Text
+                      style={[
+                        styles.dateText,
+                        isSameDay(currentDate, dayDate)
+                          ? { color: '#4C63FF', fontWeight: 'bold' }
+                          : { color: themeMode.subTint }
+                      ]}
+                    >
                       {format(dayDate, 'd')}
                     </Text>
                     <View style={{ minHeight: 50 }}>
