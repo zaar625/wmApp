@@ -1,6 +1,7 @@
 import firestore from '@react-native-firebase/firestore';
 import format from 'date-fns/format';
 import { useMutation } from '@tanstack/react-query';
+import uuid from 'react-native-uuid';
 
 const workHourCollection = firestore()
   .collection('users')
@@ -62,6 +63,7 @@ export const addWorkingTime = async ({ currentDate, attendanceType }: addWorking
     if (hasWorkDate && !hasStoreInworksArray) {
       workHourCollection.doc(format(currentDate, 'yyyy-MM')).update({
         work: firestore.FieldValue.arrayUnion({
+          id: uuid.v4(),
           date: new Date(),
           end: null,
           start: new Date(),
@@ -73,6 +75,7 @@ export const addWorkingTime = async ({ currentDate, attendanceType }: addWorking
     if (!hasWorkDate) {
       workHourCollection.doc(format(currentDate, 'yyyy-MM')).update({
         work: firestore.FieldValue.arrayUnion({
+          id: uuid.v4(),
           date: new Date(),
           end: null,
           start: new Date(),

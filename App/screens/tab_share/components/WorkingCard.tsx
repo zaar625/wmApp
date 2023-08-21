@@ -13,7 +13,6 @@ const WorkingCard = ({ item, length }: { item: TWorkData; length: number | undef
   const dispatch = useDispatch();
   const { start, end } = item;
 
-  console.log(length);
   const startWork = start ? format(start.toDate(), 'HH시 mm분') : '-';
   const endWork = end ? format(end.toDate(), 'HH시 mm분') : '-';
 

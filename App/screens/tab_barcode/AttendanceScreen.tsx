@@ -86,11 +86,7 @@ const AttendanceScreen = ({ navigation }: NavigationScreenProps) => {
     >
       <ScannerHeader />
       <View style={styles.qrMarkerWrapper}>
-        <QRCodeScanner
-          onRead={scanerHandler}
-          cameraStyle={{ height: '100%', flex: 1 }}
-          containerStyle={{ backgroundColor: 'blue' }}
-        />
+        <QRCodeScanner onRead={scanerHandler} cameraStyle={{ height: '100%', flex: 1 }} />
         <ScannerMarker />
       </View>
       <View style={styles.storeInfo}>

@@ -33,6 +33,8 @@ const Working = () => {
   const CARD_GAP = 8;
   const NEXT_CARD_OFFSET = 16;
 
+  console.log(todayWorks);
+
   return (
     <FlatList
       bounces={false}
