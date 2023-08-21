@@ -29,6 +29,7 @@ import WriteScreenStep3 from './App/screens/tab_share/WriteScreenStep3';
 import AttendanceScreen from './App/screens/tab_barcode/AttendanceScreen';
 import { RootStackParamList } from './App/type';
 import ShareListScreen from './App/screens/tab_share/ShareListScreen';
+import ShakeDetector from './App/common-components/ShakeDetector';
 
 import Loader from './App/common-components/Loader';
 
@@ -106,6 +107,7 @@ export default function App() {
               <GlobalToast />
             </GestureHandlerRootView>
           </QueryClientProvider>
+          <ShakeDetector />
         </NavigationContainer>
       </ThemeContext.Provider>
     </Provider>

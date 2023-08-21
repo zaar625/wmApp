@@ -6167,6 +6167,11 @@ react-native-shadow-2@^7.0.8:
   dependencies:
     colord "2.9.2"
 
+react-native-shake@^5.5.0:
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/react-native-shake/-/react-native-shake-5.5.0.tgz#55e8a15bebee872f35669a28b6475173eba84aca"
+  integrity sha512-hDcuO+suKahZd19k0F11Xdkrw7Xhir3L9JnHpSuFCOdtj/O+hitoSQe0tyBvd4exxWmAzJVGqy7Ct/zbJHsJ7A==
+
 react-native-svg-transformer@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-native-svg-transformer/-/react-native-svg-transformer-1.1.0.tgz#2032bc766e20533af8aec81df49c218f08d4dbbd"

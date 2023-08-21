@@ -23,11 +23,6 @@ const BottomTab = () => {
 
   const Tab = createBottomTabNavigator();
   const Stack = createStackNavigator();
-  const BarcodeStack = () => (
-    <Stack.Navigator>
-      <Stack.Screen name="attendanceScreen" component={AttendanceScreen} />
-    </Stack.Navigator>
-  );
 
   const screens = [
     {
