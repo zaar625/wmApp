@@ -26,3 +26,9 @@ export type RootStackParamList = {
 };
 
 export type NavigationScreenProps = NativeStackScreenProps<RootStackParamList>;
+
+export type TStoreInfo = {
+  class: string;
+  name: string;
+  id: string;
+};

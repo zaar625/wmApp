@@ -2,6 +2,7 @@ import firestore from '@react-native-firebase/firestore';
 import format from 'date-fns/format';
 import { useMutation } from '@tanstack/react-query';
 import uuid from 'react-native-uuid';
+import { TStoreInfo } from '../../../type';
 
 const workHourCollection = firestore()
   .collection('users')
@@ -18,12 +19,8 @@ const workHourCollection = firestore()
  *    ㄴ매장이 다를 경우 새로운 근태 등록을 해야합니다.
  */
 
-type addWorkingTimePrams = {
-  currentDate: Date;
-  attendanceType: string;
-};
-export const addWorkingTime = async ({ currentDate, attendanceType }: addWorkingTimePrams) => {
-  const storeCode = 'lFddsTVznYG9ZNstQYo9';
+export const addWorkingTime = async ({ currentDate, attendanceType, storeInfo }: any) => {
+  const storeCode = storeInfo.id;
   const today = format(currentDate, 'yyyy-MM-dd');
   const monthQuery = format(currentDate, 'yyyy-MM');
 
@@ -34,19 +31,21 @@ export const addWorkingTime = async ({ currentDate, attendanceType }: addWorking
   const worksArray = await workData.data()?.work; // undefined || item[]
 
   if (worksArray) {
+    //근무이력배열에 날짜가 있는지 판별
     const hasWorkDate = worksArray.some(
       (work: any) => format(work.date.toDate(), 'yyyy-MM-dd') === today
-    ); //근무이력배열에 날짜가 있는지 판별
+    );
 
+    //근무이력배열에 출근한 기록(날짜)이 있으며, 해당 날짜에 동일한 매장인지 판별
     const hasStoreInworksArray = worksArray.some(
       (work: any) =>
-        work.storeName === storeCode && format(work.date.toDate(), 'yyyy-MM-dd') === today
-    ); //근무이력배열에 출근한 기록(날짜)이 있으며, 해당 날짜에 동일한 매장인지 판별
+        work.storeInfo.id === storeCode && format(work.date.toDate(), 'yyyy-MM-dd') === today
+    );
 
     if (hasWorkDate && hasStoreInworksArray) {
       const updateWorkArray = worksArray.map((worksItem: any) => {
         if (
-          worksItem.storeName === storeCode &&
+          worksItem.storeInfo.id === storeCode &&
           today === format(worksItem.date.toDate(), 'yyyy-MM-dd')
         ) {
           return {
@@ -65,9 +64,9 @@ export const addWorkingTime = async ({ currentDate, attendanceType }: addWorking
         work: firestore.FieldValue.arrayUnion({
           id: uuid.v4(),
           date: new Date(),
-          end: null,
           start: new Date(),
-          storeName: storeCode
+          end: null,
+          storeInfo
         })
       });
     }
@@ -77,9 +76,9 @@ export const addWorkingTime = async ({ currentDate, attendanceType }: addWorking
         work: firestore.FieldValue.arrayUnion({
           id: uuid.v4(),
           date: new Date(),
-          end: null,
           start: new Date(),
-          storeName: storeCode
+          end: null,
+          storeInfo
         })
       });
     }
@@ -87,9 +86,9 @@ export const addWorkingTime = async ({ currentDate, attendanceType }: addWorking
     workHourCollection.doc(format(currentDate, 'yyyy-MM')).set({
       work: firestore.FieldValue.arrayUnion({
         date: new Date(),
-        end: null,
+        storeInfo,
         start: new Date(),
-        storeName: storeCode
+        end: null
       })
     });
   }

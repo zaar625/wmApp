@@ -17,12 +17,14 @@ import { openModal, closeModal } from '../../state/slice/modal';
 import { NavigationScreenProps } from '../../type';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 
+import { TStoreInfo } from '../../type';
+
 const AttendanceScreen = ({ navigation }: NavigationScreenProps) => {
   const themeMode = themeChange();
   const dispatch = useDispatch();
   const currentTime = new Date();
 
-  const [storeName, setStoreName] = useState<null | string>(null);
+  const [storeInfo, setStoreInfo] = useState<any>();
 
   const { mutate: addattendance } = useAddAttendance();
   const { data: storeList } = useMyStoreList();
@@ -32,10 +34,10 @@ const AttendanceScreen = ({ navigation }: NavigationScreenProps) => {
     const findStore = storeList?.find(list => list.id === codeId);
 
     if (findStore) {
-      return setStoreName(findStore.name);
+      return setStoreInfo(findStore);
     }
 
-    return setStoreName(null);
+    return setStoreInfo(null);
   };
 
   const onAttendanceSuccess = (type: string) => {
@@ -46,7 +48,7 @@ const AttendanceScreen = ({ navigation }: NavigationScreenProps) => {
         modalType: 'OneBtnModal',
         contents: {
           title: `${typeName} 등록 완료`,
-          content: `${storeName}에 ${typeName} 등록이 완료되었습니다.`,
+          content: `${storeInfo?.name}에 ${typeName} 등록이 완료되었습니다.`,
           onPress() {
             navigation.goBack();
           }
@@ -56,13 +58,16 @@ const AttendanceScreen = ({ navigation }: NavigationScreenProps) => {
   };
 
   const attendanceOnPress = (attendanceType: string) => {
-    if (storeName) {
-      addattendance(
-        { currentDate: currentTime, attendanceType },
-        {
-          onSuccess: () => onAttendanceSuccess(attendanceType)
-        }
-      );
+    const attendanceData = {
+      currentDate: currentTime,
+      attendanceType,
+      storeInfo
+    };
+
+    if (storeInfo) {
+      addattendance(attendanceData, {
+        onSuccess: () => onAttendanceSuccess(attendanceType)
+      });
       return;
     }
 
@@ -106,7 +111,7 @@ const AttendanceScreen = ({ navigation }: NavigationScreenProps) => {
         </View>
         <View style={styles.storeInfo}>
           <Text style={[styles.storeName, { color: themeMode.tint }]}>
-            {storeName ? storeName : '매장 정보 없음'}
+            {storeInfo ? storeInfo.name : '매장 정보 없음'}
           </Text>
         </View>
 
