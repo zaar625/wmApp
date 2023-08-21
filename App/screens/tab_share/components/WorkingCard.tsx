@@ -8,11 +8,12 @@ import { deviceWidth } from '../../../theme';
 import { TWorkData } from '../../../util/time';
 import { format } from 'date-fns';
 
-const WorkingCard = ({ item }: { item: TWorkData }) => {
+const WorkingCard = ({ item, length }: { item: TWorkData; length: number | undefined }) => {
   const themeMode = themeChange();
   const dispatch = useDispatch();
   const { start, end } = item;
 
+  console.log(length);
   const startWork = start ? format(start.toDate(), 'HH시 mm분') : '-';
   const endWork = end ? format(end.toDate(), 'HH시 mm분') : '-';
 
@@ -23,7 +24,15 @@ const WorkingCard = ({ item }: { item: TWorkData }) => {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor: themeMode.secondary,
+          width: length && length < 2 ? deviceWidth - 40 : deviceWidth - 60
+        }
+      ]}
+    >
       <View style={styles.header}>
         <View style={styles.storeWrapper}>
           <Image

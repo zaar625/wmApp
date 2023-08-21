@@ -12,7 +12,7 @@ async function fetchWorkingDate(query: string): Promise<TWorkData[] | undefined>
   const data = workHourRef.data();
 
   if (!data) {
-    return undefined;
+    return;
   }
 
   return data.work;

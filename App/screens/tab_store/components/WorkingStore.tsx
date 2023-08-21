@@ -58,7 +58,9 @@ const StoreCardContainer = ({ store }: any) => {
                 {
                   onSuccess: () => {
                     dispatch(closeModal());
-                    dispatch(openToast({ message: '되라' }));
+                    dispatch(
+                      openToast({ message: `${store.name}가 현재 근무지에서 삭제되었습니다.` })
+                    );
                   }
                 }
               )

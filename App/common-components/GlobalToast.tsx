@@ -13,7 +13,6 @@ const GlobalToast = () => {
   const toastInfo = useSelector((state: RootState) => state.toast);
 
   const animationValueRef = useRef(new Animated.Value(0));
-  console.log(animationValueRef.current);
 
   useEffect(() => {
     if (toastInfo.isOpen) {
@@ -61,7 +60,7 @@ const GlobalToast = () => {
             height={20}
             color={'#00B712'}
           />
-          <Text style={{ color: themeMode.tint }}>카페이루가 근무지에서 삭제되었습니다.</Text>
+          <Text style={{ color: themeMode.tint }}>{toastInfo.message}</Text>
         </View>
       </Animated.View>
     </>

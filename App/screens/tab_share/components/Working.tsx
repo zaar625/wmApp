@@ -15,8 +15,8 @@ const Working = () => {
     if (!data) return;
 
     const findToday = data.filter(dateWorkInfo => {
-      // const today = format(new Date(), 'yyyy-MM-dd');
-      const today = '2023-08-15';
+      const today = format(new Date(), 'yyyy-MM-dd');
+      // const today = '2023-08-15';
       return today === format(dateWorkInfo.date.toDate(), 'yyyy-MM-dd');
     });
 
@@ -37,9 +37,13 @@ const Working = () => {
     <FlatList
       bounces={false}
       automaticallyAdjustContentInsets={false}
-      contentContainerStyle={{
-        paddingHorizontal: NEXT_CARD_OFFSET + CARD_GAP / 2
-      }}
+      contentContainerStyle={
+        todayWorks && todayWorks.length === 1
+          ? { marginLeft: 20 }
+          : {
+              paddingHorizontal: NEXT_CARD_OFFSET + CARD_GAP / 2
+            }
+      }
       decelerationRate="fast"
       horizontal
       pagingEnabled
@@ -48,7 +52,7 @@ const Working = () => {
       showsHorizontalScrollIndicator={false}
       data={todayWorks}
       ListEmptyComponent={EmptyCard}
-      renderItem={({ item }) => <WorkingCard item={item} />}
+      renderItem={({ item }) => <WorkingCard item={item} length={todayWorks?.length} />}
     />
   );
 };
