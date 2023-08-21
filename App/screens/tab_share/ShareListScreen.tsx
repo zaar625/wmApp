@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import themeChange from '../../util/theme';
 import NavigationHeader from '../../common-components/NavigationHeader';
 import { useTotalLogsData } from '../../api/store/hooks/useLogsData';
-import ShareItem from './components/ShareItem';
+import ShareListItem from './components/ShareListItem';
 
 const ShareListScreen = () => {
   const themeMode = themeChange();
@@ -13,13 +13,7 @@ const ShareListScreen = () => {
 
   const render = () => {
     if (data && data.length > 0) {
-      return (
-        <FlatList
-          data={data}
-          contentContainerStyle={{ paddingHorizontal: 20 }}
-          renderItem={({ item }) => <ShareItem item={item} />}
-        />
-      );
+      return <FlatList data={data} renderItem={({ item }) => <ShareListItem item={item} />} />;
     } else {
       return (
         <View style={styles.noneList}>
@@ -43,9 +37,6 @@ export default ShareListScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1
-  },
-  listContainer: {
-    paddingHorizontal: 20
   },
   noneList: {
     paddingHorizontal: 20,
