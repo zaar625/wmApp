@@ -1,4 +1,3 @@
-import { usersCollection } from './users';
 import firestore from '@react-native-firebase/firestore';
 
 const storeList = firestore().collection('store');

@@ -28,7 +28,7 @@ const PayRoll = () => {
     <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
       <View style={styles.header}>
         <SemiTitle title="월별 예상 급여" />
-        <Pressable onPress={() => navigation.navigate('calendarTabScreen')}>
+        <Pressable hitSlop={50} onPress={() => navigation.navigate('calendarTabScreen')}>
           <SvgIcon name="arrow_right" color={themeMode.pressIcon} />
         </Pressable>
       </View>

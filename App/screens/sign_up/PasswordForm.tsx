@@ -5,7 +5,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../type';
 import InputBox from '../login/InputBox';
 import Button from '../../common-components/buttons/Button';
-import { userSaveInfo } from '../../state/slice/user';
+import { signUpUserInfo } from '../../state/slice/signUp';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../state/store';
 import { signUp } from '../../api/auth';
@@ -27,7 +27,7 @@ const PasswordForm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
-  const { email, password, name, phone } = useSelector((state: RootState) => state.user);
+  const { email, password, name, phone } = useSelector((state: RootState) => state.signUp);
 
   const passwordInputRef = useRef<null | TextInput>(null);
   const checkedPasswordRef = useRef<null | TextInput>(null);
@@ -202,11 +202,11 @@ const PasswordForm = () => {
           onEndEditing={({ nativeEvent: { text } }) => {
             if (text !== inputText) {
               setBtnActive(false);
-              dispatch(userSaveInfo(''));
+              dispatch(signUpUserInfo(''));
               setPasswordCheckError({ ...passwordCheckError, error: true });
             } else {
               setBtnActive(true);
-              dispatch(userSaveInfo({ password: text }));
+              dispatch(signUpUserInfo({ password: text }));
             }
           }}
           errorType={{ errType: passwordCheckError, handler: setPasswordCheckError }}

@@ -2,7 +2,7 @@ import { StyleSheet, View, TouchableWithoutFeedback, Keyboard, TextInput } from 
 import React, { useRef, useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
-import { userSaveInfo } from '../../state/slice/user';
+import { userSaveInfo } from '../../state/slice/signUp';
 import { NavigationScreenProps } from '../../type';
 import { ScreenTitle } from '../../common-components/Title';
 import InputBox from '../login/InputBox';

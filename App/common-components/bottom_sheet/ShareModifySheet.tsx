@@ -13,10 +13,9 @@ import { openModal, closeModal } from '../../state/slice/modal';
 
 const ShareModifySheet = ({ data }: any) => {
   const themeMode = themeChange();
-  console.log(data);
+
   const { store } = data;
 
-  console.log(store);
   const queryClient = useQueryClient();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const dispatch = useDispatch();

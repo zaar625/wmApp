@@ -16,6 +16,7 @@ import GlobalModal from './App/common-components/modal/GlobalModal';
 import BottomTab from './App/screens/bottom_tab';
 import ScannerScreen from './App/screens/tab_store/ScannerScreen';
 import GlobalBottomSheet from './App/common-components/bottom_sheet/GlobalBottomSheet';
+import GlobalToast from './App/common-components/GlobalToast';
 
 import WriteScreenStep1 from './App/screens/tab_share/WriteScreenStep1';
 import WriteScreenStep2 from './App/screens/tab_share/WriteScreenStep2';
@@ -102,6 +103,7 @@ export default function App() {
                 <Stack.Screen name="shareListScreen" component={ShareListScreen} />
                 <Stack.Screen name="myInfoModifyScreen" component={MyInfoModifyScreen} />
               </Stack.Navigator>
+              <GlobalToast />
             </GestureHandlerRootView>
           </QueryClientProvider>
         </NavigationContainer>

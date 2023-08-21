@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Image, Pressable } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { BarCodeReadEvent } from 'react-native-camera';
 import React, { useMemo } from 'react';
 import QRCodeScanner from 'react-native-qrcode-scanner';
@@ -16,7 +16,7 @@ import ScannerMarker from './components/ScannerMarker';
 import themeChange from '../../util/theme';
 import ScannerHeader from './components/ScannerHeader';
 
-import { muTateaddStore } from '../../api/store/hooks/useAddStore';
+import { mutateaddStore } from '../../api/store/hooks/useAddStore';
 import { deviceheight } from '../../theme';
 
 const ScannerScreen = () => {
@@ -26,7 +26,7 @@ const ScannerScreen = () => {
   const queryClient = useQueryClient();
 
   const mutationAddTodo = useMutation({
-    mutationFn: muTateaddStore,
+    mutationFn: mutateaddStore,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['myStoreList'] });
     },

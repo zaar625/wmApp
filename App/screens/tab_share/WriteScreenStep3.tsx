@@ -15,11 +15,14 @@ import { useQueryClient } from '@tanstack/react-query';
 import ErrorGuide from '../../common-components/ErrorGuide';
 import { imageUpLoad } from '../../util/imageUpLoad';
 import { useAddLog } from '../../api/store/hooks/useAddLog';
+import Loader from '../../common-components/Loader';
 
 const WriteScreenStep3 = ({ navigation }: NavigationScreenProps) => {
   const themeMode = themeChange();
   const queryClient = useQueryClient();
+
   const { mutate } = useAddLog();
+
   const { images, store } = useSelector((state: RootState) => state.share);
   const [contents, setContents] = useState({
     title: '',
@@ -81,7 +84,8 @@ const WriteScreenStep3 = ({ navigation }: NavigationScreenProps) => {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
-      <Button name="공유하기" onPress={onSubmit} />
+      <Button name="공유하기" onPress={onSubmit} buttonActive={buttonActive} />
+      <Loader />
     </SafeAreaView>
   );
 };

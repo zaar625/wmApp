@@ -8,10 +8,12 @@ const Loader = () => {
   const isFetching = useIsFetching({
     queryKey: ['myStoreList']
   });
+
   const isMutating = useIsMutating({
-    mutationKey: ['timeEditToUser']
+    mutationKey: ['addLog']
   });
 
+  // console.log('isMutating', isMutating);
   return (
     <>
       {(isFetching > 0 || isMutating > 0) && (

@@ -8,6 +8,7 @@ import { useMyStoreList } from '../../../api/store/hooks/useMyStoreList';
 import { useDeletStore } from '../../../api/store/hooks/useDeleteStoreList';
 import { useDispatch } from 'react-redux';
 import { openModal, closeModal } from '../../../state/slice/modal';
+import { openToast } from '../../../state/slice/toast';
 
 const WorkingStore = () => {
   const themeMode = themeChange();
@@ -51,12 +52,20 @@ const StoreCardContainer = ({ store }: any) => {
           content: `근무지를 삭제 할 경우${`\n`}일부 데이터가 유실됩니다.`,
           buttons: {
             취소: () => dispatch(closeModal()),
-            삭제: () => mutate({ storeId: id }, { onSuccess: () => dispatch(closeModal()) })
+            삭제: () =>
+              mutate(
+                { storeId: id },
+                {
+                  onSuccess: () => {
+                    dispatch(closeModal());
+                    dispatch(openToast({ message: '되라' }));
+                  }
+                }
+              )
           }
         }
       })
     );
-    // mutate({ storeId: id });
   };
 
   return (
