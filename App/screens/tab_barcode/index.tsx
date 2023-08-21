@@ -1,10 +1,11 @@
 import { Image, StyleSheet, Text, View, Pressable } from 'react-native';
-import React from 'react';
+import React, { useMemo } from 'react';
 import themeChange from '../../util/theme';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScreenTitle } from '../../common-components/Title';
 import SvgIcon from '../../common-components/SvgIcon';
 import { NavigationScreenProps } from '../../type';
+import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 
 const BarcodeTabScreen = ({ navigation }: NavigationScreenProps) => {
   const themeMode = themeChange();
@@ -12,9 +13,11 @@ const BarcodeTabScreen = ({ navigation }: NavigationScreenProps) => {
   const onQrButtonPress = () => {
     navigation.navigate('attendanceScreen');
   };
+
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: themeMode.primary }]}>
       <ScreenTitle title={`매장에 비치된${`\n`}QR 코드를 찍어주세요.`} />
+
       <View style={styles.btnLayout}>
         <Pressable
           onPress={onQrButtonPress}

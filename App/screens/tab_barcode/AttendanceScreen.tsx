@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import themeChange from '../../util/theme';
 import firestore from '@react-native-firebase/firestore';
 import format from 'date-fns/format';
@@ -15,6 +15,7 @@ import { useMyStoreList } from '../../api/store/hooks/useMyStoreList';
 import { useDispatch } from 'react-redux';
 import { openModal, closeModal } from '../../state/slice/modal';
 import { NavigationScreenProps } from '../../type';
+import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 
 const AttendanceScreen = ({ navigation }: NavigationScreenProps) => {
   const themeMode = themeChange();
@@ -79,37 +80,52 @@ const AttendanceScreen = ({ navigation }: NavigationScreenProps) => {
     );
   };
 
-  return (
-    <SafeAreaView
-      edges={['bottom']}
-      style={[styles.container, { backgroundColor: themeMode.primary }]}
-    >
-      <ScannerHeader />
-      <View style={styles.qrMarkerWrapper}>
-        <QRCodeScanner onRead={scanerHandler} cameraStyle={{ height: '100%', flex: 1 }} />
-        <ScannerMarker />
-      </View>
-      <View style={styles.storeInfo}>
-        <Text style={[styles.storeName, { color: themeMode.tint }]}>
-          {storeName ? storeName : '매장 정보 없음'}
-        </Text>
-      </View>
+  const panGesture = useMemo(
+    () =>
+      Gesture.Pan()
+        .runOnJS(true)
+        .onEnd(event => {
+          const translationY = event.translationY;
+          if (translationY > 20) {
+            navigation.goBack();
+          }
+        }),
+    []
+  );
 
-      <View style={styles.btnWrapper}>
-        <Pressable
-          style={[styles.attendanceBtn, { backgroundColor: themeMode.secondary }]}
-          onPress={() => attendanceOnPress('start')}
-        >
-          <Text style={[styles.btnText, { color: themeMode.tint }]}>출근</Text>
-        </Pressable>
-        <Pressable
-          style={[styles.attendanceBtn, { backgroundColor: themeMode.secondary }]}
-          onPress={() => attendanceOnPress('end')}
-        >
-          <Text style={[styles.btnText, { color: themeMode.tint }]}>퇴근</Text>
-        </Pressable>
-      </View>
-    </SafeAreaView>
+  return (
+    <GestureDetector gesture={panGesture}>
+      <SafeAreaView
+        edges={['bottom']}
+        style={[styles.container, { backgroundColor: themeMode.primary }]}
+      >
+        <ScannerHeader />
+        <View style={styles.qrMarkerWrapper}>
+          <QRCodeScanner onRead={scanerHandler} cameraStyle={{ height: '100%', flex: 1 }} />
+          <ScannerMarker />
+        </View>
+        <View style={styles.storeInfo}>
+          <Text style={[styles.storeName, { color: themeMode.tint }]}>
+            {storeName ? storeName : '매장 정보 없음'}
+          </Text>
+        </View>
+
+        <View style={styles.btnWrapper}>
+          <Pressable
+            style={[styles.attendanceBtn, { backgroundColor: themeMode.secondary }]}
+            onPress={() => attendanceOnPress('start')}
+          >
+            <Text style={[styles.btnText, { color: themeMode.tint }]}>출근</Text>
+          </Pressable>
+          <Pressable
+            style={[styles.attendanceBtn, { backgroundColor: themeMode.secondary }]}
+            onPress={() => attendanceOnPress('end')}
+          >
+            <Text style={[styles.btnText, { color: themeMode.tint }]}>퇴근</Text>
+          </Pressable>
+        </View>
+      </SafeAreaView>
+    </GestureDetector>
   );
 };
 
