@@ -1,21 +1,28 @@
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
 import React from 'react';
 import { SmallTitle } from '../../../common-components/Title';
 import themeChange from '../../../util/theme';
 import SvgIcon from '../../../common-components/SvgIcon';
 import format from 'date-fns/format';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../../../type';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import RequestDetailCard from './RequestDetailCard';
 import { useGetPersonalWorkHistoryEditList } from '../../../api/store/hooks/useGetPersonalWorkHistoryEditList';
 
 const Request = () => {
   const themeMode = themeChange();
-  const today = format(new Date(), 'yyyy-MM-dd');
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  const today = format(new Date(), 'yyyy-MM');
   const { data } = useGetPersonalWorkHistoryEditList();
 
-  const filterTodayData = data?.filter(
-    item => format(item.createAt.toDate(), 'yyyy-MM-dd') === today
-  );
+  const filterTodayData = data?.filter(item => format(item.createAt.toDate(), 'yyyy-MM') === today);
+
+  const goToList = () => {
+    navigation.navigate('timeEdittingListScreen', { data });
+  };
 
   return (
     <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
@@ -33,9 +40,9 @@ const Request = () => {
             </Text>
           </View>
         </View>
-        <View style={styles.btnWrapper}>
+        <Pressable style={styles.btnWrapper} onPress={goToList} hitSlop={70}>
           <SvgIcon name="arrow_right" color={themeMode.pressIcon} />
-        </View>
+        </Pressable>
       </View>
 
       <View style={styles.cardsContainer}>

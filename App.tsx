@@ -30,6 +30,7 @@ import AttendanceScreen from './App/screens/tab_barcode/AttendanceScreen';
 import { RootStackParamList } from './App/type';
 import ShareListScreen from './App/screens/tab_share/ShareListScreen';
 import ShakeDetector from './App/common-components/ShakeDetector';
+import TimeEdittingListScreen from './App/screens/tab_setting/TimeEdittingListScreen';
 
 import Loader from './App/common-components/Loader';
 
@@ -103,6 +104,7 @@ export default function App() {
                 <Stack.Screen name="shareEditScreen" component={ShareEditScreen} />
                 <Stack.Screen name="shareListScreen" component={ShareListScreen} />
                 <Stack.Screen name="myInfoModifyScreen" component={MyInfoModifyScreen} />
+                <Stack.Screen name="timeEdittingListScreen" component={TimeEdittingListScreen} />
               </Stack.Navigator>
               <GlobalToast />
             </GestureHandlerRootView>

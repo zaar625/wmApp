@@ -23,6 +23,7 @@ export type RootStackParamList = {
   shareEditScreen: { data: any };
   shareListScreen: undefined;
   myInfoModifyScreen: { header: string };
+  timeEdittingListScreen: { data: any };
 };
 
 export type NavigationScreenProps = NativeStackScreenProps<RootStackParamList>;
