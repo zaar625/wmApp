@@ -27,14 +27,13 @@ const Request = () => {
             resizeMode="contain"
           />
           <View>
-            <SmallTitle title="수정요청 건" style={{ marginBottom: 5 }} />
+            <SmallTitle title="근태 수정" style={{ marginBottom: 5 }} />
             <Text style={[styles.subDesc, { color: themeMode.subTint }]}>
               해당 월에 대한 요청 건만 보여드려요.
             </Text>
           </View>
         </View>
         <View style={styles.btnWrapper}>
-          <Text style={[styles.btnText, { color: themeMode.pressIcon }]}>더보기</Text>
           <SvgIcon name="arrow_right" color={themeMode.pressIcon} />
         </View>
       </View>

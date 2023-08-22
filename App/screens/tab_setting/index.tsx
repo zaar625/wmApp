@@ -8,6 +8,7 @@ import { ScreenTitle } from '../../common-components/Title';
 import Notification from './components/Notification';
 import ThemeSetting from './components/ThemeSetting';
 import Terms from './components/Terms';
+import MyWorkingLog from './components/MyWorkingLog';
 
 const SettingTabScreen = () => {
   const themeMode = themeChange();
@@ -21,6 +22,7 @@ const SettingTabScreen = () => {
         <ScreenTitle title={`앱과 내 정보를${`\n`}나에게 맞춰보세요.`} />
         <UserInfo />
         <Request />
+        <MyWorkingLog />
         <Notification />
         <ThemeSetting />
         <Terms />

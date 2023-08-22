@@ -39,7 +39,7 @@ const WorkingCard = ({ item, length }: { item: TWorkData; length: number | undef
             style={styles.image}
             resizeMode="contain"
           />
-          <Text style={[styles.storeName, { color: themeMode.tint }]}>카페이루</Text>
+          <Text style={[styles.storeName, { color: themeMode.tint }]}>{item.storeInfo.name}</Text>
         </View>
         <Pressable style={styles.requireBtn} onPress={modifyRequestOnPress}>
           <Text style={[{ color: themeMode.pressIcon }, styles.btnText]}>출퇴근 수정 요청</Text>
