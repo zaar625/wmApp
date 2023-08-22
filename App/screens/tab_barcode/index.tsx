@@ -1,18 +1,43 @@
 import { Image, StyleSheet, Text, View, Pressable } from 'react-native';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import themeChange from '../../util/theme';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScreenTitle } from '../../common-components/Title';
 import SvgIcon from '../../common-components/SvgIcon';
 import { NavigationScreenProps } from '../../type';
-import { GestureDetector, Gesture } from 'react-native-gesture-handler';
+import NetInfo from '@react-native-community/netinfo';
+import { check, PERMISSIONS, RESULTS, request } from 'react-native-permissions';
+import WifiManager from 'react-native-wifi-reborn';
 
 const BarcodeTabScreen = ({ navigation }: NavigationScreenProps) => {
   const themeMode = themeChange();
 
-  const onQrButtonPress = () => {
+  const onQrButtonPress = async () => {
+    const result = await request(PERMISSIONS.IOS.LOCATION_ALWAYS);
+    console.log(result);
+
+    WifiManager.getCurrentWifiSSID().then(
+      ssid => {
+        console.log('Your current connected wifi SSID is ' + ssid);
+      },
+      () => {
+        console.log('Cannot get current SSID!');
+      }
+    );
     navigation.navigate('attendanceScreen');
   };
+
+  // request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE).then(result =>
+  //   NetInfo.fetch().then(state => {
+  //     if (state.isConnected && state.type === 'wifi') {
+  //       console.log('Connected Wi-Fi SSID:', state.details.ssid);
+  //     } else {
+  //       console.log('Not connected to Wi-Fi.');
+  //     }
+  //   })
+  // );
+
+  // Unsubscribe
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: themeMode.primary }]}>

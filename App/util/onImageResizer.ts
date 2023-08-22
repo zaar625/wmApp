@@ -3,7 +3,7 @@ import ImageResizer from '@bam.tech/react-native-image-resizer';
 import type { ResizeMode, Response } from '@bam.tech/react-native-image-resizer';
 
 export const onImageResizer = async (imagesData: Asset[]) => {
-  if (!imagesData) return;
+  if (!imagesData) return [];
   const resizeImagesData = [];
 
   for (const image of imagesData) {
