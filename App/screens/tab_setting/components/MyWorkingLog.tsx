@@ -1,11 +1,30 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import themeChange from '../../../util/theme';
 import { SmallTitle } from '../../../common-components/Title';
 import SvgIcon from '../../../common-components/SvgIcon';
+import { useDispatch } from 'react-redux';
+import { openModal, closeModal } from '../../../state/slice/modal';
 
 const MyWorkingLog = () => {
   const themeMode = themeChange();
+  const dispatch = useDispatch();
+
+  const onPress = () => {
+    dispatch(
+      openModal({
+        modalType: 'OneBtnModal',
+        isOpen: true,
+        contents: {
+          title: '앗!, 서비스 준비중입니다.',
+          content: `유용한 정보를 제공하기 위해 준비 중입니다.${`\n`}조금만 기다려 주세요.`,
+          onPress() {
+            dispatch(closeModal());
+          }
+        }
+      })
+    );
+  };
   return (
     <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
       <View style={styles.headerTitle}>
@@ -18,7 +37,9 @@ const MyWorkingLog = () => {
             </Text>
           </View>
         </View>
-        <SvgIcon name="arrow_right" color={themeMode.pressIcon} />
+        <Pressable hitSlop={50} onPress={onPress}>
+          <SvgIcon name="arrow_right" color={themeMode.pressIcon} />
+        </Pressable>
       </View>
     </View>
   );

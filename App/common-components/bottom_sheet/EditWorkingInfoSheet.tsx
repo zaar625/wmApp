@@ -26,6 +26,7 @@ const EditWorkingInfoSheet = ({ data }: any) => {
 
       <View style={[styles.cardContainer]}>
         <View>
+          {/* 수정 후 */}
           <Text style={[styles.bold, { color: '#00B712' }]}>수정 후</Text>
           <View
             style={{
@@ -60,13 +61,56 @@ const EditWorkingInfoSheet = ({ data }: any) => {
               </Text>
             </View>
           </View>
+
+          {/* 수정 전 */}
+          <Text style={[styles.bold, { color: '#C65252' }]}>수정 전</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginBottom: 20
+            }}
+          >
+            <View style={styles.iconWrapper}>
+              <SvgIcon
+                name="calendar"
+                color={themeMode.subTint}
+                width={20}
+                height={20}
+                style={styles.icon}
+              />
+              <Text style={[{ color: themeMode.subTint }]}>
+                {format(before.date.toDate(), 'yyyy년 MM월 dd일')}
+              </Text>
+            </View>
+            <View style={styles.iconWrapper}>
+              <SvgIcon
+                name="clock_line"
+                color={themeMode.subTint}
+                width={16}
+                height={16}
+                style={styles.icon}
+              />
+              <Text style={[{ color: themeMode.subTint }]}>
+                {format(before.start.toDate(), 'HH시 mm분')} ~{' '}
+                {format(before.end.toDate(), 'HH시 mm분')}
+              </Text>
+            </View>
+          </View>
         </View>
         {/* 사유 */}
 
         <Text style={{ color: themeMode.tint }}>{data.reason}</Text>
       </View>
 
-      <Pressable>
+      <Pressable
+        style={{
+          alignSelf: 'flex-end',
+          padding: 10,
+          marginBottom: 20,
+          marginRight: 10
+        }}
+      >
         <Text style={[styles.cancelBtn, { color: themeMode.subTint }]}>요청취소</Text>
       </Pressable>
       <NomalButton name="확인" onPress={() => dispatch(closeBottomSheet())} />
@@ -123,9 +167,7 @@ const styles = StyleSheet.create({
   cancelBtn: {
     textDecorationLine: 'underline',
     fontWeight: '600',
-    textAlign: 'right',
-    marginRight: 20,
-    marginBottom: 20,
+
     fontSize: 12
   }
 });

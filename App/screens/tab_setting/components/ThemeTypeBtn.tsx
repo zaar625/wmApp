@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable } from 'react-native';
+import { StyleSheet, Text, Pressable } from 'react-native';
 import themeChange from '../../../util/theme';
 import Animated, {
   useSharedValue,
@@ -57,7 +57,6 @@ const ThemeTypeBtn = ({ themeType, index, themeTypeOnPress }: TProps) => {
         scaleAni.value = 1;
         backgound.value = themeMode.secondary;
       }}
-      delayLongPress={100}
     >
       <Animated.View style={[styles.themeBtnWrapper, animatedStyles]}>
         <Text style={[styles.themeText, { color: themeMode.tint }]}>{themeType.name}</Text>

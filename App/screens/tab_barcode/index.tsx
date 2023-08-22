@@ -13,31 +13,8 @@ const BarcodeTabScreen = ({ navigation }: NavigationScreenProps) => {
   const themeMode = themeChange();
 
   const onQrButtonPress = async () => {
-    const result = await request(PERMISSIONS.IOS.LOCATION_ALWAYS);
-    console.log(result);
-
-    WifiManager.getCurrentWifiSSID().then(
-      ssid => {
-        console.log('Your current connected wifi SSID is ' + ssid);
-      },
-      () => {
-        console.log('Cannot get current SSID!');
-      }
-    );
     navigation.navigate('attendanceScreen');
   };
-
-  // request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE).then(result =>
-  //   NetInfo.fetch().then(state => {
-  //     if (state.isConnected && state.type === 'wifi') {
-  //       console.log('Connected Wi-Fi SSID:', state.details.ssid);
-  //     } else {
-  //       console.log('Not connected to Wi-Fi.');
-  //     }
-  //   })
-  // );
-
-  // Unsubscribe
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: themeMode.primary }]}>

@@ -35,6 +35,19 @@ const AttendanceScreen = ({ navigation }: NavigationScreenProps) => {
 
     if (findStore) {
       return setStoreInfo(findStore);
+    } else {
+      dispatch(
+        openModal({
+          modalType: 'OneBtnModal',
+          contents: {
+            title: `매장 정보가 없습니다.`,
+            content: `근무지에 매장 등록이 되었는지 ${`\n`}또는 ${`\n`}QR 코드가 유효한지 확인해주세요.`,
+            onPress() {
+              navigation.goBack();
+            }
+          }
+        })
+      );
     }
 
     return setStoreInfo(null);
@@ -111,7 +124,7 @@ const AttendanceScreen = ({ navigation }: NavigationScreenProps) => {
         </View>
         <View style={styles.storeInfo}>
           <Text style={[styles.storeName, { color: themeMode.tint }]}>
-            {storeInfo ? storeInfo.name : '매장 정보 없음'}
+            {storeInfo ? storeInfo.name : null}
           </Text>
         </View>
 
