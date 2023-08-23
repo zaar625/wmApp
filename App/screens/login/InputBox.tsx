@@ -23,7 +23,7 @@ interface Props {
   eyeIconVisible: boolean;
   closeIconVisible: boolean;
   keyboardType?: KeyboardTypeOptions;
-  ?: (e: NativeSyntheticEvent<TextInputEndEditingEventData>) => void;
+  onEndEditing?: (e: NativeSyntheticEvent<TextInputEndEditingEventData>) => void;
   onSelectionChange?: (e: NativeSyntheticEvent<TextInputSelectionChangeEventData>) => void;
   errorType?: { errType: any; handler: React.Dispatch<React.SetStateAction<any>> };
 }

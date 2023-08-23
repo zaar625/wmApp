@@ -9,7 +9,6 @@ import PayRoll from './components/PayRoll';
 import { ScreenTitle } from '../../common-components/Title';
 import WorkingStore from './components/WorkingStore';
 import { useQueryClient } from '@tanstack/react-query';
-import Loader from '../../common-components/Loader';
 
 const StoreTabScreen = () => {
   const { theme } = useContext(ThemeContext);
@@ -21,7 +20,7 @@ const StoreTabScreen = () => {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
 
-    queryClient.refetchQueries({ queryKey: ['myStoreList', 'work-date'] });
+    queryClient.refetchQueries({ queryKey: ['myStoreList'] });
 
     setTimeout(() => {
       setRefreshing(false);
@@ -44,7 +43,6 @@ const StoreTabScreen = () => {
           <PayRoll />
         </ScrollView>
       </SafeAreaView>
-      <Loader />
     </>
   );
 };

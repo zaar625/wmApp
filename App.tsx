@@ -6,6 +6,8 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { store } from './App/state/store';
 import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import auth from '@react-native-firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import OnboardingPage from './App/screens/onboarding';
 import CategorySelectPage from './App/screens/select_category';
@@ -20,7 +22,6 @@ import GlobalToast from './App/common-components/GlobalToast';
 
 import WriteScreenStep1 from './App/screens/tab_share/WriteScreenStep1';
 import WriteScreenStep2 from './App/screens/tab_share/WriteScreenStep2';
-import WriteScreen from './App/screens/tab_share/WriteScreenStep2';
 import ImagePickScreen from './App/screens/tab_share/ImagePickScreen';
 import ShareDetailScreen from './App/screens/tab_share/ShareDetailScreen';
 import ShareEditScreen from './App/screens/tab_share/ShareEditScreen';
@@ -32,8 +33,6 @@ import ShareListScreen from './App/screens/tab_share/ShareListScreen';
 import ShakeDetector from './App/common-components/ShakeDetector';
 import TimeEdittingListScreen from './App/screens/tab_setting/TimeEdittingListScreen';
 import ThemeListScreen from './App/screens/tab_setting/ThemeListScreen';
-
-import Loader from './App/common-components/Loader';
 
 import { ThemeContext } from './App/theme/themeContext';
 import { TThemeMode } from './App/theme/themeContext';
@@ -67,6 +66,23 @@ export default function App() {
     }
   };
 
+  // Set an initializing state whilst Firebase connects
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
+
+  // Handle user state changes
+  function onAuthStateChanged(user) {
+    setUser(user);
+    if (initializing) setInitializing(false);
+  }
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  if (initializing) return null;
+
   return (
     <Provider store={store}>
       <ThemeContext.Provider value={{ theme, updateTheme }}>
@@ -77,11 +93,11 @@ export default function App() {
               <GlobalBottomSheet />
 
               <Stack.Navigator screenOptions={{ headerShown: false }}>
-                {/* <Stack.Screen name="onBoardingPage" component={OnboardingPage} />
+                <Stack.Screen name="onBoardingPage" component={OnboardingPage} />
                 <Stack.Screen name="categorySelectPage" component={CategorySelectPage} />
                 <Stack.Screen name="employeeLoginPage" component={EmployeeLoginPage} />
                 <Stack.Screen name="singInStep01Page" component={SignInStep01Page} />
-                <Stack.Screen name="signInStep02Page" component={SignInStep02Page} /> */}
+                <Stack.Screen name="signInStep02Page" component={SignInStep02Page} />
                 <Stack.Screen name="bottomTab" component={BottomTab} />
                 <Stack.Screen
                   name="scannerScreen"

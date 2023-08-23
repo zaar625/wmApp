@@ -22,7 +22,7 @@ const Loader = () => {
             source={require('../assets/loader.json')}
             autoPlay
             loop
-            style={{ width: deviceWidth * 0.5, height: deviceheight }}
+            style={{ width: 30, height: 30 }}
           />
         </View>
       )}

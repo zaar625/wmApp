@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 
 async function fetchStoreList() {
+  console.log('리패치');
   const users = firestore().collection('users');
   const storeList: FirebaseFirestoreTypes.DocumentData[] = [];
 
