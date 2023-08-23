@@ -1,13 +1,10 @@
-import { StyleSheet, Text, Pressable } from 'react-native';
+import { StyleSheet, Text, Pressable, View, Image } from 'react-native';
 import themeChange from '../../../util/theme';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-  Easing
-} from 'react-native-reanimated';
-import React, { useEffect } from 'react';
+
+import React from 'react';
+import { imagePath } from '../../../assets/img/imagePath';
 import SvgIcon from '../../../common-components/SvgIcon';
+import { he } from 'date-fns/locale';
 
 type TThemeType = {
   name: string;
@@ -23,45 +20,18 @@ type TProps = {
 
 const ThemeTypeBtn = ({ themeType, index, themeTypeOnPress }: TProps) => {
   const themeMode = themeChange();
-  const scaleAni = useSharedValue(1);
-  const backgound = useSharedValue(themeMode.secondary);
-
-  useEffect(() => {
-    //테마변경이 될 때마다 기본값 변경해줘야합니다.
-    backgound.value = themeMode.secondary;
-  }, [themeMode]);
-
-  const animatedStyles = useAnimatedStyle(() => {
-    return {
-      backgroundColor: backgound.value,
-      transform: [
-        {
-          scale: withTiming(scaleAni.value, {
-            duration: 200,
-            easing: Easing.bezier(0.25, 0.1, 0.25, 1)
-          })
-        }
-      ]
-    };
-  }, []);
 
   return (
-    <Pressable
-      hitSlop={10}
-      onPressIn={() => {
-        scaleAni.value = 0.95;
-        backgound.value = themeMode.card;
-      }}
-      onPressOut={() => {
-        themeTypeOnPress(index, themeType.mode);
-        scaleAni.value = 1;
-        backgound.value = themeMode.secondary;
-      }}
-    >
-      <Animated.View style={[styles.themeBtnWrapper, animatedStyles]}>
-        <Text style={[styles.themeText, { color: themeMode.tint }]}>{themeType.name}</Text>
-        {themeType.state && <SvgIcon name="check" color={themeMode.pressIcon} />}
-      </Animated.View>
+    <Pressable hitSlop={10} onPress={() => themeTypeOnPress(index, themeType.mode)}>
+      <View style={styles.container}>
+        <Image source={imagePath[themeType.mode]} style={{ width: 50, height: 50 }} />
+        <View style={[styles.themeBtnWrapper]}>
+          <Text style={[styles.themeText, { color: themeMode.tint }]}>{themeType.name}</Text>
+          {themeType.state && (
+            <SvgIcon name="check" color={themeMode.pressIcon} width={15} height={15} />
+          )}
+        </View>
+      </View>
     </Pressable>
   );
 };
@@ -69,16 +39,21 @@ const ThemeTypeBtn = ({ themeType, index, themeTypeOnPress }: TProps) => {
 export default ThemeTypeBtn;
 
 const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    paddingVertical: 15,
+    paddingHorizontal: 10
+  },
   themeBtnWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
+    paddingHorizontal: 10,
     justifyContent: 'space-between',
     paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 10
+    borderRadius: 10,
+    flex: 1
   },
   themeText: {
-    fontSize: 14,
-    fontWeight: '500'
+    fontWeight: '600'
   }
 });

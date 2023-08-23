@@ -31,6 +31,7 @@ import { RootStackParamList } from './App/type';
 import ShareListScreen from './App/screens/tab_share/ShareListScreen';
 import ShakeDetector from './App/common-components/ShakeDetector';
 import TimeEdittingListScreen from './App/screens/tab_setting/TimeEdittingListScreen';
+import ThemeListScreen from './App/screens/tab_setting/ThemeListScreen';
 
 import Loader from './App/common-components/Loader';
 
@@ -105,6 +106,7 @@ export default function App() {
                 <Stack.Screen name="shareListScreen" component={ShareListScreen} />
                 <Stack.Screen name="myInfoModifyScreen" component={MyInfoModifyScreen} />
                 <Stack.Screen name="timeEdittingListScreen" component={TimeEdittingListScreen} />
+                <Stack.Screen name="themeListScreen" component={ThemeListScreen} />
               </Stack.Navigator>
               <GlobalToast />
             </GestureHandlerRootView>

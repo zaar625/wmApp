@@ -1,4 +1,4 @@
-import { Image, StyleSheet, View, Text } from 'react-native';
+import { Image, StyleSheet, View, Text, Pressable } from 'react-native';
 import React, { useState } from 'react';
 import { SemiTitle, SmallTitle } from '../../../common-components/Title';
 import { useContext } from 'react';
@@ -7,10 +7,14 @@ import ThemeTypeBtn from './ThemeTypeBtn';
 import { useColorScheme } from 'react-native';
 
 import themeChange from '../../../util/theme';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../../../type';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const ThemeSetting = () => {
   const themeMode = themeChange();
   const scheme = useColorScheme();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const themeTypes = [
     {
@@ -47,7 +51,10 @@ const ThemeSetting = () => {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
+    <Pressable
+      style={[styles.container, { backgroundColor: themeMode.secondary }]}
+      onPress={() => navigation.navigate('themeListScreen')}
+    >
       <View style={styles.header}>
         <Image source={require('../../../assets/img/palette.png')} style={styles.image} />
         <View>
@@ -57,17 +64,7 @@ const ThemeSetting = () => {
           </Text>
         </View>
       </View>
-      <View>
-        {themeType.map((themeType, index) => (
-          <ThemeTypeBtn
-            key={index}
-            themeType={themeType}
-            index={index}
-            themeTypeOnPress={themeTypeOnPress}
-          />
-        ))}
-      </View>
-    </View>
+    </Pressable>
   );
 };
 
