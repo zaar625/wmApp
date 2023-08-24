@@ -5,32 +5,23 @@ import React from 'react';
 import { imagePath } from '../../../assets/img/imagePath';
 import SvgIcon from '../../../common-components/SvgIcon';
 
-type TThemeType = {
-  name: string;
-  state: boolean;
-  mode: string;
-};
-
 type TProps = {
-  themeType: TThemeType;
-  index: number;
-  themeTypeOnPress: (index: number, mode: string) => void;
+  label: string;
+  img: string;
+  isActive: boolean;
+  onPress: () => void;
 };
 
-const ThemeTypeBtn = ({ themeType, index, themeTypeOnPress }: TProps) => {
+const ThemeTypeBtn = ({ label, img, onPress, isActive }: TProps) => {
   const themeMode = themeChange();
-  console.log(themeType);
 
-  const isActive = themeType.mode;
   return (
-    <Pressable hitSlop={10} onPress={() => themeTypeOnPress(index, themeType.mode)}>
+    <Pressable hitSlop={10} onPress={onPress}>
       <View style={styles.container}>
-        <Image source={imagePath[themeType.mode]} style={{ width: 50, height: 50 }} />
+        <Image source={imagePath[img]} style={{ width: 50, height: 50 }} />
         <View style={[styles.themeBtnWrapper]}>
-          <Text style={[styles.themeText, { color: themeMode.tint }]}>{themeType.name}</Text>
-          {themeType.state && (
-            <SvgIcon name="check" color={themeMode.pressIcon} width={15} height={15} />
-          )}
+          <Text style={[styles.themeText, { color: themeMode.tint }]}>{label}</Text>
+          {isActive && <SvgIcon name="check" color={themeMode.pressIcon} width={15} height={15} />}
         </View>
       </View>
     </Pressable>

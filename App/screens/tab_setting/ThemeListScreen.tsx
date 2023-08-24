@@ -19,24 +19,6 @@ const ThemeListScreen = () => {
   const { updateTheme, theme } = useContext(ThemeContext);
   const backgroundColorValue = useSharedValue(0); // 0: dark, 1: light
 
-  const baseThemeTypes = [
-    {
-      name: '밝은 화면',
-      state: false,
-      mode: 'light'
-    },
-    {
-      name: '어두운 화면',
-      state: false,
-      mode: 'dark'
-    },
-    {
-      name: '시스템 설정과 같이',
-      state: true,
-      mode: 'system'
-    }
-  ];
-
   const changeBackgroundColor = (type: string) => {
     updateTheme({ mode: type });
     backgroundColorValue.value = backgroundColorValue.value === 0 ? 1 : 0;
@@ -57,35 +39,35 @@ const ThemeListScreen = () => {
     };
   });
 
-  const [themeType, setThemeType] = useState(baseThemeTypes);
-
-  const themeTypeOnPress = (typeIndex: number, mode: string) => {
-    const changeThemeTypes = themeType.map((type, index) => {
-      if (index === typeIndex) {
-        return { ...type, state: true };
-      } else {
-        return { ...type, state: false };
-      }
-    });
-
-    setThemeType(changeThemeTypes);
+  const themeTypeOnPress = (mode: string) => {
     updateTheme({ mode });
     changeBackgroundColor(mode);
   };
+  console.log(theme);
 
   return (
     <Animated.View style={[styles.container, animatedBackgroundColor]}>
       <SafeAreaView>
         <NavigationHeader header="화면 색상 모드" />
         <View>
-          {themeType.map((themeType, index) => (
-            <ThemeTypeBtn
-              key={index}
-              themeType={themeType}
-              index={index}
-              themeTypeOnPress={themeTypeOnPress}
-            />
-          ))}
+          <ThemeTypeBtn
+            label="밝은 화면"
+            img="light"
+            onPress={() => themeTypeOnPress('light')}
+            isActive={theme.mode === 'light' && !theme.system}
+          />
+          <ThemeTypeBtn
+            label="어두운 화면"
+            img="dark"
+            onPress={() => themeTypeOnPress('dark')}
+            isActive={theme.mode === 'dark'}
+          />
+          <ThemeTypeBtn
+            label="시스셈 설정과 같이"
+            img="dark"
+            onPress={() => themeTypeOnPress('system')}
+            isActive={theme.system}
+          />
         </View>
         <View style={{ paddingHorizontal: 20 }}>
           <Text style={{ color: themeMode.subTint }}>
