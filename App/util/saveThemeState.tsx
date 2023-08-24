@@ -14,7 +14,6 @@ export const setThemeMode = async (value: string) => {
 export const getThemeMode = async () => {
   try {
     const value = await AsyncStorage.getItem('theme');
-    console.log(value);
 
     if (value === 'system') {
       const colorScheme = Appearance.getColorScheme();

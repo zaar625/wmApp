@@ -2,7 +2,8 @@ import { createContext } from 'react';
 import { ColorSchemeName } from 'react-native';
 
 export type TThemeMode = {
-  mode: ColorSchemeName;
+  mode: ColorSchemeName | string;
+  system: boolean;
 };
 
 type TTheme = {
@@ -11,6 +12,6 @@ type TTheme = {
 };
 
 export const ThemeContext = createContext<TTheme>({
-  theme: { mode: 'dark' },
+  theme: { mode: 'dark', system: false },
   updateTheme: Function
 });

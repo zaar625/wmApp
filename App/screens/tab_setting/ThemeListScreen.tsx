@@ -19,7 +19,7 @@ const ThemeListScreen = () => {
   const { updateTheme, theme } = useContext(ThemeContext);
   const backgroundColorValue = useSharedValue(0); // 0: dark, 1: light
 
-  const themeTypes = [
+  const baseThemeTypes = [
     {
       name: '밝은 화면',
       state: false,
@@ -27,13 +27,13 @@ const ThemeListScreen = () => {
     },
     {
       name: '어두운 화면',
-      state: true,
+      state: false,
       mode: 'dark'
     },
     {
       name: '시스템 설정과 같이',
-      state: false,
-      mode: 'dark'
+      state: true,
+      mode: 'system'
     }
   ];
 
@@ -57,7 +57,7 @@ const ThemeListScreen = () => {
     };
   });
 
-  const [themeType, setThemeType] = useState(themeTypes);
+  const [themeType, setThemeType] = useState(baseThemeTypes);
 
   const themeTypeOnPress = (typeIndex: number, mode: string) => {
     const changeThemeTypes = themeType.map((type, index) => {

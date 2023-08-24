@@ -4,7 +4,6 @@ import themeChange from '../../../util/theme';
 import React from 'react';
 import { imagePath } from '../../../assets/img/imagePath';
 import SvgIcon from '../../../common-components/SvgIcon';
-import { he } from 'date-fns/locale';
 
 type TThemeType = {
   name: string;
@@ -20,7 +19,9 @@ type TProps = {
 
 const ThemeTypeBtn = ({ themeType, index, themeTypeOnPress }: TProps) => {
   const themeMode = themeChange();
+  console.log(themeType);
 
+  const isActive = themeType.mode;
   return (
     <Pressable hitSlop={10} onPress={() => themeTypeOnPress(index, themeType.mode)}>
       <View style={styles.container}>

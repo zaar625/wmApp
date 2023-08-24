@@ -7,7 +7,7 @@ import { store } from './App/state/store';
 import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import auth from '@react-native-firebase/auth';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getStorageTheme, setStorageTheme } from './App/util/storageTheme';
 
 import OnboardingPage from './App/screens/onboarding';
 import CategorySelectPage from './App/screens/select_category';
@@ -38,32 +38,41 @@ import { ThemeContext } from './App/theme/themeContext';
 import { TThemeMode } from './App/theme/themeContext';
 
 export default function App() {
-  const [theme, setTheme] = useState<TThemeMode>({ mode: 'dark' });
+  const [theme, setTheme] = useState<TThemeMode>({ mode: 'dark', system: false });
   const Stack = createStackNavigator<RootStackParamList>();
   const queryClient = new QueryClient();
-  const currentUser = auth().currentUser;
 
-  useEffect(() => {
-    Appearance.addChangeListener(({ colorScheme }) => {
-      setTheme({ mode: colorScheme });
-    });
-
-    return () => {
-      Appearance.addChangeListener(({ colorScheme }) => {
-        setTheme({ mode: colorScheme });
-      });
-    };
-  }, []);
-
-  /**
-   * newTheme : 라이트, 다크, 시스템모드
-   * 형태 : {mode : string}
-   */
   const updateTheme = (newTheme: any) => {
     if (newTheme !== 'system') {
-      setTheme(newTheme);
+      setTheme({ ...newTheme, system: false });
+      setStorageTheme({ ...newTheme, system: false });
+    }
+
+    if (newTheme.mode === 'system') {
+      const colorScheme = Appearance.getColorScheme();
+      setTheme({ mode: colorScheme, system: true });
+      setStorageTheme({ mode: colorScheme, system: true });
     }
   };
+
+  if (theme.system) {
+    Appearance.addChangeListener(({ colorScheme }) => {
+      updateTheme({ mode: colorScheme, system: true });
+      setStorageTheme({ mode: colorScheme, system: true });
+    });
+  }
+
+  const getThemeStorage = async () => {
+    const storageTheme = await getStorageTheme();
+
+    if (storageTheme) {
+      setTheme(storageTheme);
+    }
+  };
+
+  useEffect(() => {
+    getThemeStorage();
+  }, []);
 
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
