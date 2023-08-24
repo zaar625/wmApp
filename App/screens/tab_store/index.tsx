@@ -9,7 +9,7 @@ import PayRoll from './components/PayRoll';
 import { ScreenTitle } from '../../common-components/Title';
 import WorkingStore from './components/WorkingStore';
 import { useQueryClient } from '@tanstack/react-query';
-import { getUserData } from '../../util/getUserData';
+
 import auth from '@react-native-firebase/auth';
 
 const StoreTabScreen = () => {

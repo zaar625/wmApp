@@ -16,7 +16,6 @@ import { ScreenTitle } from '../../../common-components/Title';
 import InputBox from '../InputBox';
 import Button from '../../../common-components/buttons/Button';
 import themeChange from '../../../util/theme';
-import { setUserData } from '../../../util/setUserData';
 
 export default function EmployeeLoginPage({ navigation }: NavigationScreenProps) {
   const themeMode = themeChange();
@@ -59,7 +58,7 @@ export default function EmployeeLoginPage({ navigation }: NavigationScreenProps)
     try {
       const { user } = await signIn(loginform);
       if (user) {
-        setUserData(user.uid).then(() => navigation.navigate('bottomTab'));
+        () => navigation.navigate('bottomTab');
       }
     } catch (error) {
       errorHandler(error);
