@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import { openModal, closeModal } from '../../../state/slice/modal';
 import { openToast } from '../../../state/slice/toast';
 
-const WorkingStore = () => {
+const WorkingStore = ({ name }: { name: string | null | undefined }) => {
   const themeMode = themeChange();
 
   const { data: stores = [] } = useMyStoreList();
@@ -26,7 +26,7 @@ const WorkingStore = () => {
           resizeMode="contain"
         />
         <Text style={{ color: themeMode.subTint, fontSize: 12 }}>
-          이상윤님이 근무중인 매장입니다.
+          {name}님이 근무중인 매장입니다.
         </Text>
       </View>
       {stores.length > 0 ? (

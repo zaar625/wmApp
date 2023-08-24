@@ -2,7 +2,6 @@ import firestore from '@react-native-firebase/firestore';
 import format from 'date-fns/format';
 import { useMutation } from '@tanstack/react-query';
 import uuid from 'react-native-uuid';
-import { TStoreInfo } from '../../../type';
 
 const workHourCollection = firestore()
   .collection('users')

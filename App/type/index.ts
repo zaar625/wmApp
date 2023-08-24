@@ -34,10 +34,3 @@ export type TStoreInfo = {
   name: string;
   id: string;
 };
-
-export interface IUserInfo {
-  name: string;
-  phone: string;
-  email: string;
-  image: string | null;
-}

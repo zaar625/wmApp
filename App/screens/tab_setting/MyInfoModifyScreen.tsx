@@ -9,7 +9,7 @@ import {
   TextInputEndEditingEventData,
   Image
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRoute, RouteProp } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import NavigationHeader from '../../common-components/NavigationHeader';
@@ -18,22 +18,34 @@ import SvgIcon from '../../common-components/SvgIcon';
 import ModifyForm from './components/ModifyForm';
 import { onLaunchImageLibrary } from '../../util/onLaunchImageLibrary';
 import { onImageResizer } from '../../util/onImageResizer';
-import { IUserInfo } from '../../type';
 import Button from '../../common-components/buttons/Button';
 import themeChange from '../../util/theme';
+import auth from '@react-native-firebase/auth';
+import { useGetUserProfile } from '../../api/store/hooks/useGetuUserProfile';
+import { profileImageUpLoad } from './handlers/profileImageUpLoad';
+import { useUpdateProfile } from '../../api/store/hooks/useUpdateProfile';
+import { useDispatch } from 'react-redux';
+import { openModal, closeModal } from '../../state/slice/modal';
+import { useNavigation } from '@react-navigation/native';
 
 type MyInfoModifyScreenRouteProp = RouteProp<RootStackParamList, 'myInfoModifyScreen'>;
 
 const MyInfoModifyScreen = () => {
   const themeMode = themeChange();
-  const { params } = useRoute<MyInfoModifyScreenRouteProp>();
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
 
-  const [userInfo, setUserInfo] = useState<IUserInfo>({
-    name: '이상윤',
-    phone: '010-4008-2360',
-    email: 'zaar625@naver.com',
-    image: null
-  });
+  const { params } = useRoute<MyInfoModifyScreenRouteProp>();
+  const { mutate } = useUpdateProfile();
+
+  const user = auth().currentUser;
+  const { data } = useGetUserProfile(user?.uid);
+
+  const [userInfo, setUserInfo] = useState<any>();
+
+  useEffect(() => {
+    setUserInfo(data);
+  }, [data]);
 
   const onEndEditing = (e: NativeSyntheticEvent<TextInputEndEditingEventData>, type: string) => {
     const textValue = e.nativeEvent.text;
@@ -50,8 +62,35 @@ const MyInfoModifyScreen = () => {
 
     if (uri) {
       const resizeImage = await onImageResizer(uri);
-      setUserInfo({ ...userInfo, image: resizeImage[0].uri });
+
+      setUserInfo({ ...userInfo, photoURL: resizeImage[0].uri });
     }
+  };
+
+  const upLoadProfile = async () => {
+    const uploadImage = await profileImageUpLoad(userInfo?.photoURL);
+
+    mutate(
+      { ...userInfo, photoURL: uploadImage },
+      {
+        onSuccess: () => {
+          dispatch(
+            openModal({
+              modalType: 'OneBtnModal',
+              isOpen: true,
+              contents: {
+                title: '수정이 완료되었습니다.',
+                content: `나의 정보가 수정되었습니다.`,
+                onPress() {
+                  dispatch(closeModal());
+                  navigation.goBack();
+                }
+              }
+            })
+          );
+        }
+      }
+    );
   };
 
   return (
@@ -61,8 +100,12 @@ const MyInfoModifyScreen = () => {
         <View style={styles.contentsContainr}>
           <View>
             <Pressable style={styles.userImageWrapper} onPress={onUserImagePress}>
-              {userInfo.image ? (
-                <Image source={{ uri: userInfo.image }} resizeMode="cover" style={styles.image} />
+              {userInfo?.photoURL ? (
+                <Image
+                  source={{ uri: userInfo.photoURL }}
+                  resizeMode="cover"
+                  style={styles.image}
+                />
               ) : (
                 <SvgIcon name="user" width={36} height={36} />
               )}
@@ -75,24 +118,24 @@ const MyInfoModifyScreen = () => {
             <ModifyForm
               onEndEditing={e => onEndEditing(e, 'name')}
               placeholder="이름을 입력해주세요"
-              defaultValue={userInfo.name}
+              defaultValue={userInfo?.name}
               label="이름"
             />
             <ModifyForm
               onEndEditing={e => onEndEditing(e, 'phone')}
               keyboardType="number-pad"
               placeholder="휴대폰 번호를 입력해주세요"
-              defaultValue={userInfo.phone}
+              defaultValue={userInfo?.phone}
               label="전화번호"
             />
             <ModifyForm
-              onEndEditing={e => onEndEditing(e, 'email')}
+              editable={false}
               placeholder="이메일을 입력해주세요"
-              defaultValue={userInfo.email}
+              defaultValue={userInfo?.email}
               label="이메일"
             />
           </View>
-          <Button name="수정하기" onPress={() => {}} />
+          <Button name="수정하기" onPress={upLoadProfile} />
         </View>
       </SafeAreaView>
     </TouchableWithoutFeedback>

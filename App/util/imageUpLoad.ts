@@ -8,7 +8,7 @@ export async function imageUpLoad(images: Response[] | undefined) {
   if (images) {
     await Promise.all(
       images.map(async (image, index) => {
-        const imageRef = reference.child(`${image.name}.jpg`);
+        const imageRef = reference.child(`${image.name}`);
         await imageRef.putFile(image.uri);
         const photoURL = await imageRef.getDownloadURL(); // 여기서 imageRef를 사용합니다
 

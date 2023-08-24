@@ -39,10 +39,9 @@ import { TThemeMode } from './App/theme/themeContext';
 
 export default function App() {
   const [theme, setTheme] = useState<TThemeMode>({ mode: 'dark' });
-
-  const queryClient = new QueryClient();
-
   const Stack = createStackNavigator<RootStackParamList>();
+  const queryClient = new QueryClient();
+  const currentUser = auth().currentUser;
 
   useEffect(() => {
     Appearance.addChangeListener(({ colorScheme }) => {

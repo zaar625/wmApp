@@ -5,6 +5,13 @@ type Tsign = {
   password: string;
 };
 
+type TUserProfileInfo = {
+  email: string;
+  displayName: string;
+  photoURL: string;
+  phoneNumber: string;
+};
+
 export function signIn({ email, password }: Tsign) {
   return auth().signInWithEmailAndPassword(email, password);
 }
@@ -15,4 +22,8 @@ export function signUp({ email, password }: Tsign) {
 
 export function subscribeAuth(callback: () => void) {
   return auth().onAuthStateChanged(callback);
+}
+
+export function updateProfile(userInfo: TUserProfileInfo) {
+  return auth().currentUser?.updateProfile(userInfo);
 }

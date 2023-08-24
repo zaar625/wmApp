@@ -14,7 +14,7 @@ import ErrorGuide from '../ErrorGuide';
 
 const TimeModifySheet = ({ data }: any, ref: any) => {
   const themeMode = themeChange();
-  console.log(data);
+
   const { mutate: timeEdittingToManager } = useAddTimeEditing();
   const { mutate: timeEdittingToUser } = useAddPersonalWorkHistoryEdit();
 
