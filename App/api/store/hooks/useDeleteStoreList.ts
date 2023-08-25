@@ -13,8 +13,6 @@ export const useDeletStore = () => {
   const queryClient = useQueryClient();
   return useMutation(deleteStore, {
     onSuccess: () => {
-      // Invalidate and refetch
-      console.log('삭제 성공');
       queryClient.invalidateQueries({ queryKey: ['myStoreList'] });
     }
   });

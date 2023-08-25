@@ -43,7 +43,6 @@ const ThemeListScreen = () => {
     updateTheme({ mode });
     changeBackgroundColor(mode);
   };
-  console.log(theme);
 
   return (
     <Animated.View style={[styles.container, animatedBackgroundColor]}>

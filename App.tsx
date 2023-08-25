@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useColorScheme, Appearance, Alert } from 'react-native';
+import { useColorScheme, Appearance, Alert, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -38,10 +38,10 @@ import ThemeListScreen from './App/screens/tab_setting/ThemeListScreen';
 import { ThemeContext } from './App/theme/themeContext';
 import { TThemeMode } from './App/theme/themeContext';
 import { requestUserPermission } from './App/util/notificationHelper';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
   const [theme, setTheme] = useState<TThemeMode>({ mode: 'dark', system: false });
+  const statusBarStyle = theme.mode === 'dark' ? 'light-content' : 'dark-content';
   const Stack = createStackNavigator<RootStackParamList>();
   const queryClient = new QueryClient();
 
@@ -100,6 +100,7 @@ export default function App() {
         <NavigationContainer>
           <QueryClientProvider client={queryClient}>
             <GestureHandlerRootView style={{ flex: 1 }}>
+              <StatusBar barStyle={statusBarStyle} />
               <GlobalModal />
               <GlobalBottomSheet />
 

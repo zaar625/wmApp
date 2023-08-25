@@ -7,11 +7,46 @@ import format from 'date-fns/format';
 import NomalButton from '../buttons/NomarButton';
 import { useDispatch } from 'react-redux';
 import { closeBottomSheet } from '../../state/slice/bottomSheet';
+import { useDeletRequirement } from '../../api/store/hooks/useDeletTimeRequirement';
+import { openModal, closeModal } from '../../state/slice/modal';
+import { useQueryClient } from '@tanstack/react-query';
+import { openToast } from '../../state/slice/toast';
 
 const EditWorkingInfoSheet = ({ data }: any) => {
-  const { after, before, start, end } = data;
+  const { after, before } = data;
+  const queryClient = useQueryClient();
+  const { mutate } = useDeletRequirement();
+
   const dispatch = useDispatch();
   const themeMode = themeChange();
+
+  const deleteRequirement = () => {
+    dispatch(
+      openModal({
+        type: 'TwoBtnModal',
+        contents: {
+          title: '근태수정을 취소하시겠습니까?',
+          content: `근태수정을 취소하면 ${`\n`}관리자에게 다시 요청을 작성해야합니다.`,
+          buttons: {
+            취소: () => dispatch(closeModal()),
+            삭제: () => {
+              mutate(
+                { requireId: data.id },
+                {
+                  onSuccess: () => {
+                    dispatch(closeModal());
+                    dispatch(closeBottomSheet());
+                    queryClient.invalidateQueries({ queryKey: ['request-personal'] });
+                    dispatch(openToast({ message: `해당 근태 수정 요청을 취소하였습니다.` }));
+                  }
+                }
+              );
+            }
+          }
+        }
+      })
+    );
+  };
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -28,13 +63,7 @@ const EditWorkingInfoSheet = ({ data }: any) => {
         <View>
           {/* 수정 후 */}
           <Text style={[styles.bold, { color: '#00B712' }]}>수정 후</Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginBottom: 20
-            }}
-          >
+          <View style={styles.modifierWrapper}>
             <View style={styles.iconWrapper}>
               <SvgIcon
                 name="calendar"
@@ -64,13 +93,7 @@ const EditWorkingInfoSheet = ({ data }: any) => {
 
           {/* 수정 전 */}
           <Text style={[styles.bold, { color: '#C65252' }]}>수정 전</Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginBottom: 20
-            }}
-          >
+          <View style={styles.modifierWrapper}>
             <View style={styles.iconWrapper}>
               <SvgIcon
                 name="calendar"
@@ -103,15 +126,8 @@ const EditWorkingInfoSheet = ({ data }: any) => {
         <Text style={{ color: themeMode.tint }}>{data.reason}</Text>
       </View>
 
-      <Pressable
-        style={{
-          alignSelf: 'flex-end',
-          padding: 10,
-          marginBottom: 20,
-          marginRight: 10
-        }}
-      >
-        <Text style={[styles.cancelBtn, { color: themeMode.subTint }]}>요청취소</Text>
+      <Pressable style={styles.cancelBtn} onPress={deleteRequirement}>
+        <Text style={[styles.cancelBtnTxt, { color: themeMode.subTint }]}>요청취소</Text>
       </Pressable>
       <NomalButton name="확인" onPress={() => dispatch(closeBottomSheet())} />
     </View>
@@ -135,6 +151,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontWeight: '600'
+  },
+  modifierWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20
   },
   storeWrapper: {
     flexDirection: 'row',
@@ -163,8 +184,13 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginBottom: 10
   },
-
   cancelBtn: {
+    alignSelf: 'flex-end',
+    padding: 10,
+    marginBottom: 20,
+    marginRight: 10
+  },
+  cancelBtnTxt: {
     textDecorationLine: 'underline',
     fontWeight: '600',
 

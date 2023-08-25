@@ -13,42 +13,8 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const ThemeSetting = () => {
   const themeMode = themeChange();
-  const scheme = useColorScheme();
+
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-
-  const themeTypes = [
-    {
-      name: '밝은 화면',
-      state: false,
-      mode: 'light'
-    },
-    {
-      name: '어두운 화면',
-      state: true,
-      mode: 'dark'
-    },
-    {
-      name: '시스템 설정과 같이',
-      state: false,
-      mode: 'dark'
-    }
-  ];
-
-  const { updateTheme } = useContext(ThemeContext);
-
-  const [themeType, setThemeType] = useState(themeTypes);
-
-  const themeTypeOnPress = (typeIndex: number, mode: string) => {
-    const changeThemeTypes = themeType.map((type, index) => {
-      if (index === typeIndex) {
-        return { ...type, state: true };
-      } else {
-        return { ...type, state: false };
-      }
-    });
-    setThemeType(changeThemeTypes);
-    updateTheme({ mode });
-  };
 
   return (
     <Pressable
