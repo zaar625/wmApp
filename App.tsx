@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useColorScheme, Appearance } from 'react-native';
+import { useColorScheme, Appearance, Alert } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import auth from '@react-native-firebase/auth';
 import { getStorageTheme, setStorageTheme } from './App/util/storageTheme';
+import messaging from '@react-native-firebase/messaging';
 
 import OnboardingPage from './App/screens/onboarding';
 import CategorySelectPage from './App/screens/select_category';
@@ -36,11 +37,27 @@ import ThemeListScreen from './App/screens/tab_setting/ThemeListScreen';
 
 import { ThemeContext } from './App/theme/themeContext';
 import { TThemeMode } from './App/theme/themeContext';
+import { requestUserPermission } from './App/util/notificationHelper';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
   const [theme, setTheme] = useState<TThemeMode>({ mode: 'dark', system: false });
+  const [token, setToken] = useState();
   const Stack = createStackNavigator<RootStackParamList>();
   const queryClient = new QueryClient();
+
+  useEffect(() => {
+    requestUserPermission();
+    getFcmToken();
+  }, []);
+
+  const getFcmToken = async () => {
+    const token = await AsyncStorage.getItem('fcmToken');
+    if (token) {
+      setToken(token);
+    }
+  };
+  console.log('token', token);
 
   const updateTheme = (newTheme: any) => {
     if (newTheme !== 'system') {

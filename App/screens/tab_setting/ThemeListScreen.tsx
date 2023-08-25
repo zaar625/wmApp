@@ -60,7 +60,7 @@ const ThemeListScreen = () => {
             label="어두운 화면"
             img="dark"
             onPress={() => themeTypeOnPress('dark')}
-            isActive={theme.mode === 'dark'}
+            isActive={theme.mode === 'dark' && !theme.system}
           />
           <ThemeTypeBtn
             label="시스셈 설정과 같이"
