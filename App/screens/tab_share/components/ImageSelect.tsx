@@ -24,7 +24,11 @@ const ImageSelect = ({ pickImages, setPickImages }: Props) => {
   const themeMode = themeChange();
 
   const handleButtonPress = async () => {
-    const imagedata = await onLaunchImageLibrary();
+    const imagedata = await onLaunchImageLibrary({
+      mediaType: 'photo',
+      selectionLimit: 3,
+      presentationStyle: 'pageSheet'
+    });
 
     if (imagedata) {
       const resizingImages = await onImageResizer(imagedata);

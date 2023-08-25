@@ -7,7 +7,6 @@ import ShareForm from './components/ShareForm';
 import Button from '../../common-components/buttons/Button';
 import { ScrollView } from 'react-native-gesture-handler';
 import firestore from '@react-native-firebase/firestore';
-import storage from '@react-native-firebase/storage';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../state/store';
 import { NavigationScreenProps } from '../../type';
@@ -24,21 +23,23 @@ const WriteScreenStep3 = ({ navigation }: NavigationScreenProps) => {
   const { mutate } = useAddLog();
 
   const { images, store } = useSelector((state: RootState) => state.share);
+
   const [contents, setContents] = useState({
     title: '',
     content: ''
   });
-
-  const [buttonActive, setButtonActive] = useState<boolean | null>(null);
+  const [isFilled, setIsFilled] = useState<boolean | null>(null);
+  const [isLoader, setIsLoader] = useState(false);
 
   const onSubmit = async () => {
     const isFilledForm = contents.title.length > 0 && contents.content.length > 0;
 
     if (!isFilledForm) {
-      setButtonActive(isFilledForm);
+      setIsFilled(isFilledForm);
       return;
     }
 
+    setIsLoader(true);
     const photosURL = await imageUpLoad(images);
 
     const uploadData = {
@@ -54,6 +55,7 @@ const WriteScreenStep3 = ({ navigation }: NavigationScreenProps) => {
       { store, data: uploadData },
       {
         onSuccess: () => {
+          setIsLoader(false);
           navigation.navigate('bottomTab');
           queryClient.invalidateQueries({ queryKey: ['total-logs'] });
         }
@@ -78,14 +80,14 @@ const WriteScreenStep3 = ({ navigation }: NavigationScreenProps) => {
               </Text>
             </View>
             <ShareForm setContents={setContents} contents={contents} />
-            {buttonActive === false && (
+            {isFilled === false && (
               <ErrorGuide message="앗! 제목과 내용을 작성했는지 확인해주세요." />
             )}
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
-      <Button name="공유하기" onPress={onSubmit} buttonActive={buttonActive} />
-      <Loader />
+      <Button name="공유하기" onPress={onSubmit} />
+      {isLoader && <Loader />}
     </SafeAreaView>
   );
 };
