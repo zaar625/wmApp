@@ -8,7 +8,6 @@ import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import auth from '@react-native-firebase/auth';
 import { getStorageTheme, setStorageTheme } from './App/util/storageTheme';
-import messaging from '@react-native-firebase/messaging';
 
 import OnboardingPage from './App/screens/onboarding';
 import CategorySelectPage from './App/screens/select_category';
@@ -37,10 +36,12 @@ import ThemeListScreen from './App/screens/tab_setting/ThemeListScreen';
 
 import { ThemeContext } from './App/theme/themeContext';
 import { TThemeMode } from './App/theme/themeContext';
-import { requestUserPermission } from './App/util/notificationHelper';
+import BootSplash from 'react-native-bootsplash';
+import { AnimatedBootSplash } from './App/theme/splach';
 
 export default function App() {
   const [theme, setTheme] = useState<TThemeMode>({ mode: 'dark', system: false });
+  const [visible, setVisible] = useState(true);
   const statusBarStyle = theme.mode === 'dark' ? 'light-content' : 'dark-content';
   const Stack = createStackNavigator<RootStackParamList>();
   const queryClient = new QueryClient();
@@ -97,7 +98,11 @@ export default function App() {
   return (
     <Provider store={store}>
       <ThemeContext.Provider value={{ theme, updateTheme }}>
-        <NavigationContainer>
+        <NavigationContainer
+          onReady={() => {
+            BootSplash.hide({ fade: true });
+          }}
+        >
           <QueryClientProvider client={queryClient}>
             <GestureHandlerRootView style={{ flex: 1 }}>
               <StatusBar barStyle={statusBarStyle} />
