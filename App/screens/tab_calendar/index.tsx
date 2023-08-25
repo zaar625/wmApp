@@ -28,7 +28,11 @@ const Calendar = () => {
       style={[styles.container, { backgroundColor: themeMode.primary }]}
       edges={['top']}
     >
-      <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={'red'} />
+        }
+      >
         <ScreenTitle title={`이번달${`\n`}이만큼 벌었어요`} style={{ paddingHorizontal: 20 }} />
         <MonthPayRoll currentDate={currentDate} />
         <Calender setCurrentDate={setCurrentDate} currentDate={currentDate} />

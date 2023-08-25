@@ -104,12 +104,15 @@ export default function App() {
               <GlobalModal />
               <GlobalBottomSheet />
 
-              <Stack.Navigator screenOptions={{ headerShown: false }}>
-                {/* <Stack.Screen name="onBoardingPage" component={OnboardingPage} />
+              <Stack.Navigator
+                screenOptions={{ headerShown: false }}
+                initialRouteName={user ? 'bottomTab' : 'onBoardingPage'}
+              >
+                <Stack.Screen name="onBoardingPage" component={OnboardingPage} />
                 <Stack.Screen name="categorySelectPage" component={CategorySelectPage} />
-                <Stack.Screen name="employeeLoginPage" component={EmployeeLoginPage} />
                 <Stack.Screen name="singInStep01Page" component={SignInStep01Page} />
-                <Stack.Screen name="signInStep02Page" component={SignInStep02Page} /> */}
+                <Stack.Screen name="signInStep02Page" component={SignInStep02Page} />
+                <Stack.Screen name="employeeLoginPage" component={EmployeeLoginPage} />
                 <Stack.Screen name="bottomTab" component={BottomTab} />
                 <Stack.Screen
                   name="scannerScreen"

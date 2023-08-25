@@ -58,9 +58,11 @@ export default function EmployeeLoginPage({ navigation }: NavigationScreenProps)
     try {
       const { user } = await signIn(loginform);
       if (user) {
-        () => navigation.navigate('bottomTab');
+        console.log(user);
+        navigation.reset({ index: 0, routes: [{ name: 'bottomTab' }] });
       }
     } catch (error) {
+      console.log(error);
       errorHandler(error);
     } finally {
     }

@@ -27,13 +27,15 @@ import { useUpdateProfile } from '../../api/store/hooks/useUpdateProfile';
 import { useDispatch } from 'react-redux';
 import { openModal, closeModal } from '../../state/slice/modal';
 import { useNavigation } from '@react-navigation/native';
+import { logOut } from '../../api/auth';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 type MyInfoModifyScreenRouteProp = RouteProp<RootStackParamList, 'myInfoModifyScreen'>;
 
 const MyInfoModifyScreen = () => {
   const themeMode = themeChange();
   const dispatch = useDispatch();
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const { params } = useRoute<MyInfoModifyScreenRouteProp>();
   const { mutate } = useUpdateProfile();
@@ -93,6 +95,26 @@ const MyInfoModifyScreen = () => {
     );
   };
 
+  const logOutOnPress = () => {
+    dispatch(
+      openModal({
+        type: 'TwoBtnModal',
+        contents: {
+          title: '로그아웃을 하시겠어요?',
+          content: `수정하지 않은 정보는 유실됩니다.`,
+          buttons: {
+            취소: () => dispatch(closeModal()),
+            로그아웃: () =>
+              logOut().then(() => {
+                navigation.reset({ index: 0, routes: [{ name: 'employeeLoginPage' }] });
+                dispatch(closeModal());
+              })
+          }
+        }
+      })
+    );
+  };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={[styles.container, { backgroundColor: themeMode.primary }]}>
@@ -134,6 +156,10 @@ const MyInfoModifyScreen = () => {
               defaultValue={userInfo?.email}
               label="이메일"
             />
+
+            <Pressable onPress={logOutOnPress}>
+              <Text style={[styles.logOut, { color: themeMode.subTint }]}>로그아웃</Text>
+            </Pressable>
           </View>
           <Button name="수정하기" onPress={upLoadProfile} />
         </View>
@@ -177,5 +203,10 @@ const styles = StyleSheet.create({
     bottom: -5,
     right: -5,
     padding: 6
+  },
+  logOut: {
+    alignSelf: 'center',
+    textDecorationLine: 'underline',
+    fontSize: 12
   }
 });

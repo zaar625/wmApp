@@ -27,3 +27,7 @@ export function subscribeAuth(callback: () => void) {
 export function updateProfile(userInfo: TUserProfileInfo) {
   return auth().currentUser?.updateProfile(userInfo);
 }
+
+export function logOut() {
+  return auth().signOut();
+}
