@@ -8,7 +8,6 @@ const workHourCollection = firestore()
   .collection('workHour');
 
 async function fetchWorkingDate(query: string): Promise<TWorkData[] | undefined> {
-  console.log('payLoll');
   const workHourRef = await workHourCollection.doc(query).get();
   const data = workHourRef.data();
 

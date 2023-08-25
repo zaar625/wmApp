@@ -1,4 +1,4 @@
-import { Pressable, ScrollView, StyleSheet, Text } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, RefreshControl } from 'react-native';
 import React from 'react';
 import themeChange from '../../util/theme';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -9,16 +9,32 @@ import Notification from './components/Notification';
 import ThemeSetting from './components/ThemeSetting';
 import Terms from './components/Terms';
 import MyWorkingLog from './components/MyWorkingLog';
+import { useQueryClient } from '@tanstack/react-query';
 
 const SettingTabScreen = () => {
   const themeMode = themeChange();
+  const queryClient = useQueryClient();
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+
+    queryClient.refetchQueries({ queryKey: ['request-personal'] });
+
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
 
   return (
     <SafeAreaView
       style={[styles.container, { backgroundColor: themeMode.primary }]}
       edges={['top']}
     >
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+      >
         <ScreenTitle title={`앱과 내 정보를${`\n`}나에게 맞춰보세요.`} />
         <UserInfo />
         <Request />
