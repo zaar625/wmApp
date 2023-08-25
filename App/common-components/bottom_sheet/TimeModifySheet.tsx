@@ -12,11 +12,11 @@ import { closeBottomSheet } from '../../state/slice/bottomSheet';
 import { useAddPersonalWorkHistoryEdit } from '../../api/store/hooks/useAddPersonalWorkHistoryEditList';
 import ErrorGuide from '../ErrorGuide';
 
-const TimeModifySheet = ({ data }: any, ref: any) => {
+const TimeModifySheet = ({ data }: any) => {
   const themeMode = themeChange();
 
   const { mutate: timeEdittingToManager } = useAddTimeEditing();
-  const { mutate: timeEdittingToUser } = useAddPersonalWorkHistoryEdit();
+  const { mutate: timeEdittingToUser, isLoading } = useAddPersonalWorkHistoryEdit();
 
   const dispatch = useDispatch();
 
@@ -116,7 +116,7 @@ const TimeModifySheet = ({ data }: any, ref: any) => {
 
         {buttonActive === false && <ErrorGuide message="입력되지 않은 항목이 있습니다." />}
       </View>
-      <NomalButton name="수정" onPress={onsubmit} />
+      <NomalButton name="수정" onPress={onsubmit} isActive={isLoading} />
     </View>
   );
 };

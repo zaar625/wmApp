@@ -15,7 +15,6 @@ const WorkingStore = ({ name }: { name: string | null | undefined }) => {
 
   const { data: stores = [] } = useMyStoreList();
 
-  // if (isLoading) setAppLoader(true);
   return (
     <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
       <SemiTitle title="현재 근무지" style={{ marginBottom: 10 }} />

@@ -7,6 +7,7 @@ import ScannerHeader from '../tab_store/components/ScannerHeader';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import ScannerMarker from '../tab_store/components/ScannerMarker';
 import { BarCodeReadEvent } from 'react-native-camera';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { useAddAttendance } from './handlers/attendance';
 import { deviceWidth } from '../../theme';
@@ -17,11 +18,10 @@ import { openModal, closeModal } from '../../state/slice/modal';
 import { NavigationScreenProps } from '../../type';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 
-import { TStoreInfo } from '../../type';
-
 const AttendanceScreen = ({ navigation }: NavigationScreenProps) => {
   const themeMode = themeChange();
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
   const currentTime = new Date();
 
   const [storeInfo, setStoreInfo] = useState<any>();
@@ -63,6 +63,7 @@ const AttendanceScreen = ({ navigation }: NavigationScreenProps) => {
           title: `${typeName} 등록 완료`,
           content: `${storeInfo?.name}에 ${typeName} 등록이 완료되었습니다.`,
           onPress() {
+            queryClient.invalidateQueries({ queryKey: ['work-date'] });
             navigation.goBack();
           }
         }

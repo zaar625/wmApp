@@ -42,22 +42,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
   const [theme, setTheme] = useState<TThemeMode>({ mode: 'dark', system: false });
-  const [token, setToken] = useState();
   const Stack = createStackNavigator<RootStackParamList>();
   const queryClient = new QueryClient();
-
-  useEffect(() => {
-    requestUserPermission();
-    getFcmToken();
-  }, []);
-
-  const getFcmToken = async () => {
-    const token = await AsyncStorage.getItem('fcmToken');
-    if (token) {
-      setToken(token);
-    }
-  };
-  console.log('token', token);
 
   const updateTheme = (newTheme: any) => {
     if (newTheme !== 'system') {

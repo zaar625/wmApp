@@ -24,7 +24,7 @@ const StoreTabScreen = () => {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
 
-    queryClient.refetchQueries({ queryKey: ['myStoreList'] });
+    queryClient.refetchQueries({ queryKey: ['myStoreList', 'work-date'] });
 
     setTimeout(() => {
       setRefreshing(false);

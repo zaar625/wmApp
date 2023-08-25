@@ -6,7 +6,6 @@ import { ScreenTitle, SemiTitle } from '../../common-components/Title';
 import Working from './components/Working';
 import ShareContents from './components/ShareContents';
 import ShareWriten from './components/ShareWriten';
-import Loader from '../../common-components/Loader';
 
 const ShareTabScreen = () => {
   const themeMode = themeChange();
@@ -25,7 +24,6 @@ const ShareTabScreen = () => {
         <Working />
         <ShareContents />
         <ShareWriten />
-        <Loader />
       </ScrollView>
     </SafeAreaView>
   );
