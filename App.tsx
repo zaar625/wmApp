@@ -100,7 +100,9 @@ export default function App() {
       <ThemeContext.Provider value={{ theme, updateTheme }}>
         <NavigationContainer
           onReady={() => {
-            BootSplash.hide({ fade: true });
+            setTimeout(() => {
+              BootSplash.hide({ fade: true });
+            }, 1000);
           }}
         >
           <QueryClientProvider client={queryClient}>
