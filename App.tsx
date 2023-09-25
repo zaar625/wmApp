@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useColorScheme, Appearance, Alert, StatusBar } from 'react-native';
+import { Appearance, StatusBar, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -38,9 +38,11 @@ import { ThemeContext } from './App/theme/themeContext';
 import { TThemeMode } from './App/theme/themeContext';
 import BootSplash from 'react-native-bootsplash';
 import { AnimatedBootSplash } from './App/theme/splach';
+import themeChange from './App/util/theme';
 
 export default function App() {
   const [theme, setTheme] = useState<TThemeMode>({ mode: 'dark', system: false });
+
   const [visible, setVisible] = useState(true);
   const statusBarStyle = theme.mode === 'dark' ? 'light-content' : 'dark-content';
   const Stack = createStackNavigator<RootStackParamList>();
@@ -83,7 +85,7 @@ export default function App() {
   const [user, setUser] = useState();
 
   // Handle user state changes
-  function onAuthStateChanged(user) {
+  function onAuthStateChanged(user: any) {
     setUser(user);
     if (initializing) setInitializing(false);
   }
@@ -96,62 +98,86 @@ export default function App() {
   if (initializing) return null;
 
   return (
-    <Provider store={store}>
-      <ThemeContext.Provider value={{ theme, updateTheme }}>
-        <NavigationContainer
-          onReady={() => {
-            setTimeout(() => {
-              BootSplash.hide({ fade: true });
-            }, 1000);
-          }}
-        >
-          <QueryClientProvider client={queryClient}>
-            <GestureHandlerRootView style={{ flex: 1 }}>
-              <StatusBar barStyle={statusBarStyle} />
-              <GlobalModal />
-              <GlobalBottomSheet />
+    <>
+      <Provider store={store}>
+        <ThemeContext.Provider value={{ theme, updateTheme }}>
+          {visible ? (
+            <AnimatedBootSplash
+              onAnimationEnd={() => {
+                setVisible(false);
+              }}
+            />
+          ) : (
+            <NavigationContainer
+              onReady={() => {
+                setTimeout(() => {
+                  BootSplash.hide({ fade: true });
+                }, 1000);
+              }}
+            >
+              <QueryClientProvider client={queryClient}>
+                <GestureHandlerRootView style={{ flex: 1 }}>
+                  <StatusBar barStyle={statusBarStyle} />
+                  <GlobalModal />
+                  <GlobalBottomSheet />
 
-              <Stack.Navigator
-                screenOptions={{ headerShown: false }}
-                initialRouteName={user ? 'bottomTab' : 'onBoardingPage'}
-              >
-                <Stack.Screen name="onBoardingPage" component={OnboardingPage} />
-                <Stack.Screen name="categorySelectPage" component={CategorySelectPage} />
-                <Stack.Screen name="singInStep01Page" component={SignInStep01Page} />
-                <Stack.Screen name="signInStep02Page" component={SignInStep02Page} />
-                <Stack.Screen name="employeeLoginPage" component={EmployeeLoginPage} />
-                <Stack.Screen name="bottomTab" component={BottomTab} />
-                <Stack.Screen
-                  name="scannerScreen"
-                  component={ScannerScreen}
-                  options={{ presentation: 'modal' }}
-                />
-                <Stack.Screen
-                  name="attendanceScreen"
-                  component={AttendanceScreen}
-                  options={{ presentation: 'modal' }}
-                />
-                <Stack.Screen name="writeScreenStep1" component={WriteScreenStep1} />
-                <Stack.Screen name="writeScreenStep2" component={WriteScreenStep2} />
-                <Stack.Screen name="writeScreenStep3" component={WriteScreenStep3} />
-                <Stack.Screen
-                  name="imagePickScreen"
-                  component={ImagePickScreen}
-                  options={{ presentation: 'modal' }}
-                />
-                <Stack.Screen name="shareDetailScreen" component={ShareDetailScreen} />
-                <Stack.Screen name="shareEditScreen" component={ShareEditScreen} />
-                <Stack.Screen name="shareListScreen" component={ShareListScreen} />
-                <Stack.Screen name="myInfoModifyScreen" component={MyInfoModifyScreen} />
-                <Stack.Screen name="timeEdittingListScreen" component={TimeEdittingListScreen} />
-                <Stack.Screen name="themeListScreen" component={ThemeListScreen} />
-              </Stack.Navigator>
-              <GlobalToast />
-            </GestureHandlerRootView>
-          </QueryClientProvider>
-          <ShakeDetector />
-        </NavigationContainer>
-      </ThemeContext.Provider>
-    </Provider>
+                  <Stack.Navigator
+                    screenOptions={{ headerShown: false }}
+                    initialRouteName={user ? 'bottomTab' : 'onBoardingPage'}
+                  >
+                    <Stack.Screen name="onBoardingPage" component={OnboardingPage} />
+                    <Stack.Screen name="categorySelectPage" component={CategorySelectPage} />
+                    <Stack.Screen name="singInStep01Page" component={SignInStep01Page} />
+                    <Stack.Screen name="signInStep02Page" component={SignInStep02Page} />
+                    <Stack.Screen name="employeeLoginPage" component={EmployeeLoginPage} />
+                    <Stack.Screen name="bottomTab" component={BottomTab} />
+                    <Stack.Screen
+                      name="scannerScreen"
+                      component={ScannerScreen}
+                      options={{ presentation: 'modal' }}
+                    />
+                    <Stack.Screen
+                      name="attendanceScreen"
+                      component={AttendanceScreen}
+                      options={{ presentation: 'modal' }}
+                    />
+                    <Stack.Screen name="writeScreenStep1" component={WriteScreenStep1} />
+                    <Stack.Screen name="writeScreenStep2" component={WriteScreenStep2} />
+                    <Stack.Screen name="writeScreenStep3" component={WriteScreenStep3} />
+                    <Stack.Screen
+                      name="imagePickScreen"
+                      component={ImagePickScreen}
+                      options={{ presentation: 'modal' }}
+                    />
+                    <Stack.Screen name="shareDetailScreen" component={ShareDetailScreen} />
+                    <Stack.Screen name="shareEditScreen" component={ShareEditScreen} />
+                    <Stack.Screen name="shareListScreen" component={ShareListScreen} />
+                    <Stack.Screen name="myInfoModifyScreen" component={MyInfoModifyScreen} />
+                    <Stack.Screen
+                      name="timeEdittingListScreen"
+                      component={TimeEdittingListScreen}
+                    />
+                    <Stack.Screen name="themeListScreen" component={ThemeListScreen} />
+                  </Stack.Navigator>
+                  <GlobalToast />
+                </GestureHandlerRootView>
+              </QueryClientProvider>
+              <ShakeDetector />
+            </NavigationContainer>
+          )}
+        </ThemeContext.Provider>
+      </Provider>
+    </>
   );
 }
+
+const styles = StyleSheet.create({
+  text: {
+    fontSize: 24,
+    fontWeight: '700',
+    margin: 20,
+    lineHeight: 30,
+    color: '#333',
+    textAlign: 'center'
+  }
+});

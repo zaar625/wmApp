@@ -14,7 +14,7 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8986794CAF215D854D30C12C /* Pods_wmApp_wmAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD0272F486EF062771B247A /* Pods_wmApp_wmAppTests.framework */; };
 		9B1F2C322A64E095005C58B4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9B1F2C312A64E095005C58B4 /* GoogleService-Info.plist */; };
-		9B49891F2A990E49005F5A2E /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B49891E2A990E49005F5A2E /* BootSplash.storyboard */; };
+		9B4989232A9B9381005F5A2E /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B4989222A9B9381005F5A2E /* BootSplash.storyboard */; };
 		FDE3F6CB1BF86BD5B461D849 /* Pods_wmApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E86C51BE6DDA4DD258A8813D /* Pods_wmApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -45,7 +45,7 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = wmApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-wmApp-wmAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wmApp-wmAppTests.release.xcconfig"; path = "Target Support Files/Pods-wmApp-wmAppTests/Pods-wmApp-wmAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		9B1F2C312A64E095005C58B4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		9B49891E2A990E49005F5A2E /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = ../../../Downloads/BootSplash.storyboard; sourceTree = "<group>"; };
+		9B4989222A9B9381005F5A2E /* BootSplash.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BootSplash.storyboard; path = ../../../Downloads/BootSplash.storyboard; sourceTree = "<group>"; };
 		E86C51BE6DDA4DD258A8813D /* Pods_wmApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_wmApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -93,8 +93,8 @@
 				9B1F2C312A64E095005C58B4 /* GoogleService-Info.plist */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
-				9B49891E2A990E49005F5A2E /* BootSplash.storyboard */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
+				9B4989222A9B9381005F5A2E /* BootSplash.storyboard */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
@@ -252,7 +252,7 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				9B1F2C322A64E095005C58B4 /* GoogleService-Info.plist in Resources */,
-				9B49891F2A990E49005F5A2E /* BootSplash.storyboard in Resources */,
+				9B4989232A9B9381005F5A2E /* BootSplash.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
