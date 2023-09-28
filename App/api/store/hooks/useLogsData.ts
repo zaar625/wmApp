@@ -1,22 +1,27 @@
-import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
+import { store } from './../../../state/store';
+import firestore from '@react-native-firebase/firestore';
 import { useQuery } from '@tanstack/react-query';
+import { fetchStoreList } from './useMyStoreList';
 
 // 함수를 비동기로 정의
 export const fetchAndMergeLogs = async () => {
   // 1. 내가 등록한 스토어 리스트를 인자로 받아옵니다.
-  const storeList = ['ItGwR9Tj8BNlgxR37Nrp', 'lFddsTVznYG9ZNstQYo9'];
+  // const storeList = ['ItGwR9Tj8BNlgxR37Nrp', 'lFddsTVznYG9ZNstQYo9'];
+  const storeList = await fetchStoreList();
   const mergedLogs = [];
 
-  for (const store of storeList) {
-    const storeId = store; // 동적으로 가져온 매장 ID
-    const logSnapshot = await firestore()
-      .collection('store')
-      .doc(storeId)
-      .collection('log')
-      .orderBy('createAt', 'desc')
-      .get();
+  if (storeList) {
+    for (const store of storeList) {
+      const { id: storeId } = store; // 동적으로 가져온 매장 ID
+      const logSnapshot = await firestore()
+        .collection('store')
+        .doc(storeId)
+        .collection('log')
+        .orderBy('createAt', 'desc')
+        .get();
 
-    mergedLogs.push(...logSnapshot.docs);
+      mergedLogs.push(...logSnapshot.docs);
+    }
   }
 
   // 가져온 로그를 하나의 배열로 합침
@@ -36,5 +41,3 @@ export const fetchAndMergeLogs = async () => {
 export const useTotalLogsData = () => {
   return useQuery(['total-logs'], fetchAndMergeLogs, {});
 };
-
-// 함수 호출

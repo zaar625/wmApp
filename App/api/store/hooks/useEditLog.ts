@@ -2,13 +2,13 @@ import { useMutation } from '@tanstack/react-query';
 import firestore from '@react-native-firebase/firestore';
 
 async function editLog(data: any) {
-  const { store, id } = data;
+  const { store, id, user } = data;
 
   const storeLogRef = firestore().collection('store').doc(store.id).collection('log').doc(id);
 
   const findShareLogDoc = firestore()
     .collection('users')
-    .doc('DMWrTCluLrhJMrI01BVhJK6byFs1')
+    .doc(user)
     .collection('shareLog')
     .where('id', '==', id);
 

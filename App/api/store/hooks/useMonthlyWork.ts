@@ -1,13 +1,16 @@
 import firestore from '@react-native-firebase/firestore';
 import { useQuery } from '@tanstack/react-query';
 import { TWorkData } from '../../../util/time';
-
-const workHourCollection = firestore()
-  .collection('users')
-  .doc('DMWrTCluLrhJMrI01BVhJK6byFs1')
-  .collection('workHour');
+import auth from '@react-native-firebase/auth';
 
 async function fetchWorkingDate(query: string): Promise<TWorkData[] | undefined> {
+  const userID = auth().currentUser;
+
+  const workHourCollection = firestore()
+    .collection('users')
+    .doc(userID?.uid)
+    .collection('workHour');
+
   const workHourRef = await workHourCollection.doc(query).get();
   const data = workHourRef.data();
 

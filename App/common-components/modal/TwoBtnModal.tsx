@@ -6,9 +6,8 @@ import ShortButton from '../buttons/ShortButton';
 
 const TwoBtnModal = ({ props }: any) => {
   const { buttons, content, title } = props;
-  console.log(buttons);
   const buttonType = Object.keys(buttons);
-  console.log(Object.keys(buttons));
+
   const themeMode = themeChange();
   return (
     <View style={styles.container}>

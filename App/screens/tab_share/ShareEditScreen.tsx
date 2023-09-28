@@ -17,12 +17,14 @@ import { useDispatch } from 'react-redux';
 import { openModal, closeModal } from '../../state/slice/modal';
 import { useQueryClient } from '@tanstack/react-query';
 import ErrorGuide from '../../common-components/ErrorGuide';
+import auth from '@react-native-firebase/auth';
 
 const ShareEditScreen = ({
   navigation,
   route
 }: NativeStackScreenProps<RootStackParamList, 'shareEditScreen'>) => {
   const { data } = route.params;
+  const userID = auth().currentUser;
 
   const themeMode = themeChange();
   const { mutate } = useEditLog();
@@ -61,7 +63,7 @@ const ShareEditScreen = ({
 
     const uploadData = {
       id: data.id,
-      user: 'DMWrTCluLrhJMrI01BVhJK6byFs1',
+      user: userID?.uid,
       photosURL,
       title: contents.title,
       content: contents.content,

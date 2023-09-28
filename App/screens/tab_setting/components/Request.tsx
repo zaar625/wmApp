@@ -46,7 +46,9 @@ const Request = () => {
       </View>
 
       <View style={styles.cardsContainer}>
-        {filterTodayData ? filterTodayData.map(item => <RequestDetailCard data={item} />) : null}
+        {filterTodayData
+          ? filterTodayData.map((item, index) => <RequestDetailCard data={item} key={index} />)
+          : null}
       </View>
     </View>
   );

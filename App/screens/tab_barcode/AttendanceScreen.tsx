@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native';
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import themeChange from '../../util/theme';
 import firestore from '@react-native-firebase/firestore';
 import format from 'date-fns/format';
@@ -17,6 +17,9 @@ import { useDispatch } from 'react-redux';
 import { openModal, closeModal } from '../../state/slice/modal';
 import { NavigationScreenProps } from '../../type';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
+import WifiManager from 'react-native-wifi-reborn';
+import { PermissionsAndroid } from 'react-native';
+import { getStoreInfo } from '../../api/store';
 
 const AttendanceScreen = ({ navigation }: NavigationScreenProps) => {
   const themeMode = themeChange();
@@ -31,7 +34,7 @@ const AttendanceScreen = ({ navigation }: NavigationScreenProps) => {
 
   const scanerHandler = (event: BarCodeReadEvent) => {
     const { data: codeId } = event;
-    const findStore = storeList?.find(list => list.id === codeId);
+    const findStore = storeList?.find((list: any) => list.id === codeId);
 
     if (findStore) {
       return setStoreInfo(findStore);
@@ -49,7 +52,6 @@ const AttendanceScreen = ({ navigation }: NavigationScreenProps) => {
         })
       );
     }
-
     return setStoreInfo(null);
   };
 
@@ -71,7 +73,12 @@ const AttendanceScreen = ({ navigation }: NavigationScreenProps) => {
     );
   };
 
-  const attendanceOnPress = (attendanceType: string) => {
+  // attendanceOnPress()에서 테스트를 위해 wifi 확인은 주석처리함.
+  const attendanceOnPress = async (attendanceType: string) => {
+    // const getStoreWifi = await getStoreInfo(storeInfo.id);
+    // const wifiName = await getWifiSSID();
+    // const isIncludeWIFI = getStoreWifi?.wifi.some((wifi: string) => wifi === wifiName);
+
     const attendanceData = {
       currentDate: currentTime,
       attendanceType,
@@ -111,6 +118,36 @@ const AttendanceScreen = ({ navigation }: NavigationScreenProps) => {
         }),
     []
   );
+
+  const getWifiSSID = async () => {
+    if (PermissionsAndroid.RESULTS.GRANTED === 'granted') {
+      return WifiManager.getCurrentWifiSSID();
+    } else {
+      console.log('Camera permission denied');
+    }
+  };
+
+  const requestLocationPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'Cool Photo App Camera Permission',
+          message:
+            'Cool Photo App needs access to your camera ' + 'so you can take awesome pictures.',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK'
+        }
+      );
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
+  useEffect(() => {
+    requestLocationPermission();
+  }, []);
 
   return (
     <GestureDetector gesture={panGesture}>

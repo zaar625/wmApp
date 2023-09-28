@@ -9,10 +9,10 @@ import { useDeletStore } from '../../../api/store/hooks/useDeleteStoreList';
 import { useDispatch } from 'react-redux';
 import { openModal, closeModal } from '../../../state/slice/modal';
 import { openToast } from '../../../state/slice/toast';
+import auth from '@react-native-firebase/auth';
 
 const WorkingStore = ({ name }: { name: string | null | undefined }) => {
   const themeMode = themeChange();
-
   const { data: stores = [] } = useMyStoreList();
 
   return (
@@ -41,6 +41,7 @@ const StoreCardContainer = ({ store }: any) => {
   const themeMode = themeChange();
   const dispatch = useDispatch();
   const { mutate } = useDeletStore();
+  const userID = auth().currentUser;
 
   const removeStore = (id: string) => {
     dispatch(
@@ -53,7 +54,7 @@ const StoreCardContainer = ({ store }: any) => {
             취소: () => dispatch(closeModal()),
             삭제: () =>
               mutate(
-                { storeId: id },
+                { storeId: id, userId: userID?.uid },
                 {
                   onSuccess: () => {
                     dispatch(closeModal());

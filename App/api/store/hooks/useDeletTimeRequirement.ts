@@ -4,8 +4,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import auth from '@react-native-firebase/auth';
 
 function deleteRequirement({ requireId }: { requireId: string }) {
-  console.log('requireId', requireId);
-
   const users = firestore().collection('users');
   const userId = auth().currentUser?.uid;
 

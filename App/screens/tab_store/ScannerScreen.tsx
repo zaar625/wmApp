@@ -15,6 +15,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import ScannerMarker from './components/ScannerMarker';
 import themeChange from '../../util/theme';
 import ScannerHeader from './components/ScannerHeader';
+import auth from '@react-native-firebase/auth';
 
 import { mutateaddStore } from '../../api/store/hooks/useAddStore';
 import { deviceheight } from '../../theme';
@@ -24,6 +25,8 @@ const ScannerScreen = () => {
   const dispatch = useDispatch();
   const themeMode = themeChange();
   const queryClient = useQueryClient();
+
+  const userID = auth().currentUser;
 
   const mutationAddTodo = useMutation({
     mutationFn: mutateaddStore,
@@ -39,8 +42,7 @@ const ScannerScreen = () => {
     const isStore = await searchStore(codeId);
 
     if (isStore) {
-      // addStore(codeId, 'DMWrTCluLrhJMrI01BVhJK6byFs1');
-      mutationAddTodo.mutate({ storeId: codeId, userId: 'DMWrTCluLrhJMrI01BVhJK6byFs1' });
+      mutationAddTodo.mutate({ storeId: codeId, userId: userID?.uid });
       dispatch(
         openModal({
           modalType: 'OneBtnModal',

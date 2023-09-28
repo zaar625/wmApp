@@ -38,7 +38,6 @@ import { ThemeContext } from './App/theme/themeContext';
 import { TThemeMode } from './App/theme/themeContext';
 import BootSplash from 'react-native-bootsplash';
 import { AnimatedBootSplash } from './App/theme/splach';
-import themeChange from './App/util/theme';
 
 export default function App() {
   const [theme, setTheme] = useState<TThemeMode>({ mode: 'dark', system: false });
