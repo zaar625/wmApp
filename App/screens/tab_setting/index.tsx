@@ -33,7 +33,13 @@ const SettingTabScreen = () => {
     >
       <ScrollView
         showsVerticalScrollIndicator={false}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor={themeMode.refresh}
+          />
+        }
       >
         <ScreenTitle title={`앱과 내 정보를${`\n`}나에게 맞춰보세요.`} />
         <UserInfo />

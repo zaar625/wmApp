@@ -42,6 +42,7 @@ const RequestDetailCard = ({ data }: any) => {
   const onPressOut = () => {
     scaleAni.value = 1;
     backgound.value = themeMode.secondary;
+    console.log('a');
     dispatch(openBottomSheet({ route: 'settingScreen', data }));
   };
   return (

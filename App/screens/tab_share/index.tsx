@@ -30,7 +30,13 @@ const ShareTabScreen = () => {
     >
       <ScrollView
         showsVerticalScrollIndicator={false}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor={themeMode.refresh}
+          />
+        }
       >
         <ScreenTitle
           title={`공유된 내용 확인하고${`\n`}나도 공유하고`}

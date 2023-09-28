@@ -9,12 +9,12 @@ import PayRoll from './components/PayRoll';
 import { ScreenTitle } from '../../common-components/Title';
 import WorkingStore from './components/WorkingStore';
 import { useQueryClient } from '@tanstack/react-query';
+import themeChange from '../../util/theme';
 
 import auth from '@react-native-firebase/auth';
 
 const StoreTabScreen = () => {
-  const { theme } = useContext(ThemeContext);
-  let activeColor = theme.mode && colors[theme.mode];
+  const themeMode = themeChange();
 
   const queryClient = useQueryClient();
   const user = auth().currentUser;
@@ -34,12 +34,18 @@ const StoreTabScreen = () => {
   return (
     <>
       <SafeAreaView
-        style={[styles.container, { backgroundColor: activeColor.primary }]}
+        style={[styles.container, { backgroundColor: themeMode.primary }]}
         edges={['top']}
       >
         <ScrollView
           showsVerticalScrollIndicator={false}
-          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              tintColor={themeMode.refresh}
+            />
+          }
         >
           <ScreenTitle
             title={`안녕하세요. ${user?.displayName}님,${`\n`}오늘하루 화이팅입니다 :)`}

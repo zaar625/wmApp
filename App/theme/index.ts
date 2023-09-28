@@ -11,7 +11,8 @@ const colors: any = {
     tint: '#000',
     card: '#F2F3F5',
     pressIcon: '#5C6269',
-    main: '#326273'
+    main: '#326273',
+    refresh: '#D4D4D4'
   },
   dark: {
     primary: '#101012',
@@ -21,6 +22,7 @@ const colors: any = {
     tint: '#fff',
     card: '#25252B',
     pressIcon: '#BAC0CE',
+    refresh: '#BDBDBD',
     main: '#326273'
   }
 };
