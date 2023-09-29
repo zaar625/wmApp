@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Appearance, StatusBar, StyleSheet } from 'react-native';
+import { Appearance, StatusBar, StyleSheet, Alert } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import auth from '@react-native-firebase/auth';
 import { getStorageTheme, setStorageTheme } from './App/util/storageTheme';
+import ForegroundHandler from './App/util/foregroundHandler';
 
 import OnboardingPage from './App/screens/onboarding';
 import CategorySelectPage from './App/screens/select_category';
@@ -38,6 +39,7 @@ import { ThemeContext } from './App/theme/themeContext';
 import { TThemeMode } from './App/theme/themeContext';
 import BootSplash from 'react-native-bootsplash';
 import { AnimatedBootSplash } from './App/theme/splach';
+import { requestUserPermission } from './App/util/notificationHelper';
 
 export default function App() {
   const [theme, setTheme] = useState<TThemeMode>({ mode: 'dark', system: false });
@@ -74,6 +76,10 @@ export default function App() {
       setTheme(storageTheme);
     }
   };
+
+  useEffect(() => {
+    requestUserPermission();
+  }, []);
 
   useEffect(() => {
     getThemeStorage();
@@ -165,6 +171,7 @@ export default function App() {
             </NavigationContainer>
           )}
         </ThemeContext.Provider>
+        <ForegroundHandler />
       </Provider>
     </>
   );
