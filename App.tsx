@@ -8,7 +8,6 @@ import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import auth from '@react-native-firebase/auth';
 import { getStorageTheme, setStorageTheme } from './App/util/storageTheme';
-import ForegroundHandler from './App/util/foregroundHandler';
 
 import OnboardingPage from './App/screens/onboarding';
 import CategorySelectPage from './App/screens/select_category';
@@ -171,7 +170,6 @@ export default function App() {
             </NavigationContainer>
           )}
         </ThemeContext.Provider>
-        <ForegroundHandler />
       </Provider>
     </>
   );

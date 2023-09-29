@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@bam.tech/react-native-image-resizer": "^3.0.5",
+    "@notifee/react-native": "^7.8.0",
     "@react-native-async-storage/async-storage": "^1.19.2",
     "@react-native-camera-roll/camera-roll": "^5.7.2",
     "@react-native-community/netinfo": "^9.4.1",
@@ -44,7 +45,6 @@
     "react-native-image-picker": "5.0.2",
     "react-native-modalize": "^2.1.1",
     "react-native-permissions": "^3.8.4",
-    "react-native-push-notification": "^8.1.1",
     "react-native-qrcode-scanner": "^1.5.5",
     "react-native-reanimated": "^3.3.0",
     "react-native-safe-area-context": "^4.7.1",

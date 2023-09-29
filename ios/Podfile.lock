@@ -1285,6 +1285,11 @@ PODS:
     - RNFBApp
   - RNGestureHandler (2.12.0):
     - React-Core
+  - RNNotifee (7.8.0):
+    - React-Core
+    - RNNotifee/NotifeeCore (= 7.8.0)
+  - RNNotifee/NotifeeCore (7.8.0):
+    - React-Core
   - RNPermissions (3.8.4):
     - React-Core
   - RNReactNativeHapticFeedback (2.0.3):
@@ -1393,6 +1398,7 @@ DEPENDENCIES:
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - "RNFBStorage (from `../node_modules/@react-native-firebase/storage`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - "RNNotifee (from `../node_modules/@notifee/react-native`)"
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReactNativeHapticFeedback (from `../node_modules/react-native-haptic-feedback`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -1547,6 +1553,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/storage"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNNotifee:
+    :path: "../node_modules/@notifee/react-native"
   RNPermissions:
     :path: "../node_modules/react-native-permissions"
   RNReactNativeHapticFeedback:
@@ -1645,6 +1653,7 @@ SPEC CHECKSUMS:
   RNFBMessaging: 5b708516ede4d45fd44ca1d6139f61453cd3b0db
   RNFBStorage: 51f621f8aa4825ee923570b00f5c13537c932b48
   RNGestureHandler: dec4645026e7401a0899f2846d864403478ff6a5
+  RNNotifee: f3c01b391dd8e98e67f539f9a35a9cbcd3bae744
   RNPermissions: 1065094ab11071637eb0ffa05103d5f5eb65c64e
   RNReactNativeHapticFeedback: afa5bf2794aecbb2dba2525329253da0d66656df
   RNReanimated: 9f7068e43b9358a46a688d94a5a3adb258139457
