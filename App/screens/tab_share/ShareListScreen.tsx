@@ -27,7 +27,6 @@ const ShareListScreen = () => {
     <SafeAreaView style={[styles.container, { backgroundColor: themeMode.primary }]}>
       <NavigationHeader header="매장별 전달 사항" />
       {render()}
-      {/* <Button title="다음장" color={'#fff'} onPress={() => setPage(page + 1)} /> */}
     </SafeAreaView>
   );
 };
