@@ -97,7 +97,7 @@ const PasswordForm = () => {
             isOpen: true,
             contents: {
               title: '회원가입이 완료되었습니다.',
-              content: `안녕하세요. 이상윤님${'\n'}앱을 이용해주셔서 감사합니다.`,
+              content: `안녕하세요. ${name}님 ${'\n'}앱을 이용해주셔서 감사합니다.`,
               onPress() {
                 dispatch(closeModal());
                 navigation.navigate('bottomTab');

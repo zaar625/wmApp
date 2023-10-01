@@ -2,7 +2,7 @@ import { StyleSheet, View, TouchableWithoutFeedback, Keyboard, TextInput } from 
 import React, { useRef, useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
-import { userSaveInfo } from '../../state/slice/signUp';
+import { signUpUserInfo } from '../../state/slice/signUp';
 import { NavigationScreenProps } from '../../type';
 import { ScreenTitle } from '../../common-components/Title';
 import InputBox from '../login/InputBox';
@@ -36,6 +36,7 @@ const SingInStep01 = ({ navigation }: NavigationScreenProps) => {
   const emailInputRef = useRef<null | TextInput>(null);
   const phoneInputRef = useRef<null | TextInput>(null);
 
+  console.log(userInfo);
   const checkedEmail = (email: string) => {
     const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,}$/;
 
@@ -59,7 +60,7 @@ const SingInStep01 = ({ navigation }: NavigationScreenProps) => {
     const userInfoValues = Object.values(userInfo);
     const allIsTruthy = userInfoValues.every(info => info.length !== 0);
     if (allIsTruthy) {
-      dispatch(userSaveInfo(userInfo));
+      dispatch(signUpUserInfo(userInfo));
       navigation.navigate('signInStep02Page');
     }
   };
