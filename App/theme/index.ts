@@ -24,7 +24,8 @@ const colors: any = {
     pressIcon: '#BAC0CE',
     refresh: '#BDBDBD',
     main: '#326273'
-  }
+  },
+  main: '#326273'
 };
 
 const fontSizes = {

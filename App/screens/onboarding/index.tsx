@@ -7,9 +7,11 @@ import Button from '../../common-components/buttons/Button';
 import { onBoadingDATA, OnBoadingSlideItem } from './onboardingData';
 import { colors, deviceheight, deviceWidth } from '../../theme';
 import { ThemeContext } from '../../theme/themeContext';
+import themeChange from '../../util/theme';
 import { useContext } from 'react';
 
 export default function OnboardingPage({ navigation }: NavigationScreenProps) {
+  const themeMode = themeChange();
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const ref = useRef(null);
 

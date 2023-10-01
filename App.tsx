@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Appearance, StatusBar, StyleSheet, Alert } from 'react-native';
+import { Appearance, StatusBar, StyleSheet, Text, _Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -40,9 +40,12 @@ import BootSplash from 'react-native-bootsplash';
 import { AnimatedBootSplash } from './App/theme/splach';
 import { requestUserPermission } from './App/util/notificationHelper';
 
+// 폰트 사이즈 고정
+Text.defaultProps = Text.defaultProps || {};
+Text.defaultProps.allowFontScaling = false;
+
 export default function App() {
   const [theme, setTheme] = useState<TThemeMode>({ mode: 'dark', system: false });
-
   const [visible, setVisible] = useState(true);
   const statusBarStyle = theme.mode === 'dark' ? 'light-content' : 'dark-content';
   const Stack = createStackNavigator<RootStackParamList>();
