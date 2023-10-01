@@ -1,9 +1,6 @@
 import { StyleSheet, ScrollView, RefreshControl } from 'react-native';
-import React, { useEffect } from 'react';
-import { colors } from '../../theme';
+import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useContext } from 'react';
-import { ThemeContext } from '../../theme/themeContext';
 import AddedStore from './components/AddedStore';
 import PayRoll from './components/PayRoll';
 import { ScreenTitle } from '../../common-components/Title';
@@ -18,6 +15,7 @@ const StoreTabScreen = () => {
 
   const queryClient = useQueryClient();
   const user = auth().currentUser;
+  console.log(user);
 
   const [refreshing, setRefreshing] = React.useState(false);
 

@@ -89,6 +89,7 @@ const PasswordForm = () => {
     const signUpForm = { email, password };
     try {
       const { user } = await signUp(signUpForm);
+      await user.updateProfile({ displayName: name });
 
       if (user) {
         dispatch(
