@@ -16,7 +16,11 @@ import SvgIcon from '../../common-components/SvgIcon';
 import themeChange from '../../util/theme';
 import { createUser } from '../../api/users';
 
-const PasswordForm = () => {
+const PasswordForm = ({
+  setIsLoading
+}: {
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const themeMode = themeChange();
 
   const [inputFocusActive, setInputFocusActive] = useState(false);
@@ -88,8 +92,9 @@ const PasswordForm = () => {
   const userSignUp = async () => {
     const signUpForm = { email, password };
     try {
+      setIsLoading(true);
       const { user } = await signUp(signUpForm);
-      await user.updateProfile({ displayName: name });
+      await user.updateProfile({ displayName: name }).then(() => setIsLoading(false));
 
       if (user) {
         dispatch(
