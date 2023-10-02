@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View, Image } from 'react-native';
+import { Pressable, StyleSheet, Text, View, Image, Platform } from 'react-native';
 import React, { useState } from 'react';
 import SvgIcon from '../../../common-components/SvgIcon';
 import { deviceWidth } from '../../../theme';
@@ -29,7 +29,7 @@ const ImageSelect = ({ pickImages, setPickImages }: Props) => {
       selectionLimit: 3,
       presentationStyle: 'pageSheet'
     });
-
+    console.log('imageData', imagedata);
     if (imagedata) {
       const resizingImages = await onImageResizer(imagedata);
 
@@ -61,7 +61,11 @@ const ImageSelect = ({ pickImages, setPickImages }: Props) => {
               <View>
                 <Image
                   key={index}
-                  source={{ uri: image.path }}
+                  source={
+                    Platform.OS === 'android'
+                      ? { uri: `file://${image.path}` }
+                      : { uri: image.path }
+                  }
                   style={styles.imgContainer}
                   resizeMode="cover"
                 />

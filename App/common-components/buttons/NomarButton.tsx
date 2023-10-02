@@ -26,12 +26,12 @@ export default NomalButton;
 
 const styles = StyleSheet.create({
   btn: {
-    // flex: 1,
     backgroundColor: '#326273',
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 15,
     marginHorizontal: 20,
+    marginTop: 15,
     borderRadius: 10
   },
   btnText: {

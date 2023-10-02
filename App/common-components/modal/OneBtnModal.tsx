@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   },
   contentsContainer: {
     width: deviceWidth * 0.888,
-    height: deviceheight * 0.23,
+    // height: deviceheight * 0.23,
     paddingVertical: 20,
     borderRadius: 10,
     alignItems: 'center',

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Pressable, Platform } from 'react-native';
 import React from 'react';
 
 type Props = {
@@ -29,7 +29,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 21,
     marginHorizontal: 20,
-    borderRadius: 10
+    marginBottom: 10,
+    borderRadius: 10,
+    ...Platform.select({
+      android: {
+        paddingVertical: 15
+      }
+    })
   },
   btnText: {
     color: '#fff',

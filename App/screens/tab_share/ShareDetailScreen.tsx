@@ -93,10 +93,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between'
   },
-
-  contentContainer: {
-    paddingHorizontal: 20
-  },
   contentStore: {
     fontWeight: '700',
     fontSize: 18,

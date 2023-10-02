@@ -69,7 +69,8 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   titleWrapper: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    alignItems: 'flex-start'
   },
   image: {
     width: 30,
