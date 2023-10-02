@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   indicatorWrapper: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: deviceheight * 0.09
+    marginBottom: deviceheight * 0.08
   },
   indicator: {
     height: 6,
