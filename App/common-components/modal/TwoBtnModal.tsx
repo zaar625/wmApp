@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
   card: {
     width: deviceWidth * 0.888,
-    height: deviceheight * 0.23,
+    minHeigh: deviceheight * 0.23,
     paddingVertical: 20,
     borderRadius: 10,
     alignItems: 'center',
@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
   btnContainer: {
     width: '100%',
     flexDirection: 'row',
+    marginTop: 20,
     justifyContent: 'space-between',
     paddingHorizontal: 20,
     gap: 10

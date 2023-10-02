@@ -1,4 +1,4 @@
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 
 import themeChange from '../../../util/theme';
@@ -69,7 +69,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 15,
     paddingBottom: 5,
-    borderRadius: 15
+    borderRadius: 15,
+    ...Platform.select({
+      android: {
+        marginBottom: 20
+      }
+    })
   },
   header: {
     flexDirection: 'row',

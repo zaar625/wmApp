@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable, Image } from 'react-native';
+import { StyleSheet, Text, View, Pressable, Image, Platform } from 'react-native';
 import React from 'react';
 
 import themeChange from '../../../util/theme';
@@ -105,8 +105,7 @@ const styles = StyleSheet.create({
     fontWeight: '600'
   },
   cardWrapper: {
-    paddingVertical: 20,
-    backgroundColor: '#30394B',
+    paddingVertical: Platform.OS === 'android' ? 15 : 20,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
