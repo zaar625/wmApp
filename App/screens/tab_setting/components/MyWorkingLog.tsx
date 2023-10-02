@@ -30,7 +30,7 @@ const MyWorkingLog = () => {
       <View style={styles.headerTitle}>
         <View style={{ flexDirection: 'row', flex: 1 }}>
           <Image source={require('../../../assets/img/calendar.png')} style={styles.image} />
-          <View>
+          <View style={{ flex: 1 }}>
             <SmallTitle title="근무 이력" style={{ marginBottom: 5 }} />
             <Text style={[styles.subDesc, { color: themeMode.subTint }]}>
               매장별 근무이력을 달력에 한눈에 볼 수 있어요.
