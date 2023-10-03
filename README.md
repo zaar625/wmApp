@@ -1,79 +1,54 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Work & Manage app 
+매장을 운영하거나 근로자로써 일을 하게 될 때 기본적으로 근태관리를 합니다.<br>
+하지만 매장을 운영하거나 일을 하게되면 투명한 근태관리가 이루어지고 있는지, 내 급여는 제대로 계산이 되고 있는지 늘 다시한번 확인하거나 캘린더에 작성하곤 합니다.<br>
+이 앱은 이러한 불편함을 해소하고자 기획되었습니다. 매장 내 비치된 QR 코드로 출/퇴근 등록을 하며, 근무 종료와 동시에 캘린더에 기록이 남습니다. <br>
+더 나아가 매장에 공유사항들을 사진을 첨부하여 함께 근무하는 사람들에게 공유가 가능합니다. 
 
-# Getting Started
-
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
-
-## Step 1: Start the Metro Server
-
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
-
-To start Metro, run the following command from the _root_ of your React Native project:
-
+## 사용 스킬
 ```bash
-# using npm
-npm start
-
-# OR using Yarn
-yarn start
+"react-native", "@reduxjs/toolkit", "@react-native-firebase/app", "@tanstack/react-query"
 ```
-
-## Step 2: Start your Application
-
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
-
-### For Android
-
-```bash
-# using npm
-npm run android
-
-# OR using Yarn
-yarn android
+## 파일 구조도
+아래는 프로젝트 파일 구조도입니다. 추후 협업 또는 유지보수를 고려하여 참고해 주시기 바랍니다. 
+```javascript
+  
+📦App
+ ┣ 📂api 
+ ┃ ┣ 📂store // 매장에서 발생하는 api입니다. 
+ ┃ ┃ ┗ 📂hooks //리액트 쿼리 훅을 사용할 경우 해당 폴더에 작성합니다.
+ ┣ 📂assets 
+ ┃ ┣ 📂icon
+ ┃ ┃ ┣ 📜arrow_left.svg
+ ┃ ┃ ┣ 📜index.ts // svg 공통 컴포넌트를 제작하기 위해 .svg의 name을 정의합니다.
+ ┃ ┣ 📂img
+ ┃ ┃ ┣ 📜eraser.png
+ ┃ ┃ ┣ 📜imagePath.ts // 동적으로 이미지를 가져와야 할 경우 해당 파일에 작성합니다.
+ ┃ ┣ 📂splash
+ ┣ 📂common-components // APP에서 사용되는 공통 컴포넌트 입니다.
+ ┣ 📂constant
+ ┣ 📂hooks // 커스텀 훅을 작성할 경우 해당 폴더에 작성해주세요. 
+ ┣ 📂screens //앱에서 나타나는 페이지들입니다. 
+ ┃ ┣ 📂bottom_tab
+ ┃ ┣ 📂login
+ ┃ ┃ ┣ 📂employee
+ ┃ ┃ ┣ 📂manager
+ ┃ ┣ 📂onboarding
+ ┃ ┣ 📂select_category
+ ┃ ┣ 📂sign_up
+ ┃ ┣ 📂tab_barcode
+ ┃ ┣ 📂tab_calendar
+ ┃ ┃ ┣ 📂components //해당 스크린에서만 사용되는 컴포넌트입니다. (주의: common-components는 전역적으로 사용되는 컴포넌트 모음입니다.)
+ ┃ ┃ ┗ 📜index.tsx
+ ┃ ┣ 📂tab_setting
+ ┃ ┣ 📂tab_share
+ ┃ ┗ 📂tab_store
+ ┣ 📂state 
+ ┃ ┣ 📂slice //리덕스 툴킷의 상태관리를 위한 슬라이스 모음입니다.
+ ┃ ┗ 📜store.ts
+ ┣ 📂theme
+ ┣ 📂type
+ ┣ 📂util //전역적으로 사용할 함수들을 작성해주세요. (ex: 햅틱 진동 함수, 이미지 리사이즈 함수 등)
 ```
-
-### For iOS
-
-```bash
-# using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
-```
-
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
-
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
-
-## Step 3: Modifying your App
-
-Now that you have successfully run the app, let's modify it.
-
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
-
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+## 페이지별 상세
+### 1. 스플래쉬 ~ 온보딩
+<img src='https://github.com/zaar625/wmApp/assets/69461545/d574c31a-ecd0-4e85-9ab6-3ce4975e5387' width=190px height='380px'/>
