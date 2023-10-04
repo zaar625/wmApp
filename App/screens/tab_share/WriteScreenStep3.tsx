@@ -7,63 +7,60 @@ import ShareForm from './components/ShareForm';
 import Button from '../../common-components/buttons/Button';
 import { ScrollView } from 'react-native-gesture-handler';
 import firestore from '@react-native-firebase/firestore';
-import storage from '@react-native-firebase/storage';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../state/store';
 import { NavigationScreenProps } from '../../type';
 import { useQueryClient } from '@tanstack/react-query';
+import ErrorGuide from '../../common-components/ErrorGuide';
+import { imageUpLoad } from '../../util/imageUpLoad';
+import { useAddLog } from '../../api/store/hooks/useAddLog';
+import Loader from '../../common-components/Loader';
 
 const WriteScreenStep3 = ({ navigation }: NavigationScreenProps) => {
   const themeMode = themeChange();
   const queryClient = useQueryClient();
+
+  const { mutate } = useAddLog();
+
   const { images, store } = useSelector((state: RootState) => state.share);
+
   const [contents, setContents] = useState({
     title: '',
     content: ''
   });
+  const [isFilled, setIsFilled] = useState<boolean | null>(null);
+  const [isLoader, setIsLoader] = useState(false);
 
   const onSubmit = async () => {
-    const reference = storage().ref(`/photo/DMWrTCluLrhJMrI01BVhJK6byFs1/`);
-    const photosURL: string[] = [];
+    const isFilledForm = contents.title.length > 0 && contents.content.length > 0;
 
-    if (images) {
-      await Promise.all(
-        images.map(async (image, index) => {
-          const imageRef = reference.child(`image${index}.jpg`);
-          await imageRef.putFile(image.uri);
-          const photoURL = await imageRef.getDownloadURL(); // 여기서 imageRef를 사용합니다
-
-          photosURL.push(photoURL);
-        })
-      );
+    if (!isFilledForm) {
+      setIsFilled(isFilledForm);
+      return;
     }
 
-    // 파이어베이스 저장
-    const shareLogCollection = firestore()
-      .collection('users')
-      .doc('DMWrTCluLrhJMrI01BVhJK6byFs1')
-      .collection('shareLog');
+    setIsLoader(true);
+    const photosURL = await imageUpLoad(images);
 
-    await shareLogCollection.add({
-      user: 'DMWrTCluLrhJMrI01BVhJK6byFs1',
-      photosURL,
-      content: contents.content,
-      store,
-      createAt: firestore.FieldValue.serverTimestamp()
-    });
-    // 매장 로그 저장
-    const storeLogCollection = firestore().collection('store').doc(store?.id).collection('log');
-    await storeLogCollection.add({
+    const uploadData = {
       user: 'DMWrTCluLrhJMrI01BVhJK6byFs1',
       photosURL,
       title: contents.title,
       content: contents.content,
       store,
       createAt: firestore.FieldValue.serverTimestamp()
-    });
+    };
 
-    navigation.navigate('bottomTab');
-    queryClient.invalidateQueries({ queryKey: ['total-logs'] });
+    mutate(
+      { store, data: uploadData },
+      {
+        onSuccess: () => {
+          setIsLoader(false);
+          navigation.navigate('bottomTab');
+          queryClient.invalidateQueries({ queryKey: ['total-logs'] });
+        }
+      }
+    );
   };
 
   return (
@@ -83,10 +80,14 @@ const WriteScreenStep3 = ({ navigation }: NavigationScreenProps) => {
               </Text>
             </View>
             <ShareForm setContents={setContents} contents={contents} />
+            {isFilled === false && (
+              <ErrorGuide message="앗! 제목과 내용을 작성했는지 확인해주세요." />
+            )}
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
       <Button name="공유하기" onPress={onSubmit} />
+      {isLoader && <Loader />}
     </SafeAreaView>
   );
 };

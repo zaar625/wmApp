@@ -1,4 +1,4 @@
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 
 import themeChange from '../../../util/theme';
@@ -28,7 +28,7 @@ const PayRoll = () => {
     <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
       <View style={styles.header}>
         <SemiTitle title="월별 예상 급여" />
-        <Pressable onPress={() => navigation.navigate('calendarTabScreen')}>
+        <Pressable hitSlop={50} onPress={() => navigation.navigate('calendarTabScreen')}>
           <SvgIcon name="arrow_right" color={themeMode.pressIcon} />
         </Pressable>
       </View>
@@ -69,7 +69,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 15,
     paddingBottom: 5,
-    borderRadius: 15
+    borderRadius: 15,
+    ...Platform.select({
+      android: {
+        marginBottom: 20
+      }
+    })
   },
   header: {
     flexDirection: 'row',

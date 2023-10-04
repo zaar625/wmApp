@@ -10,26 +10,45 @@ import { useAddTimeEditing } from '../../api/store/hooks/useTimeEditing';
 import { useDispatch } from 'react-redux';
 import { closeBottomSheet } from '../../state/slice/bottomSheet';
 import { useAddPersonalWorkHistoryEdit } from '../../api/store/hooks/useAddPersonalWorkHistoryEditList';
-const TimeModifySheet = ({ data }: any, ref: any) => {
-  const themeMode = themeChange();
+import ErrorGuide from '../ErrorGuide';
+import { openToast } from '../../state/slice/toast';
+import auth from '@react-native-firebase/auth';
 
+const TimeModifySheet = ({ data }: any) => {
+  const themeMode = themeChange();
+  const userID = auth().currentUser;
   const { mutate: timeEdittingToManager } = useAddTimeEditing();
-  const { mutate: timeEdittingToUser } = useAddPersonalWorkHistoryEdit();
+  const { mutate: timeEdittingToUser, isLoading } = useAddPersonalWorkHistoryEdit();
+
   const dispatch = useDispatch();
+
   const [workModifyInfo, setWorkModifyInfo] = useState({
     reason: '',
-    start: '-',
-    end: '-'
+    start: null,
+    end: null
   });
 
-  const onChangeText = (inputText: string) => {
-    setWorkModifyInfo({ ...workModifyInfo, reason: inputText });
+  const [buttonActive, setButtonActive] = useState<null | boolean>(null);
+
+  const onChangeText = (text: string) => {
+    setWorkModifyInfo({ ...workModifyInfo, reason: text });
+  };
+
+  const isFilledForm = () => {
+    const hasReason = workModifyInfo.reason.length > 0;
+    const hasTime = workModifyInfo.start && workModifyInfo.end;
+    setButtonActive(hasReason && !!hasTime);
+
+    return hasReason && !!hasTime;
   };
 
   const onsubmit = async () => {
+    const isFilled = isFilledForm();
+
     const afterData = {
+      id: data.id,
       date: data.date,
-      storeName: data.storeName,
+      storeInfo: data.storeInfo,
       start: workModifyInfo.start,
       end: workModifyInfo.end
     };
@@ -38,20 +57,26 @@ const TimeModifySheet = ({ data }: any, ref: any) => {
       before: data,
       after: afterData,
       createAt: firestore.FieldValue.serverTimestamp(),
-      user: 'DMWrTCluLrhJMrI01BVhJK6byFs1',
+      user: userID?.uid,
       reason: workModifyInfo.reason,
-      confirm: false
+      confirm: false,
+      id: data.id
     };
 
-    try {
-      await Promise.all([
-        timeEdittingToManager({ storeId: data.storeName, data: queryData }),
-        timeEdittingToUser({ data: queryData })
-      ]);
-
-      dispatch(closeBottomSheet());
-    } catch {
-      console.log('error');
+    if (isFilled) {
+      try {
+        await Promise.all([
+          timeEdittingToManager({ storeId: data.storeName, data: queryData }),
+          timeEdittingToUser({ data: queryData })
+        ]).then(() => {
+          dispatch(closeBottomSheet());
+          setTimeout(() => {
+            dispatch(openToast({ message: `근태수정 요청이 완료되었습니다.` }));
+          }, 500);
+        });
+      } catch {
+        console.log('error');
+      }
     }
   };
 
@@ -60,10 +85,15 @@ const TimeModifySheet = ({ data }: any, ref: any) => {
       <View style={{ padding: 20 }}>
         <Text style={[styles.title, { color: themeMode.tint }]}>출퇴근 등록 수정</Text>
         <View style={styles.checkWrapper}>
-          <SvgIcon name="check" style={styles.icon} color={themeMode.pressIcon} />
+          <SvgIcon
+            name="check"
+            style={styles.icon}
+            color={workModifyInfo.reason.length > 0 ? '#52C648' : themeMode.pressIcon}
+          />
           <Text style={{ color: themeMode.tint }}>사유를 간단하게 작성해주세요.</Text>
         </View>
         <TextInput
+          onFocus={() => setButtonActive(null)}
           onChangeText={onChangeText}
           placeholder="100자 이내로 작성해주세요."
           placeholderTextColor={'#797979'}
@@ -71,9 +101,13 @@ const TimeModifySheet = ({ data }: any, ref: any) => {
           maxLength={100}
           style={[styles.textInput, { backgroundColor: themeMode.card }]}
         />
-        <Text style={styles.lengthText}>{workModifyInfo.reason.length} / 100</Text>
+
         <View style={styles.checkWrapper}>
-          <SvgIcon name="check" style={styles.icon} color={themeMode.pressIcon} />
+          <SvgIcon
+            name="check"
+            style={styles.icon}
+            color={workModifyInfo.start && workModifyInfo.end ? '#52C648' : themeMode.pressIcon}
+          />
           <Text style={{ color: themeMode.tint }}>수정 시간을 작성해주세요.</Text>
         </View>
         {['start', 'end'].map((item, index) => (
@@ -82,25 +116,28 @@ const TimeModifySheet = ({ data }: any, ref: any) => {
             title={item}
             timeHandler={setWorkModifyInfo}
             workModifyInfo={workModifyInfo}
+            setButtonActive={setButtonActive}
           />
         ))}
+
+        {buttonActive === false && <ErrorGuide message="입력되지 않은 항목이 있습니다." />}
       </View>
-      <NomalButton name="수정" onPress={onsubmit} />
+      <NomalButton name="수정" onPress={onsubmit} isActive={isLoading} />
     </View>
   );
 };
 
-const WorkTime = ({ title, timeHandler, workModifyInfo }: any) => {
+const WorkTime = ({ title, timeHandler, workModifyInfo, setButtonActive }: any) => {
   const themeMode = themeChange();
   const [datePickerOpen, setDatePickerOpen] = useState(false);
   const today = new Date();
 
   const titleName = title === 'start' ? '출근' : '퇴근';
 
-  const formatTime =
-    workModifyInfo[title] !== '-' ? format(workModifyInfo[title], 'HH : mm aaa') : '-';
+  const formatTime = workModifyInfo[title] ? format(workModifyInfo[title], 'HH : mm aaa') : '-';
 
   const workHourOnpress = () => {
+    setButtonActive(null);
     setDatePickerOpen(true);
   };
 
@@ -146,7 +183,8 @@ const styles = StyleSheet.create({
   checkWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10
+    marginBottom: 10,
+    marginTop: 20
   },
 
   icon: {

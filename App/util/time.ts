@@ -4,7 +4,11 @@ export type TWorkData = {
   date: any;
   end: any;
   start: any;
-  storeName: string;
+  storeInfo: {
+    name: string;
+    id: string;
+    class: string;
+  };
 };
 
 export function monthlyTotalHour(workData: TWorkData[] | undefined) {
@@ -22,7 +26,6 @@ export function monthlyTotalHour(workData: TWorkData[] | undefined) {
 
 export function changeTime(totalMinute: number | undefined) {
   if (!totalMinute) return { hour: 0, minute: 0 };
-  console.log(totalMinute);
 
   const hour = Math.floor(totalMinute / 60);
   const minute = totalMinute - hour * 60;

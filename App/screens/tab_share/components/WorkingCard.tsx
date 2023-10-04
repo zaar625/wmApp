@@ -8,7 +8,7 @@ import { deviceWidth } from '../../../theme';
 import { TWorkData } from '../../../util/time';
 import { format } from 'date-fns';
 
-const WorkingCard = ({ item }: { item: TWorkData }) => {
+const WorkingCard = ({ item, length }: { item: TWorkData; length: number | undefined }) => {
   const themeMode = themeChange();
   const dispatch = useDispatch();
   const { start, end } = item;
@@ -23,7 +23,15 @@ const WorkingCard = ({ item }: { item: TWorkData }) => {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor: themeMode.secondary,
+          width: length && length < 2 ? deviceWidth - 40 : deviceWidth - 60
+        }
+      ]}
+    >
       <View style={styles.header}>
         <View style={styles.storeWrapper}>
           <Image
@@ -31,7 +39,7 @@ const WorkingCard = ({ item }: { item: TWorkData }) => {
             style={styles.image}
             resizeMode="contain"
           />
-          <Text style={[styles.storeName, { color: themeMode.tint }]}>카페이루</Text>
+          <Text style={[styles.storeName, { color: themeMode.tint }]}>{item.storeInfo.name}</Text>
         </View>
         <Pressable style={styles.requireBtn} onPress={modifyRequestOnPress}>
           <Text style={[{ color: themeMode.pressIcon }, styles.btnText]}>출퇴근 수정 요청</Text>

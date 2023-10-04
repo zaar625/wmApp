@@ -6,8 +6,10 @@ import {
   addDays,
   format,
   eachWeekOfInterval,
-  isSameMonth
+  isSameMonth,
+  isSameDay
 } from 'date-fns';
+import isToday from 'date-fns/isToday';
 import themeChange from '../../util/theme';
 import { useDispatch } from 'react-redux';
 import { openBottomSheet } from '../../state/slice/bottomSheet';
@@ -61,7 +63,14 @@ const Dates = ({ currentDate }: { currentDate: Date }) => {
               >
                 {isSameMonth(monthStart, dayDate) && (
                   <>
-                    <Text style={[styles.dateText, { color: themeMode.subTint }]}>
+                    <Text
+                      style={[
+                        styles.dateText,
+                        isToday(dayDate)
+                          ? { color: '#4C63FF', fontWeight: 'bold' }
+                          : { color: themeMode.subTint }
+                      ]}
+                    >
                       {format(dayDate, 'd')}
                     </Text>
                     <View style={{ minHeight: 50 }}>

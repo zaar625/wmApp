@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable, Image } from 'react-native';
+import { StyleSheet, Text, View, Pressable, Image, Platform } from 'react-native';
 import React from 'react';
 
 import themeChange from '../../../util/theme';
@@ -8,10 +8,11 @@ import { useMyStoreList } from '../../../api/store/hooks/useMyStoreList';
 import { useDeletStore } from '../../../api/store/hooks/useDeleteStoreList';
 import { useDispatch } from 'react-redux';
 import { openModal, closeModal } from '../../../state/slice/modal';
+import { openToast } from '../../../state/slice/toast';
+import auth from '@react-native-firebase/auth';
 
-const WorkingStore = () => {
+const WorkingStore = ({ name }: { name: string | null | undefined }) => {
   const themeMode = themeChange();
-
   const { data: stores = [] } = useMyStoreList();
 
   return (
@@ -24,7 +25,7 @@ const WorkingStore = () => {
           resizeMode="contain"
         />
         <Text style={{ color: themeMode.subTint, fontSize: 12 }}>
-          이상윤님이 근무중인 매장입니다.
+          {name}님이 근무중인 매장입니다.
         </Text>
       </View>
       {stores.length > 0 ? (
@@ -40,6 +41,7 @@ const StoreCardContainer = ({ store }: any) => {
   const themeMode = themeChange();
   const dispatch = useDispatch();
   const { mutate } = useDeletStore();
+  const userID = auth().currentUser;
 
   const removeStore = (id: string) => {
     dispatch(
@@ -50,12 +52,22 @@ const StoreCardContainer = ({ store }: any) => {
           content: `근무지를 삭제 할 경우${`\n`}일부 데이터가 유실됩니다.`,
           buttons: {
             취소: () => dispatch(closeModal()),
-            삭제: () => mutate({ storeId: id }, { onSuccess: () => dispatch(closeModal()) })
+            삭제: () =>
+              mutate(
+                { storeId: id, userId: userID?.uid },
+                {
+                  onSuccess: () => {
+                    dispatch(closeModal());
+                    dispatch(
+                      openToast({ message: `${store.name}가 현재 근무지에서 삭제되었습니다.` })
+                    );
+                  }
+                }
+              )
           }
         }
       })
     );
-    // mutate({ storeId: id });
   };
 
   return (
@@ -93,8 +105,7 @@ const styles = StyleSheet.create({
     fontWeight: '600'
   },
   cardWrapper: {
-    paddingVertical: 20,
-    backgroundColor: '#30394B',
+    paddingVertical: Platform.OS === 'android' ? 15 : 20,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',

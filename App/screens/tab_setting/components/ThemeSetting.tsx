@@ -1,4 +1,4 @@
-import { Image, StyleSheet, View, Text } from 'react-native';
+import { Image, StyleSheet, View, Text, Pressable } from 'react-native';
 import React, { useState } from 'react';
 import { SemiTitle, SmallTitle } from '../../../common-components/Title';
 import { useContext } from 'react';
@@ -7,47 +7,20 @@ import ThemeTypeBtn from './ThemeTypeBtn';
 import { useColorScheme } from 'react-native';
 
 import themeChange from '../../../util/theme';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../../../type';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const ThemeSetting = () => {
   const themeMode = themeChange();
-  const scheme = useColorScheme();
 
-  const themeTypes = [
-    {
-      name: '밝은 화면',
-      state: false,
-      mode: 'light'
-    },
-    {
-      name: '어두운 화면',
-      state: true,
-      mode: 'dark'
-    },
-    {
-      name: '시스템 설정과 같이',
-      state: false,
-      mode: 'dark'
-    }
-  ];
-
-  const { updateTheme } = useContext(ThemeContext);
-
-  const [themeType, setThemeType] = useState(themeTypes);
-
-  const themeTypeOnPress = (typeIndex: number, mode: string) => {
-    const changeThemeTypes = themeType.map((type, index) => {
-      if (index === typeIndex) {
-        return { ...type, state: true };
-      } else {
-        return { ...type, state: false };
-      }
-    });
-    setThemeType(changeThemeTypes);
-    updateTheme({ mode });
-  };
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   return (
-    <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
+    <Pressable
+      style={[styles.container, { backgroundColor: themeMode.secondary }]}
+      onPress={() => navigation.navigate('themeListScreen')}
+    >
       <View style={styles.header}>
         <Image source={require('../../../assets/img/palette.png')} style={styles.image} />
         <View>
@@ -57,17 +30,7 @@ const ThemeSetting = () => {
           </Text>
         </View>
       </View>
-      <View>
-        {themeType.map((themeType, index) => (
-          <ThemeTypeBtn
-            key={index}
-            themeType={themeType}
-            index={index}
-            themeTypeOnPress={themeTypeOnPress}
-          />
-        ))}
-      </View>
-    </View>
+    </Pressable>
   );
 };
 

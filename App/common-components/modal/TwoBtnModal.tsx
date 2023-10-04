@@ -6,6 +6,8 @@ import ShortButton from '../buttons/ShortButton';
 
 const TwoBtnModal = ({ props }: any) => {
   const { buttons, content, title } = props;
+  const buttonType = Object.keys(buttons);
+
   const themeMode = themeChange();
   return (
     <View style={styles.container}>
@@ -16,8 +18,9 @@ const TwoBtnModal = ({ props }: any) => {
         </View>
 
         <View style={styles.btnContainer}>
-          <ShortButton name="취소" onPress={buttons['취소']} />
-          <ShortButton name="삭제" onPress={buttons['삭제']} />
+          {buttonType.map(btn => (
+            <ShortButton name={btn} onPress={buttons[btn]} />
+          ))}
         </View>
       </View>
     </View>
@@ -35,7 +38,7 @@ const styles = StyleSheet.create({
   },
   card: {
     width: deviceWidth * 0.888,
-    height: deviceheight * 0.23,
+    minHeigh: deviceheight * 0.23,
     paddingVertical: 20,
     borderRadius: 10,
     alignItems: 'center',
@@ -56,6 +59,7 @@ const styles = StyleSheet.create({
   btnContainer: {
     width: '100%',
     flexDirection: 'row',
+    marginTop: 20,
     justifyContent: 'space-between',
     paddingHorizontal: 20,
     gap: 10

@@ -5,7 +5,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../type';
 import InputBox from '../login/InputBox';
 import Button from '../../common-components/buttons/Button';
-import { userSaveInfo } from '../../state/slice/user';
+import { signUpUserInfo } from '../../state/slice/signUp';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../state/store';
 import { signUp } from '../../api/auth';
@@ -16,7 +16,11 @@ import SvgIcon from '../../common-components/SvgIcon';
 import themeChange from '../../util/theme';
 import { createUser } from '../../api/users';
 
-const PasswordForm = () => {
+const PasswordForm = ({
+  setIsLoading
+}: {
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const themeMode = themeChange();
 
   const [inputFocusActive, setInputFocusActive] = useState(false);
@@ -27,7 +31,7 @@ const PasswordForm = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
-  const { email, password, name, phone } = useSelector((state: RootState) => state.user);
+  const { email, password, name, phone } = useSelector((state: RootState) => state.signUp);
 
   const passwordInputRef = useRef<null | TextInput>(null);
   const checkedPasswordRef = useRef<null | TextInput>(null);
@@ -88,7 +92,9 @@ const PasswordForm = () => {
   const userSignUp = async () => {
     const signUpForm = { email, password };
     try {
+      setIsLoading(true);
       const { user } = await signUp(signUpForm);
+      await user.updateProfile({ displayName: name }).then(() => setIsLoading(false));
 
       if (user) {
         dispatch(
@@ -97,7 +103,7 @@ const PasswordForm = () => {
             isOpen: true,
             contents: {
               title: '회원가입이 완료되었습니다.',
-              content: `안녕하세요. 이상윤님${'\n'}앱을 이용해주셔서 감사합니다.`,
+              content: `안녕하세요. ${name}님 ${'\n'}앱을 이용해주셔서 감사합니다.`,
               onPress() {
                 dispatch(closeModal());
                 navigation.navigate('bottomTab');
@@ -202,11 +208,11 @@ const PasswordForm = () => {
           onEndEditing={({ nativeEvent: { text } }) => {
             if (text !== inputText) {
               setBtnActive(false);
-              dispatch(userSaveInfo(''));
+              dispatch(signUpUserInfo(''));
               setPasswordCheckError({ ...passwordCheckError, error: true });
             } else {
               setBtnActive(true);
-              dispatch(userSaveInfo({ password: text }));
+              dispatch(signUpUserInfo({ password: text }));
             }
           }}
           errorType={{ errType: passwordCheckError, handler: setPasswordCheckError }}

@@ -9,6 +9,7 @@ export type RootStackParamList = {
   bottomTab: undefined;
   storeTabScreen: undefined;
   shareTabScreen: undefined;
+
   barcodeTabScreen: undefined;
   attendanceScreen: undefined;
   calendarTabScreen: undefined;
@@ -19,7 +20,18 @@ export type RootStackParamList = {
   writeScreenStep3: undefined;
   imagePickScreen: undefined;
   shareDetailScreen: { header: string; data: any };
+  shareEditScreen: { data: any };
+  shareListScreen: undefined;
   myInfoModifyScreen: { header: string };
+  timeEdittingListScreen: { data: any };
+  themeListScreen: undefined;
+  openSourceScreen: undefined;
 };
 
 export type NavigationScreenProps = NativeStackScreenProps<RootStackParamList>;
+
+export type TStoreInfo = {
+  class: string;
+  name: string;
+  id: string;
+};

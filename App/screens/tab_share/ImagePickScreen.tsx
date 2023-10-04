@@ -1,3 +1,5 @@
+// 해당 스크린 사용 여부 확인 필요.
+
 import { StyleSheet, FlatList, Pressable, View, Text, Image } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { CameraRoll, PhotoIdentifier } from '@react-native-camera-roll/camera-roll';
@@ -24,7 +26,11 @@ const ImagePickScreen = ({ navigation }: NavigationScreenProps) => {
   const [selectImage, setSelectImage] = useState(stateURIList);
 
   useEffect(() => {
-    onLaunchImageLibrary();
+    onLaunchImageLibrary({
+      mediaType: 'photo',
+      selectionLimit: 3,
+      presentationStyle: 'pageSheet'
+    });
   }, []);
 
   const onComplateBtn = async () => {

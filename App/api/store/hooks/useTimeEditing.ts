@@ -6,9 +6,9 @@ const storeList = firestore().collection('store');
 function addTimeEditing({ storeId, data }: any) {
   const requestModifierCollection = storeList.doc(storeId).collection('requestModifierTime');
 
-  return requestModifierCollection.add(data);
+  return requestModifierCollection.doc(data.id).set(data);
 }
 
 export const useAddTimeEditing = () => {
-  return useMutation({ mutationFn: addTimeEditing });
+  return useMutation({ mutationFn: addTimeEditing, mutationKey: ['timeEditToUser'] });
 };

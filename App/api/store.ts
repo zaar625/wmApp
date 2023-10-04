@@ -1,5 +1,5 @@
-import { usersCollection } from './users';
 import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 const storeList = firestore().collection('store');
 const users = firestore().collection('users');
@@ -18,7 +18,20 @@ export async function searchStore(storeId: string) {
 }
 
 export function deleteStore(id: string) {
-  const storeRef = users.doc('DMWrTCluLrhJMrI01BVhJK6byFs1').collection('storeList').doc(id);
+  const userID = auth().currentUser;
+  const storeRef = users.doc(userID?.uid).collection('storeList').doc(id);
 
   return storeRef.delete();
+}
+
+export async function getStoreInfo(storeId: string) {
+  try {
+    const docSnapshot = await storeList.doc(storeId).get();
+
+    return docSnapshot.data();
+  } catch (error) {
+    console.error('Error fetching store data:', error);
+
+    return null;
+  }
 }

@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View, Image } from 'react-native';
+import { Pressable, StyleSheet, Text, View, Image, Platform } from 'react-native';
 import React, { useState } from 'react';
 import SvgIcon from '../../../common-components/SvgIcon';
 import { deviceWidth } from '../../../theme';
@@ -24,7 +24,11 @@ const ImageSelect = ({ pickImages, setPickImages }: Props) => {
   const themeMode = themeChange();
 
   const handleButtonPress = async () => {
-    const imagedata = await onLaunchImageLibrary();
+    const imagedata = await onLaunchImageLibrary({
+      mediaType: 'photo',
+      selectionLimit: 3,
+      presentationStyle: 'pageSheet'
+    });
 
     if (imagedata) {
       const resizingImages = await onImageResizer(imagedata);
@@ -51,13 +55,17 @@ const ImageSelect = ({ pickImages, setPickImages }: Props) => {
       </Pressable>
 
       <View style={{ marginBottom: 30 }}>
-        {pickImages ? (
+        {pickImages && pickImages.length > 0 ? (
           <View style={styles.imagesWrapper}>
             {pickImages.map((image, index) => (
               <View>
                 <Image
                   key={index}
-                  source={{ uri: image.path }}
+                  source={
+                    Platform.OS === 'android'
+                      ? { uri: `file://${image.path}` }
+                      : { uri: image.path }
+                  }
                   style={styles.imgContainer}
                   resizeMode="cover"
                 />
