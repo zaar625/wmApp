@@ -72,9 +72,10 @@ const TimeModifySheet = ({ data }: any) => {
           timeEdittingToUser({ data: queryData })
         ]).then(() => {
           dispatch(closeBottomSheet());
-          queryClient.invalidateQueries({ queryKey: ['request-personal'] });
+          // queryClient.invalidateQueries({ queryKey: ['request-personal'] });
           setTimeout(() => {
             dispatch(openToast({ message: `근태수정 요청이 완료되었습니다.` }));
+            queryClient.invalidateQueries({ queryKey: ['request-personal'] });
           }, 500);
         });
       } catch {

@@ -42,11 +42,26 @@ import { AnimatedBootSplash } from './App/theme/splach';
 import { requestUserPermission } from './App/util/notificationHelper';
 import themeChange from './App/util/theme';
 
+import * as Sentry from '@sentry/react-native';
+
+Sentry.init({
+  dsn: 'https://325dae5ec92e96db29a3ebb34373bdfa@o4505991942766592.ingest.sentry.io/4505991945977856',
+  debug: true,
+  tracesSampleRate: 1.0,
+  _experiments: {
+    // The sampling rate for profiling is relative to TracesSampleRate.
+    // In this case, we'll capture profiles for 100% of transactions.
+    profilesSampleRate: 1.0
+  }
+});
+
 // 폰트 사이즈 고정
 Text.defaultProps = Text.defaultProps || {};
 Text.defaultProps.allowFontScaling = false;
 
-export default function App() {
+// throw new Error('My first Sentry error!');
+
+function App() {
   const [theme, setTheme] = useState<TThemeMode>({ mode: 'dark', system: false });
   const themeMode = themeChange();
   const [visible, setVisible] = useState(true);
@@ -181,14 +196,4 @@ export default function App() {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  text: {
-    fontSize: 24,
-    fontWeight: '700',
-    margin: 20,
-    lineHeight: 30,
-    color: '#333',
-    textAlign: 'center'
-  }
-});
+export default Sentry.wrap(App);
