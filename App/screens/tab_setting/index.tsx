@@ -23,7 +23,7 @@ const SettingTabScreen = () => {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
 
-    queryClient.refetchQueries({ queryKey: ['request-personal'] });
+    queryClient.refetchQueries({ queryKey: ['requestPersonal'] });
 
     setTimeout(() => {
       setRefreshing(false);

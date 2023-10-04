@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import firestore from '@react-native-firebase/firestore';
 
 const personalRequestCollection = firestore()
@@ -11,7 +11,9 @@ function addPersonalWorkHistoryEditList({ data }: any) {
 }
 
 export const useAddPersonalWorkHistoryEdit = () => {
+  const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: addPersonalWorkHistoryEditList
+    mutationFn: addPersonalWorkHistoryEditList,
+    onSuccess: () => queryClient.invalidateQueries(['requestPersonal'])
   });
 };

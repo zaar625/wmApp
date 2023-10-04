@@ -9,12 +9,12 @@ import { useDispatch } from 'react-redux';
 import { closeBottomSheet } from '../../state/slice/bottomSheet';
 import { useDeletRequirement } from '../../api/store/hooks/useDeletTimeRequirement';
 import { openModal, closeModal } from '../../state/slice/modal';
-import { useQueryClient } from '@tanstack/react-query';
+
 import { openToast } from '../../state/slice/toast';
 
 const EditWorkingInfoSheet = ({ data }: any) => {
   const { after, before } = data;
-  const queryClient = useQueryClient();
+
   const { mutate } = useDeletRequirement();
 
   const dispatch = useDispatch();
@@ -36,7 +36,6 @@ const EditWorkingInfoSheet = ({ data }: any) => {
                   onSuccess: () => {
                     dispatch(closeModal());
                     dispatch(closeBottomSheet());
-                    queryClient.invalidateQueries({ queryKey: ['request-personal'] });
                     dispatch(openToast({ message: `해당 근태 수정 요청을 취소하였습니다.` }));
                   }
                 }

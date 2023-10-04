@@ -13,11 +13,9 @@ import { useAddPersonalWorkHistoryEdit } from '../../api/store/hooks/useAddPerso
 import ErrorGuide from '../ErrorGuide';
 import { openToast } from '../../state/slice/toast';
 import auth from '@react-native-firebase/auth';
-import { useQueryClient } from '@tanstack/react-query';
 
 const TimeModifySheet = ({ data }: any) => {
   const themeMode = themeChange();
-  const queryClient = useQueryClient();
   const userID = auth().currentUser;
   const { mutate: timeEdittingToManager } = useAddTimeEditing();
   const { mutate: timeEdittingToUser, isLoading } = useAddPersonalWorkHistoryEdit();
@@ -72,7 +70,6 @@ const TimeModifySheet = ({ data }: any) => {
           timeEdittingToUser({ data: queryData })
         ]).then(() => {
           dispatch(closeBottomSheet());
-          queryClient.invalidateQueries({ queryKey: ['request-personal'] });
           setTimeout(() => {
             dispatch(openToast({ message: `근태수정 요청이 완료되었습니다.` }));
           }, 500);

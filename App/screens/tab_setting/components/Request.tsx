@@ -17,7 +17,6 @@ const Request = () => {
 
   const today = format(new Date(), 'yyyy-MM');
   const { data } = useGetPersonalWorkHistoryEditList();
-
   const filterTodayData = data?.filter(item => format(item.createAt.toDate(), 'yyyy-MM') === today);
 
   const goToList = () => {

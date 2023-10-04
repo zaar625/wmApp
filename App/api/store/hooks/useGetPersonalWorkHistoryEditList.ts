@@ -19,5 +19,5 @@ async function fetchRequestList() {
 }
 
 export const useGetPersonalWorkHistoryEditList = () => {
-  return useQuery(['request-personal'], fetchRequestList, {});
+  return useQuery(['requestPersonal'], fetchRequestList);
 };
