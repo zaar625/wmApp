@@ -11,5 +11,7 @@ function addPersonalWorkHistoryEditList({ data }: any) {
 }
 
 export const useAddPersonalWorkHistoryEdit = () => {
-  return useMutation({ mutationFn: addPersonalWorkHistoryEditList });
+  return useMutation({
+    mutationFn: addPersonalWorkHistoryEditList
+  });
 };
