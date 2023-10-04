@@ -51,13 +51,17 @@
 ```
 ## 페이지별 상세
 ### 1. 스플래쉬 ~ 온보딩
-<img src='https://github.com/zaar625/wmApp/assets/69461545/d574c31a-ecd0-4e85-9ab6-3ce4975e5387' width=190px height='380px'/>
-<img src='https://github.com/zaar625/wmApp/assets/69461545/d574c31a-ecd0-4e85-9ab6-3ce4975e5387' width=190px height='380px'/>
+|온보딩|스플래시 테마모드|
+|----|----|
+|<img src='https://github.com/zaar625/wmApp/assets/69461545/d574c31a-ecd0-4e85-9ab6-3ce4975e5387' width=190px height='380px'/>|<img src='https://github.com/zaar625/wmApp/assets/69461545/5b40bd8d-3066-411b-a3d2-e309a56f8b71' width=190px height='380px'/>
 
 이 앱은 테마모드가 가능하도록 구현되어 있습니다. 앱 재시작 시 사용자가 선택한 모드로 켜져야 합니다. <br>스플래쉬 시작 시점에는 사용자가 저장한 테마모드의 값을 읽어오기 전이므로 동적으로 구현하기에 한계가 있었습니다. 
 화면이 깜박이고 변화하는 테마색상을 보다 부드럽게 연출하기 위해 애니메이션 효과를 줍니다..
 
 ### 2. 로그인/회원가입
+|로그인|회원가입|
+|----|----|
+|<img src='https://github.com/zaar625/wmApp/assets/69461545/7add065b-7752-4040-9fa0-14a6e223c1b1' width=190px height='380px'/>|<img src='https://github.com/zaar625/wmApp/assets/69461545/bf02b569-327d-4f95-b8e3-80d027d9ab9d' width=190px height='380px'/>
 
 로그인 : <br>
 - 이메일 유효성 검사, 가입된 유저가 옳바른 정보를 입력하지 않았을 경우 리턴되는 에러값을 이용하여 UI에 표시되며 포커싱이 되도록 구현되었습니다.<br>
@@ -68,10 +72,14 @@
 
 
 ### 3. 근무지 탭
+|매장등록|현재근무지|
+|----|----|
+|<img src='https://github.com/zaar625/wmApp/assets/69461545/8da5dabd-d844-4e7a-b38d-ed844df9d3fd' width=190px height='380px'/>|<img src='https://github.com/zaar625/wmApp/assets/69461545/eee3869e-b6f4-460e-bd65-d5e100926e31' width=190px height='380px'/>
 #### 3-1. 매장 등록하기
 - 사용자는 매장을 먼저 등록해야합니다. 매장을 등록하지 않으면 출/퇴근 등록 및 공유하기 기능이 제한됩니다.
 - 매장에 비치된 QR코드를 스캔하기 위해 QR스크린으로 이동되며 이때 "카메라 허용"을 해야 스캔이 가능합니다. <br>해당 스크린은 사용자가 아래로 스와이프 할 경우 ```react-native-gesture-handler``` 이용하여 제스처를 구현하였으며 스크린이 종료됩니다.
-- 데이터베이스에 QR이 없을 경우 팝업으로 사용자에게 안내합니다. 
+- 데이터베이스에 QR이 없을 경우 팝업으로 사용자에게 안내합니다.
+
 #### 3-2. 현재 근무지
 - 사용자가 매장 등록이 성공하면 매장 이름을 나타냅니다. 원하는 매장을 해당 리스트에서 삭제할 수 있습니다.(삭제 시 출/퇴근 및 공유기능 제한)
 - 삭제 완료 시 toast 팝업으로 사용자에게 안내합니다.
@@ -81,6 +89,9 @@
 - 터치시 캘린더 탭으로 이동합니다.
 
 ### 4. 공유 탭
+|근무이력|전달사항 작성|전달사항 리스트|
+|----|----|---|
+|<img src='https://github.com/zaar625/wmApp/assets/69461545/cdd0ac42-4591-41bc-a170-a6d2ee5e4ae8' width=190px height='380px'/>|<img src='https://github.com/zaar625/wmApp/assets/69461545/64485f02-ca7e-4ee5-9974-2655db0cf839' width=190px height='380px'/>|<img src='https://github.com/zaar625/wmApp/assets/69461545/f3aa7c40-9323-4f81-9931-95252197bb0c' width=190px height='380px'/>|
 #### 4-1. 근무이력
 - 사용자가 매장에 비치된 QR을 이용하여 출/퇴근 등록시 근무 상태가 변합니다.
 - 근무 상태는 당일 기준으로 나타내며, 하루에 한 곳 이상에서 하는 근무자를 고려하여 ```flatList``` 로 carousel를 구현합니다.
@@ -95,6 +106,10 @@
 - 공유내용 작성 후 업로드시 사용자가 "공유하기" 버튼을 여러번 누르는 것을 방지하기 위해 로더를 사용합니다.
 
 ### 4. 출퇴든 탭
+|근태등록|수정요청|
+|----|----|
+|<img src='https://github.com/zaar625/wmApp/assets/69461545/0f5446ec-df43-450b-8e66-b41cd12c6e10' width=190px height='380px'/>|<img src='https://github.com/zaar625/wmApp/assets/69461545/eee3869e-b6f4-460e-bd65-d5e100926e31' width=190px height='380px'/>
+#### 3-1. 매장 등록하기
 - 해당 스크린에서 버튼을 터치하면 QR 스크린이 활성화 됩니다.
 - 매장 내 비치된 QR을 스캔하면 매장 정보를 가져오는데, 이때 매장내의 wifi와 사용자 디바이스에 연결된 와이파이 SSDI 값이 일치할 경우에만 출/퇴근을 찍을 수 있습니다.
 - 출/퇴근을 등록하면 , 공유 탭 - 근무 이력이 업데이트 됩니다.
