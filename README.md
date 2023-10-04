@@ -108,7 +108,7 @@
 ### 4. 출퇴든 탭
 |근태등록|수정요청|
 |----|----|
-|<img src='https://github.com/zaar625/wmApp/assets/69461545/0f5446ec-df43-450b-8e66-b41cd12c6e10' width=190px height='380px'/>|<img src='https://github.com/zaar625/wmApp/assets/69461545/eee3869e-b6f4-460e-bd65-d5e100926e31' width=190px height='380px'/>
+|<img src='https://github.com/zaar625/wmApp/assets/69461545/0f5446ec-df43-450b-8e66-b41cd12c6e10' width=190px height='380px'/>|<img src='https://github.com/zaar625/wmApp/assets/69461545/6e54c472-4737-4be3-9f90-194b069b4f6f' width=190px height='380px'/>
 #### 3-1. 매장 등록하기
 - 해당 스크린에서 버튼을 터치하면 QR 스크린이 활성화 됩니다.
 - 매장 내 비치된 QR을 스캔하면 매장 정보를 가져오는데, 이때 매장내의 wifi와 사용자 디바이스에 연결된 와이파이 SSDI 값이 일치할 경우에만 출/퇴근을 찍을 수 있습니다.
@@ -122,6 +122,9 @@
 - 달력에는 일자별로 총 근무 시간에 대한 급여가 환산되어 나타나며, 해당 날짜를 터치 시 근로 상세를 볼 수 있습니다.
 
 ### 6. 세팅 탭
+|내정보 수정하기|근태 수정 상세| 테마변경
+|----|----|----|
+|<img src='https://github.com/zaar625/wmApp/assets/69461545/3e4e0cdb-8ea4-4469-a2e7-424629dc5197' width=190px height='380px'/>|<img src='https://github.com/zaar625/wmApp/assets/69461545/2ad57ac5-0663-4dcf-92b0-cf795fcbbb8e' width=190px height='380px'/>|<img src='https://github.com/zaar625/wmApp/assets/69461545/8c9f18de-57b3-4a17-b845-0908806be40b' width=190px height='380px'/>
 - 나의정보 : 내 정보를 수정할 수 있습니다. 해당 페이지에서 로그아웃 가능합니다.
 - 근태수정: 당월에 대한 근태수정 요청건 리스트를 보여줍니다. 해당 컴포넌트 터치시 지난 요청 건도 볼 수 있으며 리스트 터치시 상세보기도 가능합니다. 더불어 요청 취소도 가능합니다.
 - 앱 알림: 사용자가 등록한 매장에서 새로운 공유가 올라올 경우 푸쉬알림을 받습니다.
