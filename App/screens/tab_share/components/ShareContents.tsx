@@ -5,14 +5,27 @@ import ShareItem from './ShareItem';
 import SvgIcon from '../../../common-components/SvgIcon';
 import themeChange from '../../../util/theme';
 import { useTotalLogsData } from '../../../api/store/hooks/useLogsData';
+import { deviceheight } from '../../../theme';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../../type';
+import format from 'date-fns/format';
 
 const ShareContents = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const themeMode = themeChange();
+  const today = format(new Date(), 'yyyy-MM-dd');
+
   const { data } = useTotalLogsData();
 
+  const findTodayData = data?.filter(item => {
+    const dataDate = format(item.data().createAt.toDate(), 'yyyy-MM-dd');
+    return dataDate === today;
+  });
+
   const render = () => {
-    if (data && data.length > 0) {
-      return data.map((item, index) => <ShareItem key={index} item={item} />);
+    if (findTodayData && findTodayData.length > 0) {
+      return findTodayData.map((item, index) => <ShareItem key={index} item={item} />);
     } else {
       return (
         <View style={styles.nonData}>
@@ -29,7 +42,7 @@ const ShareContents = () => {
           <Image source={require('../../../assets/img/note.png')} style={styles.image} />
           <SmallTitle title="금일 전달 사항" />
         </View>
-        <Pressable style={styles.btn}>
+        <Pressable style={styles.btn} onPress={() => navigation.navigate('shareListScreen')}>
           <Text style={[styles.btnText, { color: themeMode.pressIcon }]}>전체보기</Text>
           <SvgIcon name="arrow_right" style={styles.icon} color={themeMode.pressIcon} />
         </Pressable>
@@ -46,7 +59,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingTop: 15,
     borderRadius: 15,
-    marginHorizontal: 20
+    marginHorizontal: 20,
+    minHeight: deviceheight * 0.15
   },
 
   titleHeader: {
@@ -55,7 +69,8 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   titleWrapper: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    alignItems: 'flex-start'
   },
   image: {
     width: 30,
@@ -74,7 +89,8 @@ const styles = StyleSheet.create({
     fontSize: 12
   },
   nonData: {
-    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
     marginVertical: 20
   }
 });

@@ -15,11 +15,9 @@ import { ERROR_MESSEGE } from '../../../constant';
 import { ScreenTitle } from '../../../common-components/Title';
 import InputBox from '../InputBox';
 import Button from '../../../common-components/buttons/Button';
-import { useDispatch } from 'react-redux';
 import themeChange from '../../../util/theme';
 
 export default function EmployeeLoginPage({ navigation }: NavigationScreenProps) {
-  const dispatch = useDispatch();
   const themeMode = themeChange();
   const emailInputRef = useRef<null | TextInput>(null);
   const passwordInputRef = useRef<null | TextInput>(null);
@@ -59,8 +57,11 @@ export default function EmployeeLoginPage({ navigation }: NavigationScreenProps)
   const login = async () => {
     try {
       const { user } = await signIn(loginform);
-      if (user) navigation.navigate('bottomTab');
+      if (user) {
+        navigation.reset({ index: 0, routes: [{ name: 'bottomTab' }] });
+      }
     } catch (error) {
+      console.log(error);
       errorHandler(error);
     } finally {
     }

@@ -7,13 +7,16 @@ import Animated, {
   withTiming,
   Easing
 } from 'react-native-reanimated';
-import SvgIcon from '../../../common-components/SvgIcon';
+import { openBottomSheet } from '../../../state/slice/bottomSheet';
 import format from 'date-fns/format';
+import { useDispatch } from 'react-redux';
+import Confirm from './Confirm';
 
 const RequestDetailCard = ({ data }: any) => {
   const themeMode = themeChange();
-  console.log(data);
-  const { confirm } = data;
+  const dispatch = useDispatch();
+  const { confirm, after } = data;
+
   const scaleAni = useSharedValue(1);
   const backgound = useSharedValue(themeMode.secondary);
 
@@ -35,27 +38,26 @@ const RequestDetailCard = ({ data }: any) => {
       ]
     };
   }, []);
+
+  const onPressOut = () => {
+    scaleAni.value = 1;
+    backgound.value = themeMode.secondary;
+    dispatch(openBottomSheet({ route: 'settingScreen', data }));
+  };
   return (
     <Pressable
       onPressIn={() => {
         (scaleAni.value = 0.95), (backgound.value = themeMode.card);
       }}
-      onPressOut={() => ((scaleAni.value = 1), (backgound.value = themeMode.secondary))}
+      onPressOut={onPressOut}
     >
       <Animated.View style={[styles.cardWrapper, animatedStyles]}>
         <Text style={{ color: themeMode.tint }}>
           {format(data.createAt.toDate(), 'yyyy-MM-dd')}
         </Text>
         <View style={styles.storeInfo}>
-          <Text style={[styles.storeName, { color: themeMode.tint }]}>카페이루</Text>
-          <View style={[styles.btnState, { backgroundColor: confirm ? '#52C648' : '#D9D9D9' }]}>
-            {confirm ? (
-              <Text style={styles.btnStateText}>수정완료</Text>
-            ) : (
-              <Text style={styles.btnStateText}>확인중</Text>
-            )}
-          </View>
-          <SvgIcon name="arrow_right" color={themeMode.pressIcon} />
+          <Text style={[styles.storeName, { color: themeMode.tint }]}>{after.storeInfo.name}</Text>
+          <Confirm confirm={confirm} />
         </View>
       </Animated.View>
     </Pressable>
@@ -67,10 +69,11 @@ export default RequestDetailCard;
 const styles = StyleSheet.create({
   cardWrapper: {
     flexDirection: 'row',
-    paddingVertical: 20,
+    paddingVertical: 15,
     justifyContent: 'space-between',
     borderRadius: 10,
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
+    marginBottom: 10
   },
   storeInfo: {
     flexDirection: 'row',
@@ -78,15 +81,5 @@ const styles = StyleSheet.create({
   },
   storeName: {
     marginRight: 10
-  },
-  btnState: {
-    backgroundColor: '#D9D9D9',
-    paddingHorizontal: 10,
-    paddingVertical: 3,
-    borderRadius: 10,
-    marginRight: 10
-  },
-  btnStateText: {
-    fontSize: 12
   }
 });

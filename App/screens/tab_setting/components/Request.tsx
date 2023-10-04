@@ -1,21 +1,28 @@
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
 import React from 'react';
 import { SmallTitle } from '../../../common-components/Title';
 import themeChange from '../../../util/theme';
 import SvgIcon from '../../../common-components/SvgIcon';
 import format from 'date-fns/format';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../../../type';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import RequestDetailCard from './RequestDetailCard';
 import { useGetPersonalWorkHistoryEditList } from '../../../api/store/hooks/useGetPersonalWorkHistoryEditList';
 
 const Request = () => {
   const themeMode = themeChange();
-  const today = format(new Date(), 'yyyy-MM-dd');
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  const today = format(new Date(), 'yyyy-MM');
   const { data } = useGetPersonalWorkHistoryEditList();
 
-  const filterTodayData = data?.filter(
-    item => format(item.createAt.toDate(), 'yyyy-MM-dd') === today
-  );
+  const filterTodayData = data?.filter(item => format(item.createAt.toDate(), 'yyyy-MM') === today);
+
+  const goToList = () => {
+    navigation.navigate('timeEdittingListScreen', { data });
+  };
 
   return (
     <View style={[styles.container, { backgroundColor: themeMode.secondary }]}>
@@ -27,20 +34,21 @@ const Request = () => {
             resizeMode="contain"
           />
           <View>
-            <SmallTitle title="수정요청 건" style={{ marginBottom: 5 }} />
+            <SmallTitle title="근태 수정" style={{ marginBottom: 5 }} />
             <Text style={[styles.subDesc, { color: themeMode.subTint }]}>
               해당 월에 대한 요청 건만 보여드려요.
             </Text>
           </View>
         </View>
-        <View style={styles.btnWrapper}>
-          <Text style={[styles.btnText, { color: themeMode.pressIcon }]}>더보기</Text>
+        <Pressable style={styles.btnWrapper} onPress={goToList} hitSlop={70}>
           <SvgIcon name="arrow_right" color={themeMode.pressIcon} />
-        </View>
+        </Pressable>
       </View>
 
       <View style={styles.cardsContainer}>
-        {filterTodayData ? filterTodayData.map(item => <RequestDetailCard data={item} />) : null}
+        {filterTodayData
+          ? filterTodayData.map((item, index) => <RequestDetailCard data={item} key={index} />)
+          : null}
       </View>
     </View>
   );
@@ -82,6 +90,6 @@ const styles = StyleSheet.create({
     fontSize: 12
   },
   cardsContainer: {
-    marginVertical: 10
+    marginTop: 10
   }
 });

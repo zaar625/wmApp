@@ -13,9 +13,9 @@ const GlobalModal = () => {
   const renderModal = (modalType: string, contents: any) => {
     if (modalType === 'OneBtnModal') {
       return <OneBtnModal props={contents} />;
+    } else {
+      return <TwoBtnModal props={contents} />;
     }
-
-    return <TwoBtnModal props={contents} />;
   };
 
   return (

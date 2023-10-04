@@ -2,7 +2,7 @@ import { View, ImageRequireSource, Image, StyleSheet, Dimensions } from 'react-n
 import { ScreenTitle } from '../../common-components/Title';
 
 import { deviceWidth, deviceheight } from '../../theme';
-
+// `매장에서${'\n'}일하든, 운영하든${'\n'}앱 하나로`,
 const onBoadingDATA = [
   {
     id: 1,
@@ -11,7 +11,7 @@ const onBoadingDATA = [
   },
   {
     id: 2,
-    title: `매장에서${'\n'}출/퇴근 등록${'\n'}QR코드 하나로`,
+    title: `메인화면에서${'\n'}업무와 지출을${'\n'}한 눈에`,
     img: require('../../assets/img/onboarding02.png')
   },
   {

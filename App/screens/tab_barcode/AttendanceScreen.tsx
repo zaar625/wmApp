@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native';
-import React from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import themeChange from '../../util/theme';
 import firestore from '@react-native-firebase/firestore';
 import format from 'date-fns/format';
@@ -7,65 +7,181 @@ import ScannerHeader from '../tab_store/components/ScannerHeader';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import ScannerMarker from '../tab_store/components/ScannerMarker';
 import { BarCodeReadEvent } from 'react-native-camera';
+import { useQueryClient } from '@tanstack/react-query';
 
-import { addWorkingTime } from './handlers/attendance';
-import { deviceWidth, deviceheight } from '../../theme';
+import { useAddAttendance } from './handlers/attendance';
+import { deviceWidth } from '../../theme';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useMyStoreList } from '../../api/store/hooks/useMyStoreList';
+import { useDispatch } from 'react-redux';
+import { openModal, closeModal } from '../../state/slice/modal';
+import { NavigationScreenProps } from '../../type';
+import { GestureDetector, Gesture } from 'react-native-gesture-handler';
+import WifiManager from 'react-native-wifi-reborn';
+import { PermissionsAndroid } from 'react-native';
+import { getStoreInfo } from '../../api/store';
 
-const AttendanceScreen = () => {
-  const workHourRef = firestore()
-    .collection('users')
-    .doc('DMWrTCluLrhJMrI01BVhJK6byFs1')
-    .collection('workHour');
-
+const AttendanceScreen = ({ navigation }: NavigationScreenProps) => {
   const themeMode = themeChange();
+  const dispatch = useDispatch();
+  const queryClient = useQueryClient();
   const currentTime = new Date();
-  const currentDate = format(currentTime, 'yyyy-MM');
 
-  const scanerHandler = async (event: BarCodeReadEvent) => {
+  const [storeInfo, setStoreInfo] = useState<any>();
+
+  const { mutate: addattendance } = useAddAttendance();
+  const { data: storeList } = useMyStoreList();
+
+  const scanerHandler = (event: BarCodeReadEvent) => {
     const { data: codeId } = event;
+    const findStore = storeList?.find((list: any) => list.id === codeId);
+
+    if (findStore) {
+      return setStoreInfo(findStore);
+    } else {
+      dispatch(
+        openModal({
+          modalType: 'OneBtnModal',
+          contents: {
+            title: `매장 정보가 없습니다.`,
+            content: `근무지에 매장 등록이 되었는지 ${`\n`}또는 ${`\n`}QR 코드가 유효한지 확인해주세요.`,
+            onPress() {
+              navigation.goBack();
+            }
+          }
+        })
+      );
+    }
+    return setStoreInfo(null);
   };
 
-  return (
-    <SafeAreaView
-      edges={['bottom']}
-      style={[styles.container, { backgroundColor: themeMode.primary }]}
-    >
-      <ScannerHeader />
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <QRCodeScanner
-          onRead={scanerHandler}
-          cameraStyle={{ height: '100%', flex: 1 }}
-          containerStyle={{ backgroundColor: 'blue' }}
-        />
-        <ScannerMarker />
-      </View>
-      <View style={{ paddingVertical: 40 }}>
-        <Text style={[styles.storeName, { color: themeMode.tint }]}>카페이루</Text>
-      </View>
+  const onAttendanceSuccess = (type: string) => {
+    const typeName = type === 'start' ? '출근' : '퇴근';
 
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          paddingHorizontal: 20,
-          width: '100%'
-        }}
+    dispatch(
+      openModal({
+        modalType: 'OneBtnModal',
+        contents: {
+          title: `${typeName} 등록 완료`,
+          content: `${storeInfo?.name}에 ${typeName} 등록이 완료되었습니다.`,
+          onPress() {
+            queryClient.invalidateQueries({ queryKey: ['work-date'] });
+            navigation.goBack();
+          }
+        }
+      })
+    );
+  };
+
+  // attendanceOnPress()에서 테스트를 위해 wifi 확인은 주석처리함.
+  const attendanceOnPress = async (attendanceType: string) => {
+    // const getStoreWifi = await getStoreInfo(storeInfo.id);
+    // const wifiName = await getWifiSSID();
+    // const isIncludeWIFI = getStoreWifi?.wifi.some((wifi: string) => wifi === wifiName);
+
+    const attendanceData = {
+      currentDate: currentTime,
+      attendanceType,
+      storeInfo
+    };
+
+    if (storeInfo) {
+      addattendance(attendanceData, {
+        onSuccess: () => onAttendanceSuccess(attendanceType)
+      });
+      return;
+    }
+
+    return dispatch(
+      openModal({
+        modalType: 'OneBtnModal',
+        contents: {
+          title: '매장 정보가 없어요.',
+          content: `현재 매장 정보가 없습니다.${`\n`}다시 스캔해 주세요.`,
+          onPress() {
+            dispatch(closeModal());
+          }
+        }
+      })
+    );
+  };
+
+  const panGesture = useMemo(
+    () =>
+      Gesture.Pan()
+        .runOnJS(true)
+        .onEnd(event => {
+          const translationY = event.translationY;
+          if (translationY > 20) {
+            navigation.goBack();
+          }
+        }),
+    []
+  );
+
+  const getWifiSSID = async () => {
+    if (PermissionsAndroid.RESULTS.GRANTED === 'granted') {
+      return WifiManager.getCurrentWifiSSID();
+    } else {
+      console.log('Camera permission denied');
+    }
+  };
+
+  const requestLocationPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'Cool Photo App Camera Permission',
+          message:
+            'Cool Photo App needs access to your camera ' + 'so you can take awesome pictures.',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK'
+        }
+      );
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
+  useEffect(() => {
+    requestLocationPermission();
+  }, []);
+
+  return (
+    <GestureDetector gesture={panGesture}>
+      <SafeAreaView
+        edges={['bottom']}
+        style={[styles.container, { backgroundColor: themeMode.primary }]}
       >
-        <Pressable
-          style={[styles.attendanceBtn, { backgroundColor: themeMode.secondary }]}
-          onPress={() => addWorkingTime(currentTime, 'start')}
-        >
-          <Text style={[styles.btnText, { color: themeMode.tint }]}>출근</Text>
-        </Pressable>
-        <Pressable
-          style={[styles.attendanceBtn, { backgroundColor: themeMode.secondary }]}
-          onPress={() => addWorkingTime(currentTime, 'end')}
-        >
-          <Text style={[styles.btnText, { color: themeMode.tint }]}>퇴근</Text>
-        </Pressable>
-      </View>
-    </SafeAreaView>
+        <ScannerHeader />
+        <View style={styles.qrMarkerWrapper}>
+          <QRCodeScanner onRead={scanerHandler} cameraStyle={{ height: '100%', flex: 1 }} />
+          <ScannerMarker />
+        </View>
+        <View style={styles.storeInfo}>
+          <Text style={[styles.storeName, { color: themeMode.tint }]}>
+            {storeInfo ? storeInfo.name : null}
+          </Text>
+        </View>
+
+        <View style={styles.btnWrapper}>
+          <Pressable
+            style={[styles.attendanceBtn, { backgroundColor: themeMode.secondary }]}
+            onPress={() => attendanceOnPress('start')}
+          >
+            <Text style={[styles.btnText, { color: themeMode.tint }]}>출근</Text>
+          </Pressable>
+          <Pressable
+            style={[styles.attendanceBtn, { backgroundColor: themeMode.secondary }]}
+            onPress={() => attendanceOnPress('end')}
+          >
+            <Text style={[styles.btnText, { color: themeMode.tint }]}>퇴근</Text>
+          </Pressable>
+        </View>
+      </SafeAreaView>
+    </GestureDetector>
   );
 };
 
@@ -89,5 +205,15 @@ const styles = StyleSheet.create({
   storeName: {
     fontSize: 16,
     fontWeight: 'bold'
-  }
+  },
+  btnWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    width: '100%'
+  },
+  storeInfo: {
+    paddingVertical: 40
+  },
+  qrMarkerWrapper: { flex: 1, alignItems: 'center', justifyContent: 'center' }
 });

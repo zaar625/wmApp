@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Image, Pressable } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { BarCodeReadEvent } from 'react-native-camera';
 import React, { useMemo } from 'react';
 import QRCodeScanner from 'react-native-qrcode-scanner';
@@ -15,8 +15,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import ScannerMarker from './components/ScannerMarker';
 import themeChange from '../../util/theme';
 import ScannerHeader from './components/ScannerHeader';
+import auth from '@react-native-firebase/auth';
 
-import { muTateaddStore } from '../../api/store/hooks/useAddStore';
+import { mutateaddStore } from '../../api/store/hooks/useAddStore';
 import { deviceheight } from '../../theme';
 
 const ScannerScreen = () => {
@@ -25,10 +26,11 @@ const ScannerScreen = () => {
   const themeMode = themeChange();
   const queryClient = useQueryClient();
 
+  const userID = auth().currentUser;
+
   const mutationAddTodo = useMutation({
-    mutationFn: muTateaddStore,
+    mutationFn: mutateaddStore,
     onSuccess: () => {
-      // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ['myStoreList'] });
     },
     onError: () => console.log('error')
@@ -40,8 +42,7 @@ const ScannerScreen = () => {
     const isStore = await searchStore(codeId);
 
     if (isStore) {
-      // addStore(codeId, 'DMWrTCluLrhJMrI01BVhJK6byFs1');
-      mutationAddTodo.mutate({ storeId: codeId, userId: 'DMWrTCluLrhJMrI01BVhJK6byFs1' });
+      mutationAddTodo.mutate({ storeId: codeId, userId: userID?.uid });
       dispatch(
         openModal({
           modalType: 'OneBtnModal',

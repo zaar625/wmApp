@@ -1,12 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
-async function fetchStoreList() {
+export async function fetchStoreList() {
+  const userID = auth().currentUser;
   const users = firestore().collection('users');
-  const storeList: FirebaseFirestoreTypes.DocumentData[] = [];
+  const storeList: any = [];
 
   try {
-    const storeRef = await users.doc('DMWrTCluLrhJMrI01BVhJK6byFs1').collection('storeList').get();
+    const storeRef = await users.doc(userID?.uid).collection('storeList').get();
     storeRef.forEach(data => {
       storeList.push(data.data());
     });

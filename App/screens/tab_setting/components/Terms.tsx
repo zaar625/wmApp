@@ -44,7 +44,7 @@ const Terms = () => {
       </View>
       <View>
         {termsList.map((list, index) => (
-          <TermsList list={list} />
+          <TermsList list={list} key={index} />
         ))}
       </View>
     </View>

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Pressable, Image } from 'react-native';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { closeBottomSheet } from '../../state/slice/bottomSheet';
@@ -8,6 +8,7 @@ import { format } from 'date-fns';
 import { dailyTotalTime, changeTime } from '../../util/time';
 import themeChange from '../../util/theme';
 import { calculatePayment } from '../../util/calculatePayment';
+import { imagePath } from '../../assets/img/imagePath';
 
 const DateSheet = ({ data, date }: { data: TWorkData[]; date: Date }) => {
   const dispatch = useDispatch();
@@ -46,7 +47,9 @@ const DateSheet = ({ data, date }: { data: TWorkData[]; date: Date }) => {
 };
 
 const WorkInfoCard = ({ workItem }: { workItem: TWorkData }) => {
-  const { end, start } = workItem;
+  const { end, start, storeInfo } = workItem;
+
+  const storeTypeImage = imagePath[storeInfo.class];
 
   const themeMode = themeChange();
   const dailyTotalMinute = dailyTime(start, end);
@@ -57,19 +60,36 @@ const WorkInfoCard = ({ workItem }: { workItem: TWorkData }) => {
     <>
       {dailyTotalMinute && (
         <View style={[styles.cardContainer, { backgroundColor: themeMode.card }]}>
-          <Text style={[{ color: themeMode.tint }, styles.storeText]}>{`카페이루`}</Text>
-          <View style={[styles.timeWrapper]}>
-            <View style={styles.iconWrapper}>
-              <SvgIcon name="clock_line" width={15} height={15} style={styles.icon} />
-              <Text
-                style={{ color: themeMode.tint }}
-              >{`${dailyTotalMinute.startWork} ~ ${dailyTotalMinute.endWork}`}</Text>
-            </View>
-            <View style={styles.iconWrapper}>
-              <SvgIcon name="money_line" width={18} height={18} style={styles.icon} />
-              <Text style={{ color: themeMode.tint }}>
-                총 {calculatePayment(dailyTotalMinute.totalMin)}원
-              </Text>
+          <View style={[styles.imageBackground, { backgroundColor: themeMode.secondary }]}>
+            <Image source={storeTypeImage} style={{ width: 35, height: 35 }} />
+          </View>
+          <View style={styles.workInfoContainer}>
+            <Text style={[{ color: themeMode.tint }, styles.storeText]}>{storeInfo.name}</Text>
+            <View style={[styles.timeInfoWrapper]}>
+              <View style={styles.iconWrapper}>
+                <SvgIcon
+                  name="clock_line"
+                  width={15}
+                  height={15}
+                  style={styles.icon}
+                  color={themeMode.pressIcon}
+                />
+                <Text
+                  style={{ color: themeMode.pressIcon, fontSize: 13 }}
+                >{`${dailyTotalMinute.startWork} ~ ${dailyTotalMinute.endWork}`}</Text>
+              </View>
+              <View style={styles.iconWrapper}>
+                <SvgIcon
+                  name="money_line"
+                  width={18}
+                  height={18}
+                  style={styles.icon}
+                  color={themeMode.pressIcon}
+                />
+                <Text style={{ color: themeMode.pressIcon, fontSize: 13 }}>
+                  총 {calculatePayment(dailyTotalMinute.totalMin)}원
+                </Text>
+              </View>
             </View>
           </View>
         </View>
@@ -86,10 +106,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
+  imageBackground: {
+    width: 50,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 15,
+    marginRight: 10
+  },
   title: {
     fontSize: 16,
     fontWeight: '700',
     marginBottom: 20
+  },
+  workInfoContainer: {
+    justifyContent: 'space-around',
+    flex: 1
   },
   totalWorkHourWrapper: {
     flexDirection: 'row',
@@ -100,22 +132,21 @@ const styles = StyleSheet.create({
     borderBottomColor: '#202632'
   },
   cardContainer: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     paddingVertical: 10,
     borderRadius: 10,
-    marginBottom: 10
+    marginBottom: 10,
+    flexDirection: 'row'
   },
   storeWorkHourWrapper: {
     flexDirection: 'row',
     alignItems: 'center'
   },
   storeText: {
-    marginRight: 10,
     fontWeight: '600',
-    fontSize: 16,
-    marginBottom: 15
+    fontSize: 14
   },
-  timeWrapper: {
+  timeInfoWrapper: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'

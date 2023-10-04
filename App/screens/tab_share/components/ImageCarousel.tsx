@@ -35,7 +35,7 @@ const ImageCarousel = ({ photosURL, imageHeigt }: { photosURL: string[]; imageHe
             source={{ uri: photosURL[index] }}
             style={{
               width: deviceWidth,
-              height: deviceheight * 0.307 - imageHeigt
+              height: deviceWidth - imageHeigt
             }}
           />
         )}

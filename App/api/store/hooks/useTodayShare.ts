@@ -1,12 +1,15 @@
 import firestore from '@react-native-firebase/firestore';
 import { useQuery } from '@tanstack/react-query';
-
-const shareLogCollection = firestore()
-  .collection('users')
-  .doc('DMWrTCluLrhJMrI01BVhJK6byFs1')
-  .collection('shareLog');
+import auth from '@react-native-firebase/auth';
 
 async function fetchshareLogDate() {
+  const userID = auth().currentUser;
+
+  const shareLogCollection = firestore()
+    .collection('users')
+    .doc(userID?.uid)
+    .collection('shareLog');
+
   const shareLogRef = await shareLogCollection.get();
   const logs = shareLogRef.docs.map(doc => ({
     id: doc.id,

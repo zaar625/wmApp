@@ -18,7 +18,6 @@ const WriteScreenStep2 = ({ navigation }: NavigationScreenProps) => {
   const themeMode = themeChange();
   const dispatch = useDispatch();
   const [pickImages, setPickImages] = useState<Response[] | undefined>();
-  const { params } = useRoute<WriteScreenRouteProp>();
 
   const nextBtn = () => {
     if (pickImages) {

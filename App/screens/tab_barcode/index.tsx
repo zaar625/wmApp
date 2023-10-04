@@ -1,20 +1,25 @@
 import { Image, StyleSheet, Text, View, Pressable } from 'react-native';
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import themeChange from '../../util/theme';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScreenTitle } from '../../common-components/Title';
 import SvgIcon from '../../common-components/SvgIcon';
 import { NavigationScreenProps } from '../../type';
+import NetInfo from '@react-native-community/netinfo';
+import { check, PERMISSIONS, RESULTS, request } from 'react-native-permissions';
+import WifiManager from 'react-native-wifi-reborn';
 
 const BarcodeTabScreen = ({ navigation }: NavigationScreenProps) => {
   const themeMode = themeChange();
 
-  const onQrButtonPress = () => {
+  const onQrButtonPress = async () => {
     navigation.navigate('attendanceScreen');
   };
+
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: themeMode.primary }]}>
       <ScreenTitle title={`매장에 비치된${`\n`}QR 코드를 찍어주세요.`} />
+
       <View style={styles.btnLayout}>
         <Pressable
           onPress={onQrButtonPress}

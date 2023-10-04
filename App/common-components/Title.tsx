@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     fontWeight: '700'
   },
   smallTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '700'
   }
 });

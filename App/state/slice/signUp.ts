@@ -14,17 +14,17 @@ const initialState: IUser = {
   password: ''
 };
 
-const userSlice = createSlice({
-  name: 'user',
+const signUpSlice = createSlice({
+  name: 'signUp',
   initialState,
   reducers: {
-    userSaveInfo: (state, action: PayloadAction<any>) => {
+    signUpUserInfo: (state, action: PayloadAction<any>) => {
       state = { ...state, ...action.payload };
 
       return state;
     }
   }
 });
-
-export default userSlice.reducer;
-export const { userSaveInfo } = userSlice.actions;
+//userSaveInfo
+export default signUpSlice.reducer;
+export const { signUpUserInfo } = signUpSlice.actions;

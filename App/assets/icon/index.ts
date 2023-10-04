@@ -20,4 +20,6 @@ export { default as camera } from './camera.svg';
 export { default as plus_round } from './plus_round.svg';
 export { default as delete } from './delete.svg';
 export { default as eye } from './eye.svg';
+export { default as menu } from './menu.svg';
+export { default as pen } from './pen.svg';
 export { default as caution } from './caution.svg';
