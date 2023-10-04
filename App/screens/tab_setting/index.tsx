@@ -10,10 +10,14 @@ import ThemeSetting from './components/ThemeSetting';
 import Terms from './components/Terms';
 import MyWorkingLog from './components/MyWorkingLog';
 import { useQueryClient } from '@tanstack/react-query';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../../type';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const SettingTabScreen = () => {
   const themeMode = themeChange();
   const queryClient = useQueryClient();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const [refreshing, setRefreshing] = React.useState(false);
 
   const onRefresh = React.useCallback(() => {
@@ -49,9 +53,12 @@ const SettingTabScreen = () => {
         <ThemeSetting />
         <Terms />
 
-        <Pressable style={styles.openSourceBtn}>
+        <Pressable
+          style={styles.openSourceBtn}
+          onPress={() => navigation.navigate('openSourceScreen')}
+        >
           <Text style={[styles.openSourceText, { color: themeMode.subTint }]}>
-            오픈소스 라이선스 보기
+            오픈소스 라이브러리 보기
           </Text>
         </Pressable>
       </ScrollView>

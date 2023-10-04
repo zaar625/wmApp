@@ -29,7 +29,7 @@ const ImageSelect = ({ pickImages, setPickImages }: Props) => {
       selectionLimit: 3,
       presentationStyle: 'pageSheet'
     });
-    console.log('imageData', imagedata);
+
     if (imagedata) {
       const resizingImages = await onImageResizer(imagedata);
 

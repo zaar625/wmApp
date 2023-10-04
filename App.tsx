@@ -33,6 +33,7 @@ import ShareListScreen from './App/screens/tab_share/ShareListScreen';
 import ShakeDetector from './App/common-components/ShakeDetector';
 import TimeEdittingListScreen from './App/screens/tab_setting/TimeEdittingListScreen';
 import ThemeListScreen from './App/screens/tab_setting/ThemeListScreen';
+import OpenSourceScreen from './App/screens/tab_setting/OpenSourceScreen';
 
 import { ThemeContext } from './App/theme/themeContext';
 import { TThemeMode } from './App/theme/themeContext';
@@ -167,6 +168,7 @@ export default function App() {
                       component={TimeEdittingListScreen}
                     />
                     <Stack.Screen name="themeListScreen" component={ThemeListScreen} />
+                    <Stack.Screen name="openSourceScreen" component={OpenSourceScreen} />
                   </Stack.Navigator>
                   <GlobalToast />
                 </GestureHandlerRootView>

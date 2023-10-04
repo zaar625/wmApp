@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../type';
 import { openModal, closeModal } from '../../state/slice/modal';
+import { openToast } from '../../state/slice/toast';
 
 const ShareModifySheet = ({ data }: any) => {
   const themeMode = themeChange();
@@ -37,9 +38,12 @@ const ShareModifySheet = ({ data }: any) => {
                   onSuccess: () => {
                     dispatch(closeBottomSheet());
                     dispatch(closeModal());
-                    queryClient
-                      .invalidateQueries({ queryKey: ['total-logs'] })
-                      .then(() => navigation.goBack());
+                    queryClient.invalidateQueries({ queryKey: ['total-logs'] }).then(() => {
+                      navigation.goBack();
+                      setTimeout(() => {
+                        dispatch(openToast({ message: '공유된 게시물이 삭제되었습니다.' }));
+                      }, 500);
+                    });
                   }
                 }
               )

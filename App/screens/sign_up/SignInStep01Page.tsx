@@ -36,7 +36,6 @@ const SingInStep01 = ({ navigation }: NavigationScreenProps) => {
   const emailInputRef = useRef<null | TextInput>(null);
   const phoneInputRef = useRef<null | TextInput>(null);
 
-  console.log(userInfo);
   const checkedEmail = (email: string) => {
     const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,}$/;
 

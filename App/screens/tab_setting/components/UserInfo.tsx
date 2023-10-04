@@ -32,7 +32,7 @@ const UserInfo = () => {
         style={styles.userInfoWrapper}
       >
         <View>
-          <Text style={[styles.name, { color: themeMode.tint }]}>이상윤</Text>
+          <Text style={[styles.name, { color: themeMode.tint }]}>{user?.displayName}</Text>
           <Text style={{ color: themeMode.subTint }}>내정보 수정하기</Text>
         </View>
         <SvgIcon name="arrow_right" color={themeMode.pressIcon} />

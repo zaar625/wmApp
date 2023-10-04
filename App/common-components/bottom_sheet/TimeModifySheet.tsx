@@ -11,10 +11,12 @@ import { useDispatch } from 'react-redux';
 import { closeBottomSheet } from '../../state/slice/bottomSheet';
 import { useAddPersonalWorkHistoryEdit } from '../../api/store/hooks/useAddPersonalWorkHistoryEditList';
 import ErrorGuide from '../ErrorGuide';
+import { openToast } from '../../state/slice/toast';
+import auth from '@react-native-firebase/auth';
 
 const TimeModifySheet = ({ data }: any) => {
   const themeMode = themeChange();
-
+  const userID = auth().currentUser;
   const { mutate: timeEdittingToManager } = useAddTimeEditing();
   const { mutate: timeEdittingToUser, isLoading } = useAddPersonalWorkHistoryEdit();
 
@@ -55,7 +57,7 @@ const TimeModifySheet = ({ data }: any) => {
       before: data,
       after: afterData,
       createAt: firestore.FieldValue.serverTimestamp(),
-      user: 'DMWrTCluLrhJMrI01BVhJK6byFs1',
+      user: userID?.uid,
       reason: workModifyInfo.reason,
       confirm: false,
       id: data.id
@@ -66,8 +68,12 @@ const TimeModifySheet = ({ data }: any) => {
         await Promise.all([
           timeEdittingToManager({ storeId: data.storeName, data: queryData }),
           timeEdittingToUser({ data: queryData })
-        ]);
-        dispatch(closeBottomSheet());
+        ]).then(() => {
+          dispatch(closeBottomSheet());
+          setTimeout(() => {
+            dispatch(openToast({ message: `근태수정 요청이 완료되었습니다.` }));
+          }, 500);
+        });
       } catch {
         console.log('error');
       }

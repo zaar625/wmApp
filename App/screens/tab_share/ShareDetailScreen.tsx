@@ -31,7 +31,7 @@ const ShareDetailScreen = ({ navigation }: NavigationScreenProps) => {
   const dispatch = useDispatch();
   const { params } = useRoute<ShareDetailScreenRouteProp>();
 
-  const { content, title, photosURL, createAt } = params.data;
+  const { content, title, photosURL, createAt, store } = params.data;
 
   const [imageHeigt, setImageHeigt] = useState(0);
 
@@ -65,7 +65,7 @@ const ShareDetailScreen = ({ navigation }: NavigationScreenProps) => {
           )}
 
           <View style={{ paddingHorizontal: 20 }}>
-            <Text style={[styles.contentStore, { color: themeMode.tint }]}>카페이루</Text>
+            <Text style={[styles.contentStore, { color: themeMode.tint }]}>{store.name}</Text>
             <Text style={[styles.contentTitle, { color: themeMode.tint }]}>{title}</Text>
             <Text style={[styles.content, { color: themeMode.tint }]}>{content}</Text>
 
@@ -117,10 +117,12 @@ const styles = StyleSheet.create({
   },
   authContainer: {
     flexDirection: 'row',
-    alignSelf: 'flex-end'
+    alignSelf: 'flex-end',
+    paddingBottom: 20
   },
   auth: {
     marginRight: 10,
+
     fontSize: 12
   }
 });

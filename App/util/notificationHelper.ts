@@ -20,7 +20,7 @@ export const getFcmToken = async () => {
   if (!fcmToken) {
     try {
       const token = await messaging().getToken();
-      console.log(token);
+      // console.log(token);
 
       if (token) {
         await AsyncStorage.setItem('fcmTken', token);

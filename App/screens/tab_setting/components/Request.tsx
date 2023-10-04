@@ -90,6 +90,6 @@ const styles = StyleSheet.create({
     fontSize: 12
   },
   cardsContainer: {
-    marginVertical: 10
+    marginTop: 10
   }
 });

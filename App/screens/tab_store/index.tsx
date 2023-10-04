@@ -15,7 +15,6 @@ const StoreTabScreen = () => {
 
   const queryClient = useQueryClient();
   const user = auth().currentUser;
-  console.log(user);
 
   const [refreshing, setRefreshing] = React.useState(false);
 

@@ -42,7 +42,6 @@ const RequestDetailCard = ({ data }: any) => {
   const onPressOut = () => {
     scaleAni.value = 1;
     backgound.value = themeMode.secondary;
-    console.log('a');
     dispatch(openBottomSheet({ route: 'settingScreen', data }));
   };
   return (
@@ -70,7 +69,7 @@ export default RequestDetailCard;
 const styles = StyleSheet.create({
   cardWrapper: {
     flexDirection: 'row',
-    paddingVertical: 20,
+    paddingVertical: 15,
     justifyContent: 'space-between',
     borderRadius: 10,
     paddingHorizontal: 20,

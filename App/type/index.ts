@@ -25,6 +25,7 @@ export type RootStackParamList = {
   myInfoModifyScreen: { header: string };
   timeEdittingListScreen: { data: any };
   themeListScreen: undefined;
+  openSourceScreen: undefined;
 };
 
 export type NavigationScreenProps = NativeStackScreenProps<RootStackParamList>;
