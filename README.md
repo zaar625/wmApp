@@ -11,6 +11,19 @@
 ```bash
 "react-native", "@reduxjs/toolkit", "@react-native-firebase/app", "@tanstack/react-query"
 ```
+## 테스트방법
+1. 해당 프로젝트를 다운로드해주세요.
+2. 프로젝트를 시작합니다. 큐알 테스트가 필요하실 경우 시뮬레이터가 아닌 실기기에서 테스트 진행해 주세요. 
+   ```bash
+   //step01. yarn install or npm install
+   //step02. yarn ios or android
+   ```
+3. 데이터가 있는 로그인이 필요하실 경우 ```ID:zaar111@naver.com``` , ```PW:tkddbs2360``` 입니다.
+4. 아래는 임의의 테스트용 매장 QR입니다.
+
+|랭스터디|카페이루|
+|------|------|
+|<img width="170" alt="카페이루" src="https://github.com/zaar625/wmApp/assets/69461545/9077fc44-f75c-424b-b053-307ceaad6758">|<img width="168" alt="랭스터디" src="https://github.com/zaar625/wmApp/assets/69461545/6aff27fc-62ca-404b-97c7-a88cbcfd7534">
 ## 구조
 #### 1. 파일
 아래는 프로젝트 파일 구조도입니다. 추후 협업 또는 유지보수를 고려하여 참고하기 위해 간략히 표시되었습니다.
