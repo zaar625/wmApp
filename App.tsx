@@ -63,7 +63,6 @@ Text.defaultProps.allowFontScaling = false;
 
 function App() {
   const [theme, setTheme] = useState<TThemeMode>({ mode: 'dark', system: false });
-  const themeMode = themeChange();
   const [visible, setVisible] = useState(true);
   const statusBarStyle = theme.mode === 'dark' ? 'light-content' : 'dark-content';
   const Stack = createStackNavigator<RootStackParamList>();

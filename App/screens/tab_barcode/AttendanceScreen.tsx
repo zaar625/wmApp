@@ -76,7 +76,8 @@ const AttendanceScreen = ({ navigation }: NavigationScreenProps) => {
   // attendanceOnPress()에서 테스트를 위해 wifi 확인은 주석처리함.
   const attendanceOnPress = async (attendanceType: string) => {
     // const getStoreWifi = await getStoreInfo(storeInfo.id);
-    // const wifiName = await getWifiSSID();
+    const wifiName = await getWifiSSID();
+    console.log('현재 기기에 연결된 와이파이는:', wifiName);
     // const isIncludeWIFI = getStoreWifi?.wifi.some((wifi: string) => wifi === wifiName);
 
     const attendanceData = {
