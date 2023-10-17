@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import auth from '@react-native-firebase/auth';
 import { getStorageTheme, setStorageTheme } from './App/util/storageTheme';
+import CodePush, { CodePushOptions } from 'react-native-code-push';
 
 import OnboardingPage from './App/screens/onboarding';
 import CategorySelectPage from './App/screens/select_category';
@@ -46,7 +47,18 @@ import themeChange from './App/util/theme';
 Text.defaultProps = Text.defaultProps || {};
 Text.defaultProps.allowFontScaling = false;
 
-export default function App() {
+const codePushOptions: CodePushOptions = {
+  checkFrequency: CodePush.CheckFrequency.MANUAL,
+  // 언제 업데이트를 체크하고 반영할지를 정한다.
+  // ON_APP_RESUME은 Background에서 Foreground로 오는 것을 의미
+  // ON_APP_START은 앱이 실행되는(켜지는) 순간을 의미
+
+  installMode: CodePush.InstallMode.IMMEDIATE,
+  mandatoryInstallMode: CodePush.InstallMode.IMMEDIATE
+  // 업데이트를 어떻게 설치할 것인지 (IMMEDIATE는 강제설치를 의미)
+};
+
+function App() {
   const [theme, setTheme] = useState<TThemeMode>({ mode: 'dark', system: false });
   const themeMode = themeChange();
   const [visible, setVisible] = useState(true);
@@ -88,6 +100,32 @@ export default function App() {
 
   useEffect(() => {
     getThemeStorage();
+  }, []);
+
+  // code-push
+  useEffect(() => {
+    CodePush.sync(
+      {
+        installMode: CodePush.InstallMode.IMMEDIATE,
+        mandatoryInstallMode: CodePush.InstallMode.IMMEDIATE,
+        updateDialog: {
+          mandatoryUpdateMessage: '필수 업데이트가 있어 설치 후 앱을 재시작합니다.',
+          mandatoryContinueButtonLabel: '재시작',
+          optionalIgnoreButtonLabel: '나중에',
+          optionalInstallButtonLabel: '재시작',
+          optionalUpdateMessage: '업데이트가 있습니다. 설치하시겠습니까?',
+          title: '업데이트 안내'
+        }
+      },
+      status => {
+        console.log(`Changed ${status}`);
+      },
+      downloadProgress => {
+        // 여기서 몇 % 다운로드되었는지 체크 가능
+      }
+    ).then(status => {
+      console.log(`CodePush ${status}`);
+    });
   }, []);
 
   // Set an initializing state whilst Firebase connects
@@ -181,6 +219,8 @@ export default function App() {
     </>
   );
 }
+
+export default CodePush(codePushOptions)(App);
 
 const styles = StyleSheet.create({
   text: {
