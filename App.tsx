@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import * as Sentry from '@sentry/react-native';
 import { Appearance, Platform, StatusBar, StyleSheet, Text, _Text } from 'react-native';
+import CodePush, { CodePushOptions } from 'react-native-code-push';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -46,13 +48,60 @@ import themeChange from './App/util/theme';
 Text.defaultProps = Text.defaultProps || {};
 Text.defaultProps.allowFontScaling = false;
 
-export default function App() {
+Sentry.init({
+  dsn: 'https://325dae5ec92e96db29a3ebb34373bdfa@o4505991942766592.ingest.sentry.io/4505991945977856',
+  debug: true,
+  tracesSampleRate: 1.0,
+  _experiments: {
+    // The sampling rate for profiling is relative to TracesSampleRate.
+    // In this case, we'll capture profiles for 100% of transactions.
+    profilesSampleRate: 1.0
+  }
+});
+
+const codePushOptions: CodePushOptions = {
+  checkFrequency: CodePush.CheckFrequency.MANUAL,
+  // 언제 업데이트를 체크하고 반영할지를 정한다.
+  // ON_APP_RESUME은 Background에서 Foreground로 오는 것을 의미
+  // ON_APP_START은 앱이 실행되는(켜지는) 순간을 의미
+
+  installMode: CodePush.InstallMode.IMMEDIATE,
+  mandatoryInstallMode: CodePush.InstallMode.IMMEDIATE
+  // 업데이트를 어떻게 설치할 것인지 (IMMEDIATE는 강제설치를 의미)
+};
+
+function App() {
   const [theme, setTheme] = useState<TThemeMode>({ mode: 'dark', system: false });
   const themeMode = themeChange();
   const [visible, setVisible] = useState(true);
   const statusBarStyle = theme.mode === 'dark' ? 'light-content' : 'dark-content';
   const Stack = createStackNavigator<RootStackParamList>();
   const queryClient = new QueryClient();
+
+  useEffect(() => {
+    CodePush.sync(
+      {
+        installMode: CodePush.InstallMode.IMMEDIATE,
+        mandatoryInstallMode: CodePush.InstallMode.IMMEDIATE,
+        updateDialog: {
+          mandatoryUpdateMessage: '필수 업데이트가 있어 설치 후 앱을 재시작합니다.',
+          mandatoryContinueButtonLabel: '재시작',
+          optionalIgnoreButtonLabel: '나중에',
+          optionalInstallButtonLabel: '재시작',
+          optionalUpdateMessage: '업데이트가 있습니다. 설치하시겠습니까?',
+          title: '업데이트 안내'
+        }
+      },
+      status => {
+        console.log(`Changed ${status}`);
+      },
+      downloadProgress => {
+        // 여기서 몇 % 다운로드되었는지 체크 가능
+      }
+    ).then(status => {
+      console.log(`CodePush ${status}`);
+    });
+  }, []);
 
   const updateTheme = (newTheme: any) => {
     if (newTheme !== 'system') {
@@ -182,13 +231,4 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  text: {
-    fontSize: 24,
-    fontWeight: '700',
-    margin: 20,
-    lineHeight: 30,
-    color: '#333',
-    textAlign: 'center'
-  }
-});
+export default CodePush(codePushOptions)(Sentry.wrap(App));

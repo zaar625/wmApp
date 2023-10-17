@@ -1,6 +1,6 @@
 {
   "name": "wmApp",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -9,7 +9,8 @@
     "lint:fix": "eslint --fix './App/**/*.{ts,tsx,js,jsx}'",
     "start": "react-native start",
     "test": "jest",
-    "postinstall": "react-native setup-ios-permissions && pod-install"
+    "postinstall": "react-native setup-ios-permissions && pod-install",
+    "codepush:android": "appcenter codepush release-react -a zaar625/one-store -d Staging --sourcemap-output --output-dir ./build -m -t 1.0"
   },
   "dependencies": {
     "@bam.tech/react-native-image-resizer": "^3.0.5",
