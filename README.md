@@ -12,7 +12,7 @@
 "react-native", "@reduxjs/toolkit", "@react-native-firebase/app", "@tanstack/react-query"
 ```
 ## 테스트
-1. 현재 구글 공개 테스트 검토중. 
+1. 현재 Google Play Console | 공개 테스트 검토중. 
 2. 해당 프로젝트를 다운로드해주세요(develop or main branch).
 3. 프로젝트를 시작합니다. 큐알 테스트가 필요하실 경우 시뮬레이터가 아닌 실기기에서 테스트 진행해 주세요. 
    ```bash
