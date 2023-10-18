@@ -12,8 +12,9 @@
 "react-native", "@reduxjs/toolkit", "@react-native-firebase/app", "@tanstack/react-query"
 ```
 ## 테스트
-1. 해당 프로젝트를 다운로드해주세요(develop or main branch).
-2. 프로젝트를 시작합니다. 큐알 테스트가 필요하실 경우 시뮬레이터가 아닌 실기기에서 테스트 진행해 주세요. 
+1. 현재 구글 공개 테스트 검토중. 
+2. 해당 프로젝트를 다운로드해주세요(develop or main branch).
+3. 프로젝트를 시작합니다. 큐알 테스트가 필요하실 경우 시뮬레이터가 아닌 실기기에서 테스트 진행해 주세요. 
    ```bash
    //step01. yarn install 
    //step02. yarn ios or android
@@ -67,8 +68,9 @@
  ┣ 📂util //전역적으로 사용할 함수들을 작성합니다.(ex: 햅틱 진동 함수, 이미지 리사이즈 함수 등)
 ```
 #### 2. 브랜치
-브랜치의 경우 탭별 혹은 기능별로 개발합니다. 기능별로 개발된 내용은 develop에 저장하며 develop 브랜치는 QA를 위한 브랜치입니다. 
-> optimized 브랜치는 최적화 테스트용 브랜치입니다. 해당 브랜치는 develop에 저장되지 않습니다.(현재 _RAM Bundles and Inline Requires 테스트 예정입니다.)<br>
+브랜치의 경우 탭별 혹은 기능별로 개발합니다. 기능별로 개발된 내용은 develop에 저장하며 develop 브랜치는 QA를 위한 브랜치입니다.(Git Flow) 
+> optimized branch: 최적화 테스트용 브랜치입니다. 해당 브랜치는 develop에 저장되지 않습니다.(현재 _RAM Bundles and Inline Requires 테스트)<br>
+>
 > android의 경우 ```bundleRelease```를 사용하여 AAB로 업로드합니다. 혹은 여러 ABI를 지원하는 APK를 생성할 경우 36MB -> 20MB로 축소됩니다.
 
 ## 페이지별 상세
@@ -152,6 +154,10 @@
 ### 6. 캘린더 탭
 - 뱅크샐러드 캘린더를 참고하여 직접 구현되었습니다. 사용자가 매장에서 출/퇴근 등록이 완료가 되면 해당 일자에 데이터가 표시됩니다.
 - 달력에는 일자별로 총 근무 시간에 대한 급여가 환산되어 나타나며, 해당 날짜를 터치 시 근로 상세를 볼 수 있습니다.
+  
+ |캘린더|
+  |----|
+  |<img src='https://github.com/zaar625/wmApp/assets/69461545/2209f38b-865d-4d6c-9297-ae14ce319e19' width=190px height='380px'/>|
 
 ### 7. 세팅 탭
 |내정보 수정하기|근태 수정 상세| 테마변경
