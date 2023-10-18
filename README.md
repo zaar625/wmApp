@@ -69,8 +69,8 @@
 ```
 #### 2. 브랜치
 브랜치의 경우 탭별 혹은 기능별로 개발합니다. 기능별로 개발된 내용은 develop에 저장하며 develop 브랜치는 QA를 위한 브랜치입니다.(Git Flow) 
+<img src='https://github.com/zaar625/wmApp/assets/69461545/ef34ebe6-2555-4128-91ed-51a35af59871' width=300px height='300px'/>
 > optimized branch: 최적화 테스트용 브랜치입니다. 해당 브랜치는 develop에 저장되지 않습니다.(현재 _RAM Bundles and Inline Requires 테스트)<br>
->
 > android의 경우 ```bundleRelease```를 사용하여 AAB로 업로드합니다. 혹은 여러 ABI를 지원하는 APK를 생성할 경우 36MB -> 20MB로 축소됩니다.
 
 ## 페이지별 상세
